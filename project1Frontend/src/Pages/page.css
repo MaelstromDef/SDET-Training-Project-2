@@ -1,0 +1,9 @@
+.VerticalForm{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.FormItem{
+    padding: 8px;
+}

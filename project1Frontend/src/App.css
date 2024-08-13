@@ -1,0 +1,62 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  /* text-align: center; */
+}
+
+p{
+  margin-left: 16px;
+}
+
+/* Table contents */
+
+table{
+  width: 90%;
+  margin: 0 16px;
+
+  border: thin solid white;
+  border-collapse: collapse;
+}
+
+th, td{
+  text-align: left;
+  padding: 8px;
+
+  border-right: thin solid white;
+}
+
+tr{
+  border-bottom: thin solid white;
+}
+
+/* Interaction items */
+
+form{
+  margin: 0 16px;
+}
+
+label{
+  margin: 8px 0 0;
+}
+
+input{
+  border-radius: 8px;
+  border: 1px solid white;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  margin: 8px 0;
+}
+
+input:hover{
+  border-color: #646cff;
+}
+
+button{
+  margin: 8px 16px;
+}

@@ -1,0 +1,14 @@
+.Navbar{
+    padding: 0 0 16px;
+
+    display: flex;
+    justify-content:left;
+
+    border-bottom: thin solid white;
+}
+
+.NavLink{
+    color: white;
+
+    margin: 0 16px;
+}
