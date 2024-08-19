@@ -1,6 +1,6 @@
 Feature: Direct Navigation States
 
-  Scenario Outline: Directly Going From One Page to Another
+  Scenario Outline: N1 - Directly Going From One Page to Another
     Given I Am Logged "<InOut>"
     And I Am On "<Page1>"
     When I Attempt To Navigate to "<Page2>"
