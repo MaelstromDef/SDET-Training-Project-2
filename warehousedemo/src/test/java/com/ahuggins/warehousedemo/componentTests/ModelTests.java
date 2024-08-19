@@ -2,13 +2,11 @@ package com.ahuggins.warehousedemo.componentTests;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTimeout;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Admin;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
@@ -165,6 +163,41 @@ public class ModelTests {
     @Test
     public void testItem () {
         // TODO: Create Tests for Item
+
+        /**
+         * Item:
+         *      int id
+         *      String name (len=255, unique)
+         *      List<StoredItem> storedItems
+         */
+        List<StoredItem> mockStoredItems =  new ArrayList<>();
+        mockStoredItems.add(new StoredItem());
+        mockStoredItems.add(new StoredItem());
+
+        /** ***************************************************
+         * NO ARG CONSTRUTOR TESTING
+         ******************************************************/
+        System.out.println("Starting Tests for Item");     
+        
+        item.setId(20);
+        item.setName("Item Name 1");
+        item.setStoredItems(mockStoredItems);
+
+        assertTrue(item.getId() == 20);
+        assertEquals(item.getName(), "Item Name 1");
+        assertEquals(item.getStoredItems(), mockStoredItems);
+
+        
+        // reset model for possible future tests
+        item = new Item();
+
+        /** ***************************************************
+         * ALL ARG CONSTRUTOR TESTING
+         ******************************************************/
+        Item item2 = new Item(3);
+        assertTrue(item2.getId() == 3);
+        
+        System.out.println("Finished Testing form Item Model");
     }
     
     @Test
