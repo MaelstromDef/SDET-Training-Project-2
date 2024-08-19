@@ -2,6 +2,7 @@ package com.ahuggins.warehousedemo.componentTests;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTimeout;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -98,7 +99,7 @@ public class ModelTests {
         assertEquals(user.getWarehouses(), warehouses);
         
         // reset model for possible future tests
-        user = null;
+        user = new Administrator();
 
         /** ***************************************************
          * ALL ARG CONSTRUTOR TESTING
@@ -119,7 +120,45 @@ public class ModelTests {
 
     @Test
     public void testWarehouses () {
-        // TODO: Create Tests for Warehouses
+        // TODO: add on any tests for extra methods
+        /**
+         * Warehouses:
+         *      int id;
+         *      String name;
+         *      String location;
+         *      int size;
+         */
+
+        /** ***************************************************
+         * NO ARG CONSTRUTOR TESTING
+         ******************************************************/
+        System.out.println("Starting Tests for No Arg Warehouse");     
+        
+        warehouse.setId(20);
+        warehouse.setName("Warehouse 1");
+        warehouse.setLocation("Location 1");
+        warehouse.setSize(2000);
+
+        assertTrue(warehouse.getId() == 20);
+        assertEquals(warehouse.getName(), "Warehouse 1" );
+        assertEquals(warehouse.getLocation(), "Location 1" );
+        assertTrue(warehouse.getSize() == 2000);
+        
+        // reset model for possible future tests
+        warehouse = new Warehouse();
+
+        /** ***************************************************
+         * ALL ARG CONSTRUTOR TESTING
+         ******************************************************/
+        System.out.println("Starting Tests for All Arg Warehouse");
+        Warehouse warehouse2 = new Warehouse( 3, "Warehouse 2", "Location 2", 1234);
+
+        assertTrue(warehouse2.getId() == 3);
+        assertEquals(warehouse2.getName(), "Warehouse 2" );
+        assertEquals(warehouse2.getLocation(), "Location 2" );
+        assertTrue(warehouse2.getSize() == 1234);
+
+        System.out.println("Finished Testing Warehouse Model");
     }
 
 
@@ -130,7 +169,57 @@ public class ModelTests {
     
     @Test
     public void testStoredItems () {
-         // TODO: Create Tests for StoredItem / StoredItemKey
+         // TODO: add on any extra tests for extra methods
+        /**
+         * StoredItem:
+         *      StoredItemKey id
+         *      Item item
+         *      Warehouse Warehouse
+         *      int quantity
+         * 
+         * StoredItemKey;
+         *      int ItemId;
+         *      int warehouseId;
+         */
+        Item mockItem = new Item(1);
+        mockItem.setName("mockItem");
+        Warehouse mockWarehouse = new Warehouse(2, "mock Warehouse", "mock Location", 13);
+        StoredItemKey mockId = new StoredItemKey(1, 2);
+
+        /** ***************************************************
+         * StoredItemKey CONSTRUTOR TESTING
+         ******************************************************/
+        System.out.println("Starting Tests for StoredItem Key");
+
+        storedItemKey.setItemId(3);
+        storedItemKey.setItemId(4);
+        assertTrue(storedItemKey.getItemId() == 3);
+        assertTrue(storedItemKey.getWarehouseId() == 4);
+        assertTrue(mockId.getItemId() == 1);
+        assertTrue(mockId.getWarehouseId() == 2);
+
+        // reset model for possible future tests
+        storedItemKey = new StoredItemKey();
+
+        /** ***************************************************
+         * NO ARG CONSTRUTOR TESTING
+         ******************************************************/
+        System.out.println("Starting Tests for No Arg StoredItem");     
+        
+        storedItem.setId(mockId);
+        storedItem.setItem(mockItem);
+        storedItem.setWarehouse(mockWarehouse);
+        storedItem.setQuantity(1234);
+
+        assertEquals(storedItem.getId(), mockId);
+        assertEquals(storedItem.getItem(), mockItem );
+        assertEquals(storedItem.getWarehouse(), mockWarehouse );
+        assertTrue(storedItem.getQuantity() == 1234);
+        
+        // reset model for possible future tests
+        storedItem = new StoredItem();
+
+        System.out.println("Finished Testing storedItem and storedItemKey Models");
     }
        
     @AfterSuite
