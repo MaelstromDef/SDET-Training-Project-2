@@ -1,11 +1,12 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-const url = "http://localhost:8080/signup";
+import { baseUrl } from "../App";
 
 // Allows a user to enter company name and password in order to create an administrator acconut.
 export default function Signup(){
+    const url = baseUrl + "/signup";
+
     const [err, setErr] = useState("");
 
     const navigate = useNavigate();

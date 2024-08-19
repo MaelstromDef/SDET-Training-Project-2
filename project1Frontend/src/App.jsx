@@ -16,7 +16,7 @@ import Warehouses from './Pages/Warehouses'
 
 
 export const UserContext = createContext();
-export const baseUrl = "http://localhost:8080";
+export const baseUrl = "http://ahuggins-warehousemanager.us-east-1.elasticbeanstalk.com";
 export const logout = () =>{
   setUser({
     // Admin information

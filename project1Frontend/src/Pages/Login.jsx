@@ -1,13 +1,13 @@
 import { useContext, useState } from 'react';
 import './page.css'
 import axios from 'axios';
-import { UserContext } from '../App';
+import { baseUrl, UserContext } from '../App';
 import { useNavigate } from 'react-router-dom';
-
-const url = "http://localhost:8080/login";
 
 // Allows a user to input their username and password to log in.
 export default function Login(){
+    const url = baseUrl + "/login";
+
     const [err, setErr] = useState("");
     const {user, setUser} = useContext(UserContext);
     const navigate = useNavigate();
