@@ -84,6 +84,30 @@
         <version>0.11.5</version>
         <scope>runtime</scope>
     </dependency>
+
+		<!-- TESTING DEPENDENCIES-->
+
+		<!-- https://mvnrepository.com/artifact/org.testng/testng -->
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>7.10.2</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Needed to create TestNG reports -->
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>reportng</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+
+		<!-- Mockito -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>5.12.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
