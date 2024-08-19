@@ -1,6 +1,17 @@
 package com.ahuggins.warehousedemo.componentTests;
 
+
+import static org.junit.jupiter.api.Assertions.assertTimeout;
+
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Test;
+
+import com.ahuggins.warehousedemo.models.Administrator;
+import com.ahuggins.warehousedemo.models.Item;
+import com.ahuggins.warehousedemo.models.StoredItem;
+import com.ahuggins.warehousedemo.models.StoredItemKey;
+import com.ahuggins.warehousedemo.models.Warehouse;
 
 /**
  * Administrator:   
@@ -32,13 +43,61 @@ import org.testng.annotations.BeforeSuite;
  * 
  */
 public class ModelTests {
-    // TODO: Create Tests for Warehouses
-    // TODO: Create Tests for Item
-    // TODO: Create Tests for Administrator
-    // TODO: Create Tests for StoredItem / StoredItemKey
-
+    private Administrator user;
+    private Item item;
+    private StoredItem storedItem;
+    private StoredItemKey storedItemKey;
+    private Warehouse warehouse;
 
     @BeforeSuite //Initial code to run before beginning tests
-    public void setup (){}
+    public void setup (){
+        System.out.println("Starting Setup");
+        System.out.println("Assigning Blank Models");
+
+        user = new Administrator();
+        item = new Item();
+        storedItem = new StoredItem();
+        storedItemKey = new StoredItemKey();
+        warehouse = new Warehouse();
+
+        System.out.println("Finished Setup");
+    }
+
+    
+    @Test
+    public void testAdministrator () {
+        /** * Administrator:   
+         *      int id
+         *      String companyName (len = 255)
+         *      String password (len = 255)
+         *      List<Warehouse> warehouses
+         */
+    }
+
+
+    @Test
+    public void testWarehouses () {
+        // TODO: Create Tests for Warehouses
+    }
+
+
+    @Test
+    public void testItem () {
+        // TODO: Create Tests for Item
+    }
+    
+    @Test
+    public void testStoredItems () {
+         // TODO: Create Tests for StoredItem / StoredItemKey
+    }
+       
+    @AfterSuite
+    public void tearDown () {
+        user = null;
+        item = null;
+        storedItem = null;
+        storedItemKey = null;
+        warehouse = null;
+    }
 
 }
