@@ -1,8 +1,13 @@
 package com.ahuggins.warehousedemo.componentTests;
 
 
-import static org.junit.jupiter.api.Assertions.assertTimeout;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Admin;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
@@ -72,6 +77,43 @@ public class ModelTests {
          *      String password (len = 255)
          *      List<Warehouse> warehouses
          */
+
+        List<Warehouse> warehouses = new ArrayList<>();
+        warehouses.add( new Warehouse(13, "name13", "location13", 1300) );
+        warehouses.add( new Warehouse(6, "name6", "location6", 6000) );
+
+        /** ***************************************************
+         * NO ARG CONSTRUTOR TESTING
+         ******************************************************/
+        System.out.println("Starting Tests for No Arg Administrator");     
+        
+        user.setId(20);
+        user.setCompanyName("Company Name 1");
+        user.setPassword("Password 1");
+        user.setWarehouses(warehouses);
+
+        assertTrue(user.getId() == 20);
+        assertEquals(user.getCompanyName(), "Company Name 1" );
+        assertEquals(user.getPassword(), "Password 1" );
+        assertEquals(user.getWarehouses(), warehouses);
+        
+        // reset model for possible future tests
+        user = null;
+
+        /** ***************************************************
+         * ALL ARG CONSTRUTOR TESTING
+         ******************************************************/
+        System.out.println("Starting Tests for All Arg Administrator");
+        Administrator user2 = new Administrator( 3, "Company Name 2");
+        user2.setPassword("Password 2");
+        user2.setWarehouses(warehouses);
+
+        assertTrue(user2.getId() == 3);
+        assertEquals(user2.getCompanyName(), "Company Name 2" );
+        assertEquals(user2.getPassword(), "Password 2" );
+        assertEquals(user2.getWarehouses(), warehouses);
+
+        System.out.println("Finished Testing Administrator Model");
     }
 
 
@@ -93,6 +135,8 @@ public class ModelTests {
        
     @AfterSuite
     public void tearDown () {
+        System.out.println("Tearing Down Blank Models");
+
         user = null;
         item = null;
         storedItem = null;
