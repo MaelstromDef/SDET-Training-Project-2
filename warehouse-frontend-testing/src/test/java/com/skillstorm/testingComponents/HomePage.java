@@ -1,4 +1,4 @@
-package com.ahuggins.warehousedemo.frontendTesting.testingComponents;
+package com.skillstorm.testingComponents;
 
 public class HomePage implements Page {
     

@@ -4,10 +4,11 @@ import io.cucumber.java.en.*;
 
 import org.junit.jupiter.api.Assertions.*;
 
-public class StepDefinitions {
+public class GivenThenWhenTemplate {
 
     @Given("an example scenario")
     public void anExampleScenario() {
+        System.out.println("we made it here 1");
     }
 
     @When("all step definitions are implemented")

@@ -1,4 +1,4 @@
-package com.ahuggins.warehousedemo.frontendTesting.StepDefinitions;
+package com.skillstorm.StepDefinitions;
 
 public class DirectNavigationTesting {
     
