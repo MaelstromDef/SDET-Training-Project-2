@@ -101,6 +101,13 @@
 			<artifactId>reportng</artifactId>
 			<version>1.2.2</version>
 		</dependency>
+
+		<!-- Mockito -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>5.12.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
