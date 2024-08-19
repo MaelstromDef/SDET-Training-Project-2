@@ -33,4 +33,4 @@ build/
 .vscode/
 
 ### testNG reports ###
-warehouse-demo/test-output
+warehousedemo/test-output
