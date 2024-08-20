@@ -1,7 +1,45 @@
 package com.skillstorm.testingComponents.pages.concretePages;
 
-import com.skillstorm.testingComponents.pages.Page;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
-public class SignupPage implements Page {
-    
+import com.skillstorm.testingComponents.pages.FormPage;
+
+public class SignupPage implements FormPage {
+    // INTERACTABLES
+
+    @FindBy(xpath = "//*[@id=\"root\"]/form/input[1]")
+    private WebElement inCompanyName;
+
+    @FindBy(xpath = "//*[@id=\"root\"]/form/input[2]")
+    private WebElement inPassword;
+
+    @FindBy(xpath = "//*[@id=\"root\"]/form/input[3]")
+    private WebElement inConfirmPassword;
+
+    @FindBy(xpath = "//*[@id=\"root\"]/form/input[4]")
+    private WebElement btnSignup;
+
+    // FEEDBACK
+
+    @FindBy(xpath = "//*[@id=\"root\"]/p")
+    private WebElement txtFeedback;
+
+    // METHODS
+
+    @Override
+    public void enterWrongFormInformation() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'enterWrongFormInformation'");
+    }
+    @Override
+    public void enterRightFormInformation() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'enterRightFormInformation'");
+    }
+    @Override
+    public boolean submitForm() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'submitForm'");
+    }
 }
