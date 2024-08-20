@@ -3,64 +3,57 @@ Feature: Administrator Behaviors
     ### CREATE ###
 
     Scenario: A1 - Valid account creation.
-        Given a user is on the signup page
-        And has entered their information
-        When the user clicks the signup button
-        Then the user is created
-        And the user receives a successful alert
-        And the user is redirected to the login page.
+        Given I Am On “Signup”
+        And I Entered Correct Information
+        When I Submit The Form
+        Then I Am Signed Up
 
     Scenario: A2 - Invalid account creation.
-        Given a user is on the signup page
-        And has entered invalid information
-        When the user clicks the signup button
-        Then an error message appears
-        And an account is not created.
+        Given I Am On “Signup”
+        And I Entered Incorrect Information
+        When I Submit The Form
+        Then I Am Not Signed Up
 
     ### READ ###
 
     Scenario: A3 - Valid login attempt.
-        Given a user is logged out
-        And is on the login page
-        And has entered valid credentials
-        When the user clicks the login button
-        Then they are logged in.
+        Given I am on “Login”
+        And I Entered Correct Information
+        When I Submit The Form
+        Then I Am Logged In
 
     Scenario: A4 - Invalid login attempt.
-        Given a user is logged out
-        And is on the login page
-        And has entered invalid credentials
-        When the user clicks the login button
-        Then an error message appears
-        And they are not logged in.
+        Given I Am On “Login”
+        And I Entered Incorrect Information
+        When I Submit The Form
+        Then I Am Not Logged In
 
     Scenario: A7 - Invalid admin read.
-        Given a user is logged out
-        When the user attempts to navigate to the account page
-        Then they can not see their account information.
+        Given I Am Logged Out
+        When I Attempt To Navigate To “Account”
+        Then I Can Not See Account Information
 
     Scenario: A8 - Valid admin read.
-        Given a user is logged in
-        When the user attempt to navigate to the account page
-        Then they can see their account information.
+        Given I Am Logged In
+        When I Attempt To Navigate To “Account”
+        Then I Can See Account Information
 
     ### UPDATE ###
 
     Scenario: A5 - Valid account update.
-        Given a user is on their account page
-        When the user clicks to update their account information
-        Then their information is updated.
+        Given I Am On “Account”
+        When I Submit The Form
+        Then My Information Is Updated
 
     Scenario: A9 - Invalid admin update.
-        Given a user is on their account page
-        And has entered invalid information
-        When the user clicks to update their account information
-        Then an error message appears.
+        Given I Am On “Account”
+        And I Entered Incorrect Information
+        When I Submit The Form
+        Then My Information Is Not Updated
 
     ### DELETE ###
 
     Scenario: A6 - Valid account deletion.
-        Given a user is on their account page
-        When the user clicks to delete their account
-        Then their account is deleted
-        And the user is redirected to the landing page.
+        Given I Am On “Account”
+        When I Delete My Account
+        Then My Account Is Deleted
