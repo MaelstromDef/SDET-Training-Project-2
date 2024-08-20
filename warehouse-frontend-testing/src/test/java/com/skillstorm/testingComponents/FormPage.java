@@ -1,8 +1,6 @@
 package com.skillstorm.testingComponents;
 
-import java.util.List;
-
-public interface Page {
+public interface FormPage extends Page {
     // Each page should enter the information into their own form.
     public void enterWrongFormInformation();
     public void enterRightFormInformation(); 

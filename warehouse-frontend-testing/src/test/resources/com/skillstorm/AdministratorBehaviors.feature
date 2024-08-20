@@ -42,13 +42,12 @@ Feature: Administrator Behaviors
 
     Scenario: A5 - Valid account update.
         Given I Am On “Account”
-        When I Submit The Form
+        When I Correctly Modify “Account Information”
         Then My Information Is Updated
 
     Scenario: A9 - Invalid admin update.
         Given I Am On “Account”
-        And I Entered Incorrect Information
-        When I Submit The Form
+        When I Incorrectly Modify “Account Information”
         Then My Information Is Not Updated
 
     ### DELETE ###
