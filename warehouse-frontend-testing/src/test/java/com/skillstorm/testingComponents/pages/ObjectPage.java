@@ -5,7 +5,7 @@
  *      A page that contains a modifiable object.
  */
 
-package com.skillstorm.testingComponents;
+package com.skillstorm.testingComponents.pages;
 
 public interface ObjectPage extends Page {
     // Each page should only have one item

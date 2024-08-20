@@ -1,4 +1,4 @@
-package com.skillstorm.testingComponents;
+package com.skillstorm.testingComponents.pages;
 
 public interface FormPage extends Page {
     // Each page should enter the information into their own form.
