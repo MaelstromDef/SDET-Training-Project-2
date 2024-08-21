@@ -13,4 +13,6 @@ public interface ObjectPage extends Page {
     public void modifyObjectWrong();
 
     public void deleteObject(); // Can delete the object to modify
+
+    public boolean verifyObjectExistence();
 }
