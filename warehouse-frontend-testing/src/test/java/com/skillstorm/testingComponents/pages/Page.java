@@ -1,5 +1,7 @@
 package com.skillstorm.testingComponents.pages;
 
+import java.util.function.BooleanSupplier;
+
 public interface Page {
     void navigateToPage() throws Exception;
 
@@ -10,4 +12,10 @@ public interface Page {
 
     boolean checkLoggedIn();
     boolean checkLoggedOut();
+
+    boolean isUserPerformingAction(String action);
+
+    void clickButton(String btnName);
+
+    void performAction(String action);
 }

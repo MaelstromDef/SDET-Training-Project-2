@@ -76,17 +76,26 @@ public class StepDefinitions {
             break;
         default:
             throw new IllegalArgumentException("Incorrect Page Name");
-       }
-       assertTrue(pageObject != null);
-       pageObject.navigateToPage();
-       assertEquals(driver.getCurrentUrl(), pageObject.getURL()); 
+        }
+        assertTrue(pageObject != null);
+        try{
+            pageObject.navigateToPage();
+        } catch (Exception e ) {
+            throw new RuntimeException("Navigation to Page " + page + "failed");
+        } 
+        assertEquals(driver.getCurrentUrl(), pageObject.getURL()); 
     }
 
     @Given("I Am Logged {string}") //In or Out
     public void iAmLogged(String inOrOut) {
         waitAMomentForWebDriver();
         if (inOrOut == "In") {
-            pageObject.logIn();
+            try{
+                pageObject.logIn();
+            } catch (Exception e ) {
+                throw new RuntimeException("log in failed");
+            } 
+            
             assertTrue(pageObject.checkLoggedIn());
         } else if (inOrOut == "Out") {
             pageObject.logOut();
@@ -194,7 +203,7 @@ public class StepDefinitions {
          * but since both are part of object page, string doesn't matter, so just do a quick check
          */
         
-        assertTrue(type == "Warehouse" || type == "Item");
+        assertTrue(type.equals("Warehouse") || type.equals("Item") || type.equals("Account"));
         waitAMomentForWebDriver();
 
         ObjectPage objectPage = (ObjectPage) pageObject;
@@ -206,8 +215,9 @@ public class StepDefinitions {
         
     }
 
-    @Given("I {string} Update Item") 
-    public void iUpdateItem(String correctly) {
+    @Given("I {string} Update {string}") 
+    public void iUpdateItem(String correctly, String type) {
+        assertTrue(type.equals("Warehouse") || type.equals("Item") || type.equals("Account"));
         waitAMomentForWebDriver();
 
         ObjectPage objectPage = (ObjectPage) pageObject;
@@ -227,14 +237,14 @@ public class StepDefinitions {
          * but since both are part of object page, string doesn't matter, so just do a quick check
          */
         
-        assertTrue(type == "Warehouse" || type == "Item");
+         assertTrue(type.equals("Warehouse") || type.equals("Item") || type.equals("Account"));
         waitAMomentForWebDriver();
 
         ObjectPage objectPage = (ObjectPage) pageObject;
         if (been == "Been" ) {
-            assertTrue(objectPage.verifyObjectIsUpdated());
+            assertTrue(objectPage.verifyObjectUpdated());
         } else if (been == "Not Been") {
-            assertFalse(objectPage.verifyObjectIsUpdated());
+            assertFalse(objectPage.verifyObjectUpdated());
         } else {
             throw new IllegalArgumentException("Expected 'Been' or 'Not Been', but received: " + been);
         }

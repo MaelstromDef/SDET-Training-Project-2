@@ -19,7 +19,7 @@ Feature: Inventory Behaviors
   ### READ ###
 
   Scenario: I1 - Valid Read of Item 
-    Given I Am On “Warehouse”
+    Given I Am On “Warehouses”
     When I Click “btnManageWarehouse” Button
     Then I Am Taken To “Item”
     And I "Can" See "Item" Information

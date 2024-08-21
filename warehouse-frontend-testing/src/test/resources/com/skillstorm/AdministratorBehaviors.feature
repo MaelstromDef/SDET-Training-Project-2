@@ -29,12 +29,12 @@ Feature: Administrator Behaviors
         Then I Am Not Logged In
 
     Scenario: A7 - Invalid admin read.
-        Given I Am Logged Out
+        Given I Am Logged "Out"
         When I Attempt To Navigate To “Account”
         Then I Can Not See Account Information
 
     Scenario: A8 - Valid admin read.
-        Given I Am Logged In
+        Given I Am Logged "In"
         When I Attempt To Navigate To “Account”
         Then I Can See Account Information
 

@@ -136,4 +136,52 @@ public class AccountPage implements FormPage, ObjectPage {
         navbar.loadLoggedOutButtons();
         return true;
     }
+
+    @Override
+    public boolean isUserPerformingAction(String action) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isUserPerformingAction'");
+    }
+
+    @Override
+    public void clickButton(String btnName) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'clickButton'");
+    }
+
+    @Override
+    public void performAction(String action) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'performAction'");
+    }
+
+    @Override
+    public boolean verifyListExistence() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'verifyListExistence'");
+    }
+
+    @Override
+    public boolean verifyObjectExistence() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'verifyObjectExistence'");
+    }
+
+    @Override
+    public boolean verifyObjectUpdated() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'verifyObjectUpdated'");
+    }
+
+    @Override
+    public boolean verifySubmissionFailure() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'verifySubmissionFailure'");
+    }
+
+    @Override
+    public boolean verifySubmissionSuccess() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'verifySubmissionSuccess'");
+    }
 }
