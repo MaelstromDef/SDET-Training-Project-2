@@ -33,34 +33,48 @@ public class HomePage implements Page {
 
     // --- METHODS ---
 
+    /**
+     * Navigates the browser to the Home page.
+     * @throws Exception If some failure to navigate to the Home page occurs.
+     */
     @Override
     public void navigateToPage() throws Exception {
-        try{
-            navbar.loadLoggedInButtons();
-        }catch(Exception e){
-            logIn();
-        }
-
-        navbar.clickBtnHome();
+        logIn();                // Ensures logged in.
+        navbar.clickBtnHome();  // Navigates to home.
+        
         if(driver.getCurrentUrl() != url) throw new Exception("Failed to navigate to Landing page.");
     }
 
+    /**
+     * Retrieves the page's URL.
+     * 
+     * @return The page's URL.
+     */
     @Override
     public Object getURL() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getURL'");
+        return url;
     }
 
+    /**
+     * Goes through the process of logging in.
+     */
     @Override
     public void logIn() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'logIn'");
+        try{
+            navbar.loadLoggedInButtons();
+        }catch(Exception e){
+            throw new UnsupportedOperationException("Unimplemented method 'logIn'");
+        }
     }
 
+    /**
+     * Goes through the process of logging out.
+     */
     @Override
     public void logOut() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'logOut'");
+        try{
+            navbar.clickBtnLogOut();
+        }catch(Exception e){}
     }
 
     /**

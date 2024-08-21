@@ -6,4 +6,7 @@ public interface FormPage extends Page {
     public void enterRightFormInformation(); 
 
     public boolean submitForm(); // Returns success status of the attempt to submit the form (not necessarily success of the form's submission).
+
+    public boolean verifySubmissionFailure();
+    public boolean verifySubmissionSuccess();
 }

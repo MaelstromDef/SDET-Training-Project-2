@@ -66,7 +66,7 @@ public class LandingPage implements Page {
     }
 
     /**
-     * Ensures the page becomes logged out.
+     * Goes through the process of logging out.
      */
     @Override
     public void logOut() {
