@@ -67,7 +67,7 @@ public class SignupPage implements FormPage {
     }
 
     @Override
-    public Object getURL() {
+    public String getURL() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getURL'");
     }

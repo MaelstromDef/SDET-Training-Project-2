@@ -3,7 +3,7 @@ package com.skillstorm.testingComponents.pages;
 public interface Page {
     void navigateToPage() throws Exception;
 
-    Object getURL();
+    String getURL();
     
     void logIn() throws Exception;
     void logOut();

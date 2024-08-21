@@ -98,7 +98,7 @@ public class AccountPage implements FormPage, ObjectPage {
     }
 
     @Override
-    public Object getURL() {
+    public String getURL() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getURL'");
     }

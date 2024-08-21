@@ -94,7 +94,7 @@ public class LoginPage implements FormPage {
     }
 
     @Override
-    public Object getURL() {
+    public String getURL() {
         return url;
     }
 

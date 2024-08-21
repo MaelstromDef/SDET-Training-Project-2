@@ -66,7 +66,7 @@ public class HomePage implements Page {
      * @return The page's URL.
      */
     @Override
-    public Object getURL() {
+    public String getURL() {
         return url;
     }
 
