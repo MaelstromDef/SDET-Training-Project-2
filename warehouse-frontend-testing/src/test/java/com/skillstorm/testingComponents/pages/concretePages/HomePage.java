@@ -12,7 +12,7 @@ public class HomePage implements Page {
     private String url;
     private String urlExtension = "/homepage";
 
-    // INTERACTABLES
+    // --- INTERACTABLES ---
 
     private Navbar navbar;
 
@@ -22,7 +22,8 @@ public class HomePage implements Page {
     @FindBy(xpath = "//*[@id=\"root\"]/button[2]")
     private WebElement btnWarehouses;
 
-    // CONSTRUTORS
+    //  --- CONSTRUCTORS ---
+
     public HomePage(WebDriver driver, String initialPage) {
         this.driver = driver;
         this.url = initialPage + "/" + urlExtension;
@@ -30,10 +31,18 @@ public class HomePage implements Page {
         navbar = new Navbar(driver);
     }
 
+    // --- METHODS ---
+
     @Override
-    public void navigateToPage() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'navigateToPage'");
+    public void navigateToPage() throws Exception {
+        try{
+            navbar.loadLoggedInButtons();
+        }catch(Exception e){
+            logIn();
+        }
+
+        navbar.clickBtnHome();
+        if(driver.getCurrentUrl() != url) throw new Exception("Failed to navigate to Landing page.");
     }
 
     @Override

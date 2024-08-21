@@ -2,7 +2,7 @@ package com.skillstorm.testingComponents.pages;
 
 public interface Page {
 
-    void navigateToPage();
+    void navigateToPage() throws Exception;
 
     Object getURL();
     
