@@ -1,14 +1,13 @@
 package com.skillstorm.testingComponents.pages;
 
 public interface Page {
-
-    void navigateToPage();
+    void navigateToPage() throws Exception;
 
     Object getURL();
     
     void logIn();
     void logOut();
 
-    void checkLoggedIn();
-    void checkLoggedOut();
+    boolean checkLoggedIn();
+    boolean checkLoggedOut();
 }

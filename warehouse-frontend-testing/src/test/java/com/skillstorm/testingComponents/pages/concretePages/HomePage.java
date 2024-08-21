@@ -12,7 +12,7 @@ public class HomePage implements Page {
     private String url;
     private String urlExtension = "/homepage";
 
-    // INTERACTABLES
+    // --- INTERACTABLES ---
 
     private Navbar navbar;
 
@@ -22,7 +22,8 @@ public class HomePage implements Page {
     @FindBy(xpath = "//*[@id=\"root\"]/button[2]")
     private WebElement btnWarehouses;
 
-    // CONSTRUTORS
+    //  --- CONSTRUCTORS ---
+
     public HomePage(WebDriver driver, String initialPage) {
         this.driver = driver;
         this.url = initialPage + "/" + urlExtension;
@@ -30,39 +31,71 @@ public class HomePage implements Page {
         navbar = new Navbar(driver);
     }
 
+    // --- METHODS ---
+
+    /**
+     * Navigates the browser to the Home page.
+     * @throws Exception If some failure to navigate to the Home page occurs.
+     */
     @Override
-    public void navigateToPage() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'navigateToPage'");
+    public void navigateToPage() throws Exception {
+        logIn();                // Ensures logged in.
+        navbar.clickBtnHome();  // Navigates to home.
+        
+        if(driver.getCurrentUrl() != url) throw new Exception("Failed to navigate to Landing page.");
     }
 
+    /**
+     * Retrieves the page's URL.
+     * 
+     * @return The page's URL.
+     */
     @Override
     public Object getURL() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getURL'");
+        return url;
     }
 
+    /**
+     * Goes through the process of logging in.
+     */
     @Override
     public void logIn() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'logIn'");
+        try{
+            navbar.loadLoggedInButtons();
+        }catch(Exception e){
+            throw new UnsupportedOperationException("Unimplemented method 'logIn'");
+        }
     }
 
+    /**
+     * Goes through the process of logging out.
+     */
     @Override
     public void logOut() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'logOut'");
+        try{
+            navbar.clickBtnLogOut();
+        }catch(Exception e){}
     }
 
+    /**
+     * Checks to see if the page is currently logged in.
+     * 
+     * @return logged in status.
+     */
     @Override
-    public void checkLoggedIn() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'checkLoggedIn'");
+    public boolean checkLoggedIn() {
+        navbar.loadLoggedInButtons();
+        return true;
     }
 
+    /**
+     * Checks to see if the page is currently logged out.
+     * 
+     * @return logged out status.
+     */
     @Override
-    public void checkLoggedOut() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'checkLoggedOut'");
+    public boolean checkLoggedOut() {
+        navbar.loadLoggedOutButtons();
+        return true;
     }
 }
