@@ -4,13 +4,13 @@ Feature: Inventory Behaviors
 
   Scenario: I3 - Valid Creation of Item
     Given I Am On “Item”
-    And I Entered Correct Information
+    And I Enter Correct Information
     When I Submit The Form
     Then Item Is Added To Warehouse
   
   Scenario: I10 - Invalid Creation of Item
     Given I Am On “Item”
-    And I Incorrectly Add “Item”
+    And I Enter Incorrect Information
     When I Click “btnAddItem” Button
     Then I See An Error Message
 
@@ -22,7 +22,7 @@ Feature: Inventory Behaviors
     Given I Am On “Warehouse”
     When I Click “btnManageWarehouse” Button
     Then I Am Taken to “Item”
-    And I Can See Only Those Warehouse Items
+    And I Can See Only Specific Warehouse Items
   
   Scenario: I8 - Invalid Read of Item 
     Given I Am Logged Out

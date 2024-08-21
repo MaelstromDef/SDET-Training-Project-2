@@ -2,6 +2,7 @@ package com.skillstorm;
 
 import io.cucumber.java.Before;
 import io.cucumber.java.en.*;
+import net.bytebuddy.asm.Advice.Enter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -9,10 +10,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.time.Duration;
 
 import org.junit.jupiter.api.Assertions.*;
+import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import com.skillstorm.testingComponents.pages.FormPage;
 import com.skillstorm.testingComponents.pages.Page;
 import com.skillstorm.testingComponents.pages.concretePages.AccountPage;
 import com.skillstorm.testingComponents.pages.concretePages.HomePage;
@@ -26,7 +29,7 @@ public class StepDefinitions {
     
     private WebDriver driver;
     private Page pageObject;
-    private String initialURL = "http://ahuggins-warehousemanager-frontend.s3-website.us-east-2.amazonaws.com/";
+    public static String initialURL = "http://ahuggins-warehousemanager-frontend.s3-website.us-east-2.amazonaws.com/";
 
     @Before
     public void setup() {
@@ -37,10 +40,17 @@ public class StepDefinitions {
         assertEquals(driver.getCurrentUrl(), initialURL);
     }
 
+    /**
+     * *********************************************************************
+     *  DIRECT NAVIGATION STEP DEFINITIONS
+     * *********************************************************************
+     */
+
 
     @Given("I Am On {string}") //page name
     public void iAmOn(String page) {
-       switch (page) {
+        waitAMomentForWebDriver();
+        switch (page) {
         case "Home":
             pageObject = new HomePage(driver, initialURL);
             break;
@@ -70,38 +80,29 @@ public class StepDefinitions {
        assertEquals(driver.getCurrentUrl(), pageObject.getURL()); 
     }
 
-
-    /**
-     * *********************************************************************
-     *  DIRECT NAVIGATION STEP DEFINITIONS
-     * *********************************************************************
-     */
-
     @Given("I Am Logged {string}") //In or Out
     public void iAmLogged(String inOrOut) {
-        //TODO: Find Elements in Naviation Bar 
-        //WAITING FOR NaVigateBar CLASS TO BE MADE
-
-        //TODO: Assert that Elements Match Logged In/Out Status
+        waitAMomentForWebDriver();
+        if (inOrOut == "In") {
+            pageObject.logIn();
+            assertTrue(pageObject.checkLoggedIn());
+        } else if (inOrOut == "Out") {
+            pageObject.logOut();
+            assertTrue(pageObject.checkLoggedOut());
+        } else {
+            throw new InvalidArgumentException("Expected 'In' or 'Out', instead received: " + inOrOut);
+        }
     }
 
     @When("I Attempt To Navigate To {string}") //page name
     public void iAttemptToNavigateTo (String page) {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        waitAMomentForWebDriver();
         driver.get(initialURL + "/" + page.toLowerCase());
     }
 
     @Then("I Am Taken To {string}") //page name
     public void iAmTakenTo(String page) {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        waitAMomentForWebDriver();
         assertEquals(driver.getCurrentUrl(), initialURL + "/" + page.toLowerCase());;
     } 
 
@@ -112,25 +113,98 @@ public class StepDefinitions {
      * *********************************************************************
      */
 
-    // @Given("I Am Logged {string}") is in "DIRECT NAVIGATION" Step Definitions
+    // @Given("I Am On {page}") is in "DIRECT NAVIGATION" Step Definitions
+    // @Then("I Am Taken To {page}") is in "DIRECT NAVIGATION" Step Definitions
 
-    @When("I Click {string} Button")
-    public void iClickButton(String buttonName) {
-        pageObject.clickButton(buttonName);
-    }
-
-    // @Then("I Am Taken To {string}") is in "DIRECT NAVIGATION" Step Definitions
-
-    @Given("I am Performing {string}") //action
+    @Given("I Am Performing {string}") //action
     public void iAmPerforming(String action) {
+        waitAMomentForWebDriver();
         pageObject.performAction(action);
     }
 
+    @When("I Click {string} Button")
+    public void iClickButton(String buttonName) {
+        waitAMomentForWebDriver();
+        pageObject.clickButton(buttonName);
+    }
+
+    @Then("And I Will Be Performing {string}" ) // action
+    public void iWillBePerforming(String action) {
+        waitAMomentForWebDriver();
+        assertTrue(pageObject.isUserPerformingAction(action));
+    }
+
+    /**
+     * *********************************************************************
+     *  INVENTORY CRUD STEP DEFINITIONS
+     * *********************************************************************
+     */
+
+    // @Given("I Am On {page}") is in "DIRECT NAVIGATION" Step Definitions
+    // @When("I Click {btnName} Button"} is in "USABILITY" Step Definitions
+
+    @Given("I Enter Correct Information")
+    public void iEnterCorrectInformation() {
+        waitAMomentForWebDriver();
+        
+        FormPage formPage = (FormPage) pageObject;
+        formPage.enterRightFormInformation();
+    }
+
+    @Given("I Enter Incorrect Information") 
+    public void iEnterIncorrectInformation() {
+        waitAMomentForWebDriver();
+
+        FormPage formPage = (FormPage) pageObject;
+        formPage.enterWrongFormInformation();
+    }
+
+    @When("I Submit the Form")
+    public void iSubmitTheForm() {
+        waitAMomentForWebDriver();
+
+        FormPage formPage = (FormPage) pageObject;
+        formPage.submitForm();
+    }
+
+    @Then("Item Is Added To Warehouse")
+    public void itemIsAddedToWarehouse() {
+        waitAMomentForWebDriver();
+
+        FormPage formPage = (FormPage) pageObject;
+        assertTrue(formPage.verifySubmissionSuccess());
+    }
+
+    @Then("I See An Error Message")
+    public void iSeeAnErrorMessage() {
+        waitAMomentForWebDriver();
+
+        FormPage formPage = (FormPage) pageObject;
+        assertTrue(formPage.verifySubmissionFailure());
+    }
+
+    @Then("I Can See {string} Information")  
+    public void iCanSeeInformation(String type) {
+        /** 
+         * @param type: options
+         *      Specific Items
+         *      Item
+         *      Warehouse
+         */
+    }
 
 
 
-     
-
-
+    ////////////////////////////////////////////////// 
+    // EXTRA FUNCTIONS TO REDUCE CODE REDUDANCY
+    //////////////////////////////////////////////////
+    void waitAMomentForWebDriver() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    
 
 }
