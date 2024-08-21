@@ -34,6 +34,7 @@ public class StepDefinitions {
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get(initialURL);
+        assertEquals(driver.getCurrentUrl(), initialURL);
     }
 
 
@@ -64,13 +65,22 @@ public class StepDefinitions {
         default:
             throw new IllegalArgumentException("Incorrect Page Name");
        }
+       assertTrue(pageObject != null);
        pageObject.navigateToPage();
        assertEquals(driver.getCurrentUrl(), pageObject.getURL()); 
     }
 
+
+    /**
+     * *********************************************************************
+     *  DIRECT NAVIGATION STEP DEFINITIONS
+     * *********************************************************************
+     */
+
     @Given("I Am Logged {string}") //In or Out
     public void iAmLogged(String inOrOut) {
-        //TODO: Find Elements in Naviation Bar
+        //TODO: Find Elements in Naviation Bar 
+        //WAITING FOR NaVigateBar CLASS TO BE MADE
 
         //TODO: Assert that Elements Match Logged In/Out Status
     }
@@ -94,6 +104,33 @@ public class StepDefinitions {
         }
         assertEquals(driver.getCurrentUrl(), initialURL + "/" + page.toLowerCase());;
     } 
+
+    
+    /**
+     * *********************************************************************
+     *  USABILITY STEP DEFINITIONS
+     * *********************************************************************
+     */
+
+    // @Given("I Am Logged {string}") is in "DIRECT NAVIGATION" Step Definitions
+
+    @When("I Click {string} Button")
+    public void iClickButton(String buttonName) {
+        pageObject.clickButton(buttonName);
+    }
+
+    // @Then("I Am Taken To {string}") is in "DIRECT NAVIGATION" Step Definitions
+
+    @Given("I am Performing {string}") //action
+    public void iAmPerforming(String action) {
+        pageObject.performAction(action);
+    }
+
+
+
+
+     
+
 
 
 }

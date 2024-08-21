@@ -36,66 +36,66 @@ Feature: Usability
 
     Scenario: U3 - Navigation with Buttons During Action
         Given I Am On "<page1>"
-        And I am "<performingAction>"
+        And I Am Performing "<action>"
         When I Click “<button>”
         Then I Am Taken To “<page2>”
 
     Examples:
-    | page1     | performingAction       | button             | page2     |
-    | Account   | Updating Account       | btnHome            | Home      |
-    | Account   | Updating Account       | btnAccount         | Account   |
-    | Account   | Updating Account       | btnWarehouse       | Warehouse |
-    | Account   | Updating Account       | btnUpdateAccount   | Account   |
-    | Account   | Updating Account       | btnDeleteAccount   | Landing   |
-    | Warehouse | Adding Warehouse       | btnHome            | Home      |
-    | Warehouse | Adding Warehouse       | btnAccount         | Account   |
-    | Warehouse | Adding Warehouse       | btnWarehouse       | Warehouse |
-    | Warehouse | Adding Warehouse       | btnManageWarehouse | Item      |
-    | Item      | Adding Item            | btnHome            | Home      |
-    | Item      | Adding Item            | btnAccount         | Account   |
-    | Item      | Adding Item            | btnWarehouse       | Warehouse |
-    | Item      | Adding Item            | btnDeleteItem      | Item      |
-    | Item      | Updating Item          | btnHome            | Home      |
-    | Item      | Updating Item          | btnAccount         | Account   |
-    | Item      | Updating Item          | btnWarehouse       | Warehouse |
-    | Item      | Updating Item          | btnUpdateItem      | Item      |
-    | Item      | Updating Item          | btnDeleteItem      | Item      |
-    | Item      | Updating Item          | btnCancel          | Item      |
-    | Signup    | Correctly Signing Up   | btnAttemptSignup   | Login     |
-    | Signup    | Incorrectly Signing Up | btnAttemptSignup   | Signup    |
-    | Login     | Correctly Logging In   | btnAttemptLogin    | Home      |
-    | Login     | Incorrectly Logging In | btnAttemptLogin    | Login     |
+    | page1     | action            | button             | page2     |
+    | Account   | Account Update    | btnHome            | Home      |
+    | Account   | Account Update    | btnAccount         | Account   |
+    | Account   | Account Update    | btnWarehouse       | Warehouse |
+    | Account   | Account Update    | btnUpdateAccount   | Account   |
+    | Account   | Account Update    | btnDeleteAccount   | Landing   |
+    | Warehouse | New Warehouse     | btnHome            | Home      |
+    | Warehouse | New Warehouse     | btnAccount         | Account   |
+    | Warehouse | New Warehouse     | btnWarehouse       | Warehouse |
+    | Warehouse | New Warehouse     | btnManageWarehouse | Item      |
+    | Item      | New Item          | btnHome            | Home      |
+    | Item      | New Item          | btnAccount         | Account   |
+    | Item      | New Item          | btnWarehouse       | Warehouse |
+    | Item      | New Item          | btnDeleteItem      | Item      |
+    | Item      | Item Update       | btnHome            | Home      |
+    | Item      | Item Update       | btnAccount         | Account   |
+    | Item      | Item Update       | btnWarehouse       | Warehouse |
+    | Item      | Item Update       | btnUpdateItem      | Item      |
+    | Item      | Item Update       | btnDeleteItem      | Item      |
+    | Item      | Item Update       | btnCancel          | Item      |
+    | Signup    | Correct Sign Up   | btnAttemptSignup   | Login     |
+    | Signup    | InCorrect Sign Up | btnAttemptSignup   | Signup    |
+    | Login     | Correct Login     | btnAttemptLogin    | Home      |
+    | Login     | InCorrect Login   | btnAttemptLogin    | Login     |
     
 
 
     Scenario: U4 - Navigation with Button to Pages that Perform Actions
-        Given I Am On <page1>
-        When I Click <button>
-        Then I Am Taken To <page2>
-        And I Am <performingAction>
+        Given I Am On "<page1>"
+        When I Click "<button>"
+        Then I Am Taken To "<page2>"
+        And I Will Be Performing "<action>"
     
     Examples:
-    | page1     | button           | page2     | performingAction |
-    | Account   | btnUpdateAccount | Account   | Updating Account |
-    | Warehouse | btnAddWarehouse  | Warehouse | Adding Warehouse |
-    | Item      | btnAddItem       | Item      | Adding Item      |
-    | Item      | btnUpdateItem    | Item      | Updating Item    |
+    | page1     | button           | page2     | action         |
+    | Account   | btnUpdateAccount | Account   | Account Update |
+    | Warehouse | btnAddWarehouse  | Warehouse | New Warehouse  |
+    | Item      | btnAddItem       | Item      | New Item       |
+    | Item      | btnUpdateItem    | Item      | Item Update    |
     
     
     
     Scenario: U5 - Navigation During Action to Pages that Perform Actions
-        Given I am on <page1>
-        And I am <performingAction1>
-        When I click <button>
-        Then I am taken to <page2>
-        And I am <performingAction2>'
+        Given I Am On "<page1>"
+        And I Am Performing "<action1>"
+        When I Click "<button>"
+        Then I Am Taken To "<page2>"
+        And I Will Be Performing "<action2>"
 
     Examples:
-    | page1     | performingAction | button          | page2     | performingAction2 |
-    | Warehouse | Adding Warehouse | btnAddWarehouse | Warehouse | Adding Warehouse  |
-    | Item      | Adding Item      | btnAddItem      | Item      | Adding Item       |
-    | Item      | Adding Item      | btnUpdateItem   | Item      | Updating Item     |
-    | Item      | Updating Item    | btnAddItem      | Item      | Adding Item       |
+    | page1     | action         | button          | page2     | action2        |
+    | Warehouse | New Warehouse  | btnAddWarehouse | Warehouse | New Warehouse  |
+    | Item      | New Item       | btnAddItem      | Item      | New Item       |
+    | Item      | New Item       | btnUpdateItem   | Item      | Item Update    |
+    | Item      | Item Update    | btnAddItem      | Item      | New Item       |
 
 
  
