@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.skillstorm.testingComponents.Navbar;
+import com.skillstorm.testingComponents.PageTools;
 import com.skillstorm.testingComponents.pages.Page;
 
 public class HomePage implements Page {
@@ -63,7 +64,7 @@ public class HomePage implements Page {
         try{
             navbar.loadLoggedInButtons();
         }catch(Exception e){
-            throw new UnsupportedOperationException("Unimplemented method 'logIn'");
+            PageTools.logIn(driver);
         }
     }
 

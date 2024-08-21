@@ -7,6 +7,9 @@ import com.skillstorm.testingComponents.pages.concretePages.LoginPage;
 
 public class PageTools {
     public static void logIn(WebDriver driver){
-        LoginPage loginPage = new LoginPage(driver, StepDefinitions.INITIAL_URL);
+        LoginPage loginPage = new LoginPage(driver, StepDefinitions.initialURL);
+        loginPage.navigateToPage();
+        loginPage.enterRightFormInformation();
+        loginPage.submitForm();
     }
 }
