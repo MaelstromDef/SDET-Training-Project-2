@@ -33,6 +33,20 @@ public class LandingPage implements Page {
     // --- METHODS ---
 
     /**
+     * Clicks the login button.
+     */
+    public void clickBtnLogin(){
+        btnLogin.click();
+    }
+
+    /**
+     * Clicks the signup button.
+     */
+    public void clickBtnSignup(){
+        btnSignup.click();
+    }
+
+    /**
      * Navigates the browser to the Landing page.
      * @throws Exception If some failure to navigate to the Landing page occurs.
      */

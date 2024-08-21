@@ -35,6 +35,20 @@ public class HomePage implements Page {
     // --- METHODS ---
 
     /**
+     * Clicks the warehouses button.
+     */
+    public void clickBtnWarehouses(){
+        btnWarehouses.click();
+    }
+
+    /**
+     * Clicks the account button.
+     */
+    public void clickBtnAccount(){
+        btnAccount.click();
+    }
+
+    /**
      * Navigates the browser to the Home page.
      * @throws Exception If some failure to navigate to the Home page occurs.
      */
