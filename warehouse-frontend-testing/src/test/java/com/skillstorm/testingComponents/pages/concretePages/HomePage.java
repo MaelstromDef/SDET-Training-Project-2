@@ -72,9 +72,10 @@ public class HomePage implements Page {
 
     /**
      * Goes through the process of logging in.
+     * @throws Exception 
      */
     @Override
-    public void logIn() {
+    public void logIn() throws Exception {
         try{
             navbar.loadLoggedInButtons();
         }catch(Exception e){

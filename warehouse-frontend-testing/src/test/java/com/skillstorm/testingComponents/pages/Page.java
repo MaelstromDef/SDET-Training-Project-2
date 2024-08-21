@@ -5,7 +5,7 @@ public interface Page {
 
     Object getURL();
     
-    void logIn();
+    void logIn() throws Exception;
     void logOut();
 
     boolean checkLoggedIn();
