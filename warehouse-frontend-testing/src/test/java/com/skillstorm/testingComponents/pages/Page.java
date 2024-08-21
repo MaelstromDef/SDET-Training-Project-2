@@ -9,6 +9,6 @@ public interface Page {
     void logIn();
     void logOut();
 
-    void checkLoggedIn();
-    void checkLoggedOut();
+    boolean checkLoggedIn();
+    boolean checkLoggedOut();
 }

@@ -56,15 +56,25 @@ public class LandingPage implements Page {
         throw new UnsupportedOperationException("Unimplemented method 'logOut'");
     }
 
+    /**
+     * Checks to see if the page is currently logged in.
+     * 
+     * @return logged in status.
+     */
     @Override
-    public void checkLoggedIn() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'checkLoggedIn'");
+    public boolean checkLoggedIn() {
+        navbar.loadLoggedInButtons();
+        return true;
     }
 
+    /**
+     * Checks to see if the page is currently logged out.
+     * 
+     * @return logged out status.
+     */
     @Override
-    public void checkLoggedOut() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'checkLoggedOut'");
+    public boolean checkLoggedOut() {
+        navbar.loadLoggedOutButtons();
+        return true;
     }
 }
