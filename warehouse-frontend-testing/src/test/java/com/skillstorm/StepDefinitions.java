@@ -5,6 +5,7 @@ import io.cucumber.java.en.*;
 import net.bytebuddy.asm.Advice.Enter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Duration;
@@ -16,6 +17,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import com.skillstorm.testingComponents.pages.FormPage;
+import com.skillstorm.testingComponents.pages.ObjectPage;
 import com.skillstorm.testingComponents.pages.Page;
 import com.skillstorm.testingComponents.pages.concretePages.AccountPage;
 import com.skillstorm.testingComponents.pages.concretePages.HomePage;
@@ -123,9 +125,9 @@ public class StepDefinitions {
     }
 
     @When("I Click {string} Button")
-    public void iClickButton(String buttonName) {
+    public void iClickButton(String btnName) {
         waitAMomentForWebDriver();
-        pageObject.clickButton(buttonName);
+        pageObject.clickButton(btnName);
     }
 
     @Then("And I Will Be Performing {string}" ) // action
@@ -136,7 +138,7 @@ public class StepDefinitions {
 
     /**
      * *********************************************************************
-     *  INVENTORY CRUD STEP DEFINITIONS
+     *  CRUD STEP DEFINITIONS
      * *********************************************************************
      */
 
@@ -183,15 +185,70 @@ public class StepDefinitions {
         assertTrue(formPage.verifySubmissionFailure());
     }
 
-    @Then("I Can See {string} Information")  
-    public void iCanSeeInformation(String type) {
+    @Then("I {string} See {string} Information")   
+    public void iSeeInformation(String canSee, String type) {
         /** 
-         * @param type: options
-         *      Specific Items
-         *      Item
-         *      Warehouse
+         * @param canSee: whethere we want to see if items/warehouses show up on page
+         * @param type: can be either "Warehouse" or "Items" 
+         * 
+         * but since both are part of object page, string doesn't matter, so just do a quick check
          */
+        
+        assertTrue(type == "Warehouse" || type == "Item");
+        waitAMomentForWebDriver();
+
+        ObjectPage objectPage = (ObjectPage) pageObject;
+        if (canSee == "Can") {
+            assertTrue(objectPage.verifyObjectExistence());
+        } else if (canSee == "Can Not") {
+            assertFalse(objectPage.verifyObjectExistence());
+        }
+        
     }
+
+    @Given("I {string} Update Item") 
+    public void iUpdateItem(String correctly) {
+        waitAMomentForWebDriver();
+
+        ObjectPage objectPage = (ObjectPage) pageObject;
+        if (correctly == "Correctly")
+            objectPage.modifyObjectRight();
+        else if (correctly == "Incorrectly")
+            objectPage.modifyObjectWrong();
+        else
+            throw new IllegalArgumentException("Expected 'Correctly' or 'Incorrectly', but received: " + correctly);
+    }
+
+    @Then("{string} Fields Have {string} Changed")
+    public void fieldsHaveChanged (String type, String been) {
+        /**
+         * @param type: can be either "Warehouse" or "Items" 
+         * 
+         * but since both are part of object page, string doesn't matter, so just do a quick check
+         */
+        
+        assertTrue(type == "Warehouse" || type == "Item");
+        waitAMomentForWebDriver();
+
+        ObjectPage objectPage = (ObjectPage) pageObject;
+        if (been == "Been" ) {
+            assertTrue(objectPage.verifyObjectIsUpdated());
+        } else if (been == "Not Been") {
+            assertFalse(objectPage.verifyObjectIsUpdated());
+        } else {
+            throw new IllegalArgumentException("Expected 'Been' or 'Not Been', but received: " + been);
+        }
+    }
+
+    @Then("{string} No Longer Exists")
+    public void noLongerExists(String type) {
+        assertTrue(type == "Item" || type == "Warehouse");
+        waitAMomentForWebDriver();
+
+        ObjectPage objectPage = (ObjectPage) pageObject;
+        assertFalse(objectPage.verifyObjectExistence());
+    }
+
 
 
 

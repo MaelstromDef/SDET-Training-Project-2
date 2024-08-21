@@ -21,13 +21,13 @@ Feature: Inventory Behaviors
   Scenario: I1 - Valid Read of Item 
     Given I Am On “Warehouse”
     When I Click “btnManageWarehouse” Button
-    Then I Am Taken to “Item”
-    And I Can See Only Specific Warehouse Items
+    Then I Am Taken To “Item”
+    And I "Can" See "Item" Information
   
   Scenario: I8 - Invalid Read of Item 
     Given I Am Logged Out
     When I Attempt To Navigate To “Item”
-    Then I Can Not See “Item” Information
+    Then I "Can Not" See “Item” Information
 
 
 
@@ -35,12 +35,13 @@ Feature: Inventory Behaviors
 
   Scenario: I5 - Valid Update of Item 
     Given I Am On “Item”
-    When I Correctly Modify “Item”
+    And I "Correctly" Update “Item”
+    When I Click “btnUpdateItem” Button
     Then “Item” Fields Have “Been” Changed
 
   Scenario: I9 - Invalid Update of Item
     Given I Am On “Item”
-    And I Incorrectly Update “Item”
+    And I "Incorrectly" Update “Item”
     When I Click “btnUpdateItem” Button
     Then “Item” Fields Have “Not Been” Changed
 
@@ -50,7 +51,7 @@ Feature: Inventory Behaviors
   Scenario: I7 - Valid Delete of Item 
     Given I Am On “Item”
     When I Click “btnDeleteItem” Button
-    Then “Item” No Longer Exists
+    Then "Item" No Longer Exists
 
 
   
