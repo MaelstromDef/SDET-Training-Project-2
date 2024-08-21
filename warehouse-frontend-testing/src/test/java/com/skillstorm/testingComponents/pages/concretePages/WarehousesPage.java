@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import com.skillstorm.testingComponents.Navbar;
 import com.skillstorm.testingComponents.pages.FormPage;
 import com.skillstorm.testingComponents.pages.ObjectPage;
 import com.skillstorm.testingComponents.pages.Page;
@@ -12,7 +13,10 @@ public class WarehousesPage implements FormPage, ObjectPage {
     private WebDriver driver;
     private String url;
     private String urlExtension = "/warehouses";
-    // INTERACTABLES
+
+    // --- INTERACTABLES ---
+
+    private Navbar navbar;
 
     // Add warehouse form
     @FindBy(xpath = "//*[@id=\"root\"]/div[2]/button")
@@ -39,13 +43,14 @@ public class WarehousesPage implements FormPage, ObjectPage {
     @FindBy(xpath = "//*[@id=\"root\"]/table/tbody/tr/td[4]/button[2]")
     private WebElement btnDelete;
 
-    // CONSTRUCTORS
+    // --- CONSTRUCTORS ---
+
     public WarehousesPage(WebDriver driver, String initialPage) {
         this.driver = driver;
         this.url = initialPage + "/" + urlExtension;
     }
 
-    // METHODS
+    // --- METHODS ---
 
     @Override
     public void modifyObjectRight() {
@@ -93,5 +98,29 @@ public class WarehousesPage implements FormPage, ObjectPage {
     public Object getURL() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getURL'");
+    }
+
+    @Override
+    public void logIn() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'logIn'");
+    }
+
+    @Override
+    public void logOut() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'logOut'");
+    }
+
+    @Override
+    public void checkLoggedIn() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'checkLoggedIn'");
+    }
+
+    @Override
+    public void checkLoggedOut() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'checkLoggedOut'");
     }
 }

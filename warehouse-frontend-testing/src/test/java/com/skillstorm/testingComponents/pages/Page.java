@@ -6,4 +6,9 @@ public interface Page {
 
     Object getURL();
     
+    void logIn();
+    void logOut();
+
+    void checkLoggedIn();
+    void checkLoggedOut();
 }

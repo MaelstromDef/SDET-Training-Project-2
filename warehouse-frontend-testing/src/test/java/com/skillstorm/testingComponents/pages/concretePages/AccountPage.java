@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import com.skillstorm.testingComponents.Navbar;
 import com.skillstorm.testingComponents.pages.FormPage;
 import com.skillstorm.testingComponents.pages.ObjectPage;
 import com.skillstorm.testingComponents.pages.Page;
@@ -12,7 +13,10 @@ public class AccountPage implements FormPage, ObjectPage {
     private WebDriver driver;
     private String url;
     private String urlExtension = "/account";
+
     // INTERACTABLES
+
+    private Navbar navbar;
 
     // Company name
     @FindBy(xpath = "//*[@id=\"root\"]/form/div/input")
@@ -45,6 +49,8 @@ public class AccountPage implements FormPage, ObjectPage {
     public AccountPage(WebDriver driver, String initialPage) {
         this.driver = driver;
         this.url = initialPage + "/" + urlExtension;
+
+        navbar = new Navbar(driver);
     }
 
     // METHODS
@@ -95,5 +101,29 @@ public class AccountPage implements FormPage, ObjectPage {
     public Object getURL() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getURL'");
+    }
+
+    @Override
+    public void logIn() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'logIn'");
+    }
+
+    @Override
+    public void logOut() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'logOut'");
+    }
+
+    @Override
+    public void checkLoggedIn() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'checkLoggedIn'");
+    }
+
+    @Override
+    public void checkLoggedOut() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'checkLoggedOut'");
     }
 }
