@@ -55,7 +55,7 @@ public class LandingPage implements Page {
         logOut();                   // Ensure page is logged out.
         navbar.clickBtnLanding();   // Navigate to landing.
 
-        if(driver.getCurrentUrl() != url) throw new Exception("Failed to navigate to Landing page.");
+        if(!driver.getCurrentUrl().equals(url)) throw new Exception("Failed to navigate to Landing page.");
     }
 
     /**

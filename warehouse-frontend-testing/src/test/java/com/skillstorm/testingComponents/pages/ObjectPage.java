@@ -14,5 +14,8 @@ public interface ObjectPage extends Page {
 
     public void deleteObject(); // Can delete the object to modify
 
+    public boolean verifyListExistence();
+
     public boolean verifyObjectExistence();
+    public boolean verifyObjectUpdated();
 }

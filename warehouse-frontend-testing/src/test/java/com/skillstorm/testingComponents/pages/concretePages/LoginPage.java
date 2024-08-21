@@ -1,12 +1,15 @@
 package com.skillstorm.testingComponents.pages.concretePages;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.testng.annotations.DataProvider;
 
 import com.skillstorm.testingComponents.Navbar;
 import com.skillstorm.testingComponents.pages.FormPage;
+import com.skillstorm.testingComponents.tools.Config;
 
 public class LoginPage implements FormPage {
     private WebDriver driver;
@@ -31,6 +34,8 @@ public class LoginPage implements FormPage {
     @FindBy(xpath = "//*[@id=\"root\"]/p")
     private WebElement txtFeedback;
 
+    private static final String LOGIN_FAILURE_MESSAGE = "Please fill in all fields.";
+
     // --- CONSTRUCTORS ---
 
     public LoginPage(WebDriver driver, String initialPage) {
@@ -42,46 +47,61 @@ public class LoginPage implements FormPage {
 
     // --- METHODS ---
 
+    /**
+     * Enters invalid login information to the login form.
+     */
     @Override
     public void enterWrongFormInformation() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'enterWrongFormInformation'");
+        inCompanyName.sendKeys(Config.INVALID_COMPANY_NAME);
+        inPassword.sendKeys(Config.INVALID_PASSWORD);
     }
 
+    /**
+     * Enters valid login information to the login form.
+     */
     @Override
     public void enterRightFormInformation() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'enterRightFormInformation'");
+        inCompanyName.sendKeys(Config.VALID_COMPANY_NAME);
+        inPassword.sendKeys(Config.VALID_PASSWORD);
     }
 
+    /**
+     * Submits the login form.
+     */
     @Override
     public boolean submitForm() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'submitForm'");
+        btnLogIn.click();
+        return true;
     }
 
+    /**
+     * Navigates the browser to the Login page.
+     * @throws Exception If some failure to navigate to the Login page occurs.
+     */
     @Override
-    public void navigateToPage() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'navigateToPage'");
+    public void navigateToPage() throws Exception {
+        logOut();                   // Ensure logged out.
+        navbar.clickBtnLogin();     // Navigate to page.
+
+        if(!driver.getCurrentUrl().equals(url)) throw new Exception("Failed to navigate to Landing page.");
     }
 
     @Override
     public Object getURL() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getURL'");
+        return url;
     }
 
     @Override
     public void logIn() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'logIn'");
+        enterRightFormInformation();
+        submitForm();
     }
 
     @Override
     public void logOut() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'logOut'");
+        try{
+            navbar.clickBtnLogOut();
+        }catch(Exception e){}
     }
 
     /**
@@ -108,13 +128,15 @@ public class LoginPage implements FormPage {
 
     @Override
     public boolean verifySubmissionFailure() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'verifySubmissionFailure'");
+        assertEquals(txtFeedback.getText(), LOGIN_FAILURE_MESSAGE);
+
+        return true;
     }
 
     @Override
     public boolean verifySubmissionSuccess() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'verifySubmissionSuccess'");
+        assertNotEquals(driver.getCurrentUrl(), url);
+
+        return true;
     }
 }

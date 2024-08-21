@@ -6,7 +6,7 @@ import com.skillstorm.StepDefinitions;
 import com.skillstorm.testingComponents.pages.concretePages.LoginPage;
 
 public class PageTools {
-    public static void logIn(WebDriver driver){
+    public static void logIn(WebDriver driver) throws Exception{
         LoginPage loginPage = new LoginPage(driver, StepDefinitions.initialURL);
         loginPage.navigateToPage();
         loginPage.enterRightFormInformation();
