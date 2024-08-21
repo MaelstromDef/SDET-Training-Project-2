@@ -41,25 +41,25 @@ public class StepDefinitions {
     public void iAmOn(String page) {
        switch (page) {
         case "Home":
-            pageObject = new HomePage(driver);
+            pageObject = new HomePage(driver, initialURL);
             break;
         case "Account":
-            pageObject = new AccountPage(driver);
+            pageObject = new AccountPage(driver, initialURL);
             break;
         case "Warehouses":
-            pageObject = new WarehousesPage(driver); 
+            pageObject = new WarehousesPage(driver, initialURL); 
             break;
         case "Item":
-            pageObject = new ItemsPage(driver); 
+            pageObject = new ItemsPage(driver, initialURL); 
             break;
         case "Landing":
-            pageObject = new LandingPage(driver); 
+            pageObject = new LandingPage(driver, initialURL); 
             break;
         case "Signup":
-            pageObject = new SignupPage(driver); 
+            pageObject = new SignupPage(driver, initialURL); 
             break;
         case "Login":
-            pageObject = new LoginPage(driver);
+            pageObject = new LoginPage(driver, initialURL);
             break;
         default:
             throw new IllegalArgumentException("Incorrect Page Name");

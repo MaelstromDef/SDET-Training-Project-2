@@ -1,5 +1,6 @@
 package com.skillstorm.testingComponents.pages.concretePages;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -8,6 +9,9 @@ import com.skillstorm.testingComponents.pages.ObjectPage;
 import com.skillstorm.testingComponents.pages.Page;
 
 public class ItemsPage implements FormPage, ObjectPage {
+    private WebDriver driver;
+    private String url;
+    private String urlExtension = "/item";
     // INTERACTABLES
 
     // Item form
@@ -31,6 +35,12 @@ public class ItemsPage implements FormPage, ObjectPage {
     private WebElement btnManage;
     @FindBy(xpath = "//*[@id=\"root\"]/table/tbody/tr/td[3]/button[2]")
     private WebElement btnDelete;
+
+    // CONSTRUCTORS
+    public ItemsPage(WebDriver driver, String initialPage) {
+        this.driver = driver;
+        this.url = initialPage + "/" + urlExtension;
+    }
 
     // METHODS
 
@@ -63,5 +73,17 @@ public class ItemsPage implements FormPage, ObjectPage {
     public boolean submitForm() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'submitForm'");
+    }
+
+    @Override
+    public void navigateToPage() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'navigateToPage'");
+    }
+
+    @Override
+    public Object getURL() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getURL'");
     }
 }
