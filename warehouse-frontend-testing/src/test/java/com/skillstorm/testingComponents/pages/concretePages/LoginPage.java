@@ -126,17 +126,19 @@ public class LoginPage implements FormPage {
         return true;
     }
 
+    /**
+     * Checks if the login failure message appears.
+     */
     @Override
     public boolean verifySubmissionFailure() {
-        assertEquals(txtFeedback.getText(), LOGIN_FAILURE_MESSAGE);
-
-        return true;
+        return txtFeedback.getText().equals(LOGIN_FAILURE_MESSAGE);
     }
 
+    /**
+     * Checks if the page redirected to Home.
+     */
     @Override
     public boolean verifySubmissionSuccess() {
-        assertNotEquals(driver.getCurrentUrl(), url);
-
-        return true;
+        return !driver.getCurrentUrl().equals(url);
     }
 }
