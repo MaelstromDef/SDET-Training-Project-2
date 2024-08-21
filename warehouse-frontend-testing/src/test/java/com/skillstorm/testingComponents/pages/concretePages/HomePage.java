@@ -5,8 +5,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.skillstorm.testingComponents.Navbar;
-import com.skillstorm.testingComponents.PageTools;
 import com.skillstorm.testingComponents.pages.Page;
+import com.skillstorm.testingComponents.tools.PageTools;
 
 public class HomePage implements Page {
     private WebDriver driver;

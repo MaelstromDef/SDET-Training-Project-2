@@ -104,4 +104,16 @@ public class LoginPage implements FormPage {
         navbar.loadLoggedOutButtons();
         return true;
     }
+
+    @Override
+    public boolean verifySubmissionFailure() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'verifySubmissionFailure'");
+    }
+
+    @Override
+    public boolean verifySubmissionSuccess() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'verifySubmissionSuccess'");
+    }
 }

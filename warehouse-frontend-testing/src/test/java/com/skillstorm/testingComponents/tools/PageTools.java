@@ -1,4 +1,4 @@
-package com.skillstorm.testingComponents;
+package com.skillstorm.testingComponents.tools;
 
 import org.openqa.selenium.WebDriver;
 
