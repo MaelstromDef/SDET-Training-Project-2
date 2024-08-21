@@ -48,6 +48,13 @@ public class LoginPage implements FormPage {
     // --- METHODS ---
 
     /**
+     * Clicks the log in button.
+     */
+    public void clickBtnLogIn(){
+        btnLogIn.click();
+    }
+
+    /**
      * Enters invalid login information to the login form.
      */
     @Override
