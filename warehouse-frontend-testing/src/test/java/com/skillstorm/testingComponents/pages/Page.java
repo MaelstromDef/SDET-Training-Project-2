@@ -1,5 +1,6 @@
 package com.skillstorm.testingComponents.pages;
 
+import java.util.NoSuchElementException;
 import java.util.function.BooleanSupplier;
 
 public interface Page {
@@ -10,7 +11,7 @@ public interface Page {
     void logIn() throws Exception;
     void logOut();
 
-    boolean checkLoggedIn();
+    boolean checkLoggedIn() throws NoSuchElementException;
     boolean checkLoggedOut();
 
     boolean isUserPerformingAction(String action);

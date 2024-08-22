@@ -6,9 +6,11 @@ import net.bytebuddy.asm.Advice.Enter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Duration;
+import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.Assertions.*;
 import org.openqa.selenium.InvalidArgumentException;
@@ -44,7 +46,7 @@ public class StepDefinitions {
 
     /**
      * *********************************************************************
-     *  DIRECT NAVIGATION STEP DEFINITIONS
+     *  WHEN STEP DEFINITIONS
      * *********************************************************************
      */
 
@@ -105,54 +107,11 @@ public class StepDefinitions {
         }
     }
 
-    @When("I Attempt To Navigate To {string}") //page name
-    public void iAttemptToNavigateTo (String page) {
-        waitAMomentForWebDriver();
-        driver.get(initialURL + "/" + page.toLowerCase());
-    }
-
-    @Then("I Am Taken To {string}") //page name
-    public void iAmTakenTo(String page) {
-        waitAMomentForWebDriver();
-        assertEquals(driver.getCurrentUrl(), initialURL + "/" + page.toLowerCase());;
-    } 
-
-    
-    /**
-     * *********************************************************************
-     *  USABILITY STEP DEFINITIONS
-     * *********************************************************************
-     */
-
-    // @Given("I Am On {page}") is in "DIRECT NAVIGATION" Step Definitions
-    // @Then("I Am Taken To {page}") is in "DIRECT NAVIGATION" Step Definitions
-
     @Given("I Am Performing {string}") //action
     public void iAmPerforming(String action) {
         waitAMomentForWebDriver();
         pageObject.performAction(action);
     }
-
-    @When("I Click {string} Button")
-    public void iClickButton(String btnName) {
-        waitAMomentForWebDriver();
-        pageObject.clickButton(btnName);
-    }
-
-    @Then("And I Will Be Performing {string}" ) // action
-    public void iWillBePerforming(String action) {
-        waitAMomentForWebDriver();
-        assertTrue(pageObject.isUserPerformingAction(action));
-    }
-
-    /**
-     * *********************************************************************
-     *  CRUD STEP DEFINITIONS
-     * *********************************************************************
-     */
-
-    // @Given("I Am On {page}") is in "DIRECT NAVIGATION" Step Definitions
-    // @When("I Click {btnName} Button"} is in "USABILITY" Step Definitions
 
     @Given("I Enter {string} Information") //correct or incorrect
     public void iEnterCorrectInformation(String correct) {
@@ -168,6 +127,41 @@ public class StepDefinitions {
         }   
     }
 
+    @Given("I {string} Update {string}") 
+    public void iUpdateItem(String correctly, String type) {
+        assertTrue(type.equals("Warehouse") || type.equals("Item") || type.equals("Account"));
+        waitAMomentForWebDriver();
+
+        ObjectPage objectPage = (ObjectPage) pageObject;
+        if (correctly == "Correctly")
+            objectPage.modifyObjectRight();
+        else if (correctly == "Incorrectly")
+            objectPage.modifyObjectWrong();
+        else
+            throw new IllegalArgumentException("Expected 'Correctly' or 'Incorrectly', but received: " + correctly);
+    }
+
+
+
+
+    
+    /**
+     * *********************************************************************
+     *  WHEN STEP DEFINITIONS
+     * *********************************************************************
+     */
+
+    @When("I Attempt To Navigate To {string}") //page name
+    public void iAttemptToNavigateTo (String page) {
+        waitAMomentForWebDriver();
+        driver.get(initialURL + "/" + page.toLowerCase());
+    }
+
+    @When("I Click {string} Button")
+    public void iClickButton(String btnName) {
+        waitAMomentForWebDriver();
+        pageObject.clickButton(btnName);
+    }
 
     @When("I Submit the Form")
     public void iSubmitTheForm() {
@@ -177,8 +171,32 @@ public class StepDefinitions {
         formPage.submitForm();
     }
 
+    
+    /**
+     * *********************************************************************
+     *  THEN STEP DEFINITIONS
+     * *********************************************************************
+     */
+
+    @Then("And I Will Be Performing {string}" ) // action
+    public void iWillBePerforming(String action) {
+        waitAMomentForWebDriver();
+        assertTrue(pageObject.isUserPerformingAction(action));
+    }
+
+    @Then("I Am Taken To {string}") //page name
+    public void iAmTakenTo(String page) {
+        waitAMomentForWebDriver();
+        assertEquals(driver.getCurrentUrl(), initialURL + "/" + page.toLowerCase());;
+    } 
+
     @Then("A New {string} Is Created")
     public void aNewIsCreated(String type) {
+        /**
+         * @param type: can be either "Warehouse" or "Items" or "Account" 
+         * 
+         * but since both are part of object page, string doesn't matter, so just do a quick check
+         */
         assertTrue(type.equals("Warehouse") || type.equals("Item") || type.equals("Account"));
         waitAMomentForWebDriver();
 
@@ -196,9 +214,8 @@ public class StepDefinitions {
 
     @Then("I {string} See {string} Information")   
     public void iSeeInformation(String canSee, String type) {
-        /** 
-         * @param canSee: whethere we want to see if items/warehouses show up on page
-         * @param type: can be either "Warehouse" or "Items" 
+        /**
+         * @param type: can be either "Warehouse" or "Items" or "Account" 
          * 
          * but since both are part of object page, string doesn't matter, so just do a quick check
          */
@@ -217,29 +234,15 @@ public class StepDefinitions {
         
     }
 
-    @Given("I {string} Update {string}") 
-    public void iUpdateItem(String correctly, String type) {
-        assertTrue(type.equals("Warehouse") || type.equals("Item") || type.equals("Account"));
-        waitAMomentForWebDriver();
-
-        ObjectPage objectPage = (ObjectPage) pageObject;
-        if (correctly == "Correctly")
-            objectPage.modifyObjectRight();
-        else if (correctly == "Incorrectly")
-            objectPage.modifyObjectWrong();
-        else
-            throw new IllegalArgumentException("Expected 'Correctly' or 'Incorrectly', but received: " + correctly);
-    }
-
     @Then("{string} Fields Have {string} Changed")
     public void fieldsHaveChanged (String type, String been) {
         /**
-         * @param type: can be either "Warehouse" or "Items" 
+         * @param type: can be either "Warehouse" or "Items" or "Account" 
          * 
          * but since both are part of object page, string doesn't matter, so just do a quick check
          */
         
-         assertTrue(type.equals("Warehouse") || type.equals("Item") || type.equals("Account"));
+        assertTrue(type.equals("Warehouse") || type.equals("Item") || type.equals("Account"));
         waitAMomentForWebDriver();
 
         ObjectPage objectPage = (ObjectPage) pageObject;
@@ -254,11 +257,29 @@ public class StepDefinitions {
 
     @Then("{string} No Longer Exists")
     public void noLongerExists(String type) {
-        assertTrue(type == "Item" || type == "Warehouse");
+        /**
+         * @param type: can be either "Warehouse" or "Items" or "Account" 
+         * 
+         * but since both are part of object page, string doesn't matter, so just do a quick check
+         */
+
+        assertTrue(type.equals("Warehouse") || type.equals("Item") || type.equals("Account"));
         waitAMomentForWebDriver();
 
         ObjectPage objectPage = (ObjectPage) pageObject;
         assertFalse(objectPage.verifyObjectExistence());
+    }
+
+    @Then("I {string} Logged In")
+    public void iLoggedIn(String am) {
+        
+        if (am == "Am") {          
+            assertTrue(pageObject.checkLoggedIn());
+        } else if (am == "Am Not") {
+            assertTrue(pageObject.checkLoggedOut());
+        } else {
+            throw new InvalidArgumentException("Expected 'In' or 'Out', instead received: " + am);
+        }
     }
 
 
