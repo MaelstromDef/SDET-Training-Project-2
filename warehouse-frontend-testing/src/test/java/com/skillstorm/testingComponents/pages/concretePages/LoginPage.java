@@ -48,6 +48,23 @@ public class LoginPage implements FormPage {
     // --- METHODS ---
 
     /**
+     * Interprets the button name to be clicked and calls the appropriate method.
+     * 
+     * @param btnName Name of the button to click. May be "btnLogin"
+     * @throws IllegalArgumentException Button does not exist.
+     */
+    @Override
+    public void clickButton(String btnName) {
+        switch (btnName) {
+            case "btnLogin":
+                clickBtnLogIn();
+                break;
+            default:
+                throw new IllegalArgumentException("Button '" + btnName + "' does not exist.");
+        }
+    }
+
+    /**
      * Clicks the log in button.
      */
     public void clickBtnLogIn(){
@@ -147,11 +164,5 @@ public class LoginPage implements FormPage {
     @Override
     public boolean verifySubmissionSuccess() {
         return !driver.getCurrentUrl().equals(url);
-    }
-
-    @Override
-    public void clickButton(String btnName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'clickButton'");
     }
 }
