@@ -6,7 +6,7 @@ Feature: Inventory Behaviors
     Given I Am On “Item”
     And I Enter Correct Information
     When I Submit The Form
-    Then Item Is Added To Warehouse
+    Then A New "Item" Is Created
   
   Scenario: I10 - Invalid Creation of Item
     Given I Am On “Item”

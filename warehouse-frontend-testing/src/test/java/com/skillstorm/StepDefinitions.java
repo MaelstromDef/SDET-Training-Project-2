@@ -177,8 +177,9 @@ public class StepDefinitions {
         formPage.submitForm();
     }
 
-    @Then("Item Is Added To Warehouse")
-    public void itemIsAddedToWarehouse() {
+    @Then("A New {string} Is Created")
+    public void aNewIsCreated(String type) {
+        assertTrue(type.equals("Warehouse") || type.equals("Item") || type.equals("Account"));
         waitAMomentForWebDriver();
 
         FormPage formPage = (FormPage) pageObject;
