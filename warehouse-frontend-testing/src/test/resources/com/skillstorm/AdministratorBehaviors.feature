@@ -17,7 +17,7 @@ Feature: Administrator Behaviors
     ### READ ###
 
     Scenario: A3 - Valid login attempt.
-        Given I am on “Login”
+        Given I Am On “Login”
         And I Enter "Correct" Information
         When I Submit The Form
         Then I "Am" Logged In
