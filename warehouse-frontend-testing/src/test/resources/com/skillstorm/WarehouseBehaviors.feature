@@ -3,8 +3,8 @@ Feature: Warehouse Behaviors
     ### CREATE ###
 
     Scenario: W4 - Valid Create
-        Given I Am On Warehouses
-        And I Entered Correct Information
+        Given I Am On "Warehouses"
+        And I Enter Correct Information
         When I Submit The Form
         Then A New Warehouse Is Created
 

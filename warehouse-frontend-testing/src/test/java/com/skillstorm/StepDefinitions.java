@@ -154,21 +154,20 @@ public class StepDefinitions {
     // @Given("I Am On {page}") is in "DIRECT NAVIGATION" Step Definitions
     // @When("I Click {btnName} Button"} is in "USABILITY" Step Definitions
 
-    @Given("I Enter Correct Information")
-    public void iEnterCorrectInformation() {
+    @Given("I Enter {string} Information") //correct or incorrect
+    public void iEnterCorrectInformation(String correct) {
         waitAMomentForWebDriver();
         
         FormPage formPage = (FormPage) pageObject;
-        formPage.enterRightFormInformation();
+        if (correct == "Correct") {
+            formPage.enterRightFormInformation();
+        } else if (correct == "Incorrect") {
+            formPage.enterWrongFormInformation();
+        } else {
+            throw new IllegalArgumentException("Expected 'Correct' or 'Incorrect', but received: " + correct);
+        }   
     }
 
-    @Given("I Enter Incorrect Information") 
-    public void iEnterIncorrectInformation() {
-        waitAMomentForWebDriver();
-
-        FormPage formPage = (FormPage) pageObject;
-        formPage.enterWrongFormInformation();
-    }
 
     @When("I Submit the Form")
     public void iSubmitTheForm() {
@@ -211,6 +210,8 @@ public class StepDefinitions {
             assertTrue(objectPage.verifyObjectExistence());
         } else if (canSee == "Can Not") {
             assertFalse(objectPage.verifyObjectExistence());
+        } else {
+            throw new IllegalArgumentException("Expected 'Can' or 'Can Not', but received: " + canSee);
         }
         
     }
