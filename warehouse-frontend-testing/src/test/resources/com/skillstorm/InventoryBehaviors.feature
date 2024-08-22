@@ -4,13 +4,13 @@ Feature: Inventory Behaviors
 
   Scenario: I3 - Valid Creation of Item
     Given I Am On “Item”
-    And I Enter Correct Information
+    And I Enter "Correct" Information
     When I Submit The Form
     Then A New "Item" Is Created
   
   Scenario: I10 - Invalid Creation of Item
     Given I Am On “Item”
-    And I Enter Incorrect Information
+    And I Enter "Incorrect" Information
     When I Click “btnAddItem” Button
     Then I See An Error Message
 
