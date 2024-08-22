@@ -35,6 +35,26 @@ public class HomePage implements Page {
     // --- METHODS ---
 
     /**
+     * Interprets the button name to be clicked and calls the appropriate method.
+     * 
+     * @param btnName Name of the button to click. May be either "btnWarehouses" or "btnAccount"
+     * @throws IllegalArgumentException Button does not exist.
+     */
+    @Override
+    public void clickButton(String btnName) {
+        switch(btnName){
+            case "btnWarehouses":
+                clickBtnWarehouses();
+                break;
+            case "btnAccount":
+                clickBtnAccount();
+                break;
+            default:
+                throw new IllegalArgumentException("Button '" + btnName + "' does not exist.");
+        }
+    }
+
+    /**
      * Clicks the warehouses button.
      */
     public void clickBtnWarehouses(){
@@ -113,23 +133,5 @@ public class HomePage implements Page {
     public boolean checkLoggedOut() {
         navbar.loadLoggedOutButtons();
         return true;
-    }
-
-    @Override
-    public boolean isUserPerformingAction(String action) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isUserPerformingAction'");
-    }
-
-    @Override
-    public void clickButton(String btnName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'clickButton'");
-    }
-
-    @Override
-    public void performAction(String action) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'performAction'");
     }
 }

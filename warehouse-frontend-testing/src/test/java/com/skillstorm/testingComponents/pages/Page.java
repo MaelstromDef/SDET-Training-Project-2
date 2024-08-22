@@ -14,9 +14,5 @@ public interface Page {
     boolean checkLoggedIn() throws NoSuchElementException;
     boolean checkLoggedOut();
 
-    boolean isUserPerformingAction(String action);
-
     void clickButton(String btnName);
-
-    void performAction(String action);
 }

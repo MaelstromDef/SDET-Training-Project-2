@@ -110,7 +110,7 @@ public class StepDefinitions {
     @Given("I Am Performing {string}") //action
     public void iAmPerforming(String action) {
         waitAMomentForWebDriver();
-        pageObject.performAction(action);
+        ((ObjectPage)pageObject).performAction(action);
     }
 
     @Given("I Enter {string} Information") //correct or incorrect
@@ -181,7 +181,7 @@ public class StepDefinitions {
     @Then("And I Will Be Performing {string}" ) // action
     public void iWillBePerforming(String action) {
         waitAMomentForWebDriver();
-        assertTrue(pageObject.isUserPerformingAction(action));
+        assertTrue(((ObjectPage)pageObject).isUserPerformingAction(action));
     }
 
     @Then("I Am Taken To {string}") //page name

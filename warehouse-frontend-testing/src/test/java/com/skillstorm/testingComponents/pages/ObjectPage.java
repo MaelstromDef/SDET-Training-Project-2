@@ -18,4 +18,7 @@ public interface ObjectPage extends Page {
 
     public boolean verifyObjectExistence();
     public boolean verifyObjectUpdated();
+
+    void performAction(String action);
+    boolean isUserPerformingAction(String action);
 }

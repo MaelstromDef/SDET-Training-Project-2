@@ -48,10 +48,33 @@ public class LoginPage implements FormPage {
     // --- METHODS ---
 
     /**
+     * Interprets the button name to be clicked and calls the appropriate method.
+     * 
+     * @param btnName Name of the button to click. May be "btnLogin"
+     * @throws IllegalArgumentException Button does not exist.
+     */
+    @Override
+    public void clickButton(String btnName) {
+        switch (btnName) {
+            case "btnLogin":
+                clickBtnLogIn();
+                break;
+            default:
+                throw new IllegalArgumentException("Button '" + btnName + "' does not exist.");
+        }
+    }
+
+    /**
      * Clicks the log in button.
      */
     public void clickBtnLogIn(){
         btnLogIn.click();
+    }
+
+    @Override
+    public void clearFormInformation(){
+        inCompanyName.clear();
+        inPassword.clear();
     }
 
     /**
@@ -59,6 +82,8 @@ public class LoginPage implements FormPage {
      */
     @Override
     public void enterWrongFormInformation() {
+        clearFormInformation();
+
         inCompanyName.sendKeys(Config.INVALID_COMPANY_NAME);
         inPassword.sendKeys(Config.INVALID_PASSWORD);
     }
@@ -68,6 +93,8 @@ public class LoginPage implements FormPage {
      */
     @Override
     public void enterRightFormInformation() {
+        clearFormInformation();
+
         inCompanyName.sendKeys(Config.VALID_COMPANY_NAME);
         inPassword.sendKeys(Config.VALID_PASSWORD);
     }
@@ -147,23 +174,5 @@ public class LoginPage implements FormPage {
     @Override
     public boolean verifySubmissionSuccess() {
         return !driver.getCurrentUrl().equals(url);
-    }
-
-    @Override
-    public boolean isUserPerformingAction(String action) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isUserPerformingAction'");
-    }
-
-    @Override
-    public void clickButton(String btnName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'clickButton'");
-    }
-
-    @Override
-    public void performAction(String action) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'performAction'");
     }
 }
