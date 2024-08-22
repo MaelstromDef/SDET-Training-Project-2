@@ -114,20 +114,8 @@ public class LandingPage implements Page {
     }
 
     @Override
-    public boolean isUserPerformingAction(String action) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isUserPerformingAction'");
-    }
-
-    @Override
     public void clickButton(String btnName) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'clickButton'");
-    }
-
-    @Override
-    public void performAction(String action) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'performAction'");
     }
 }
