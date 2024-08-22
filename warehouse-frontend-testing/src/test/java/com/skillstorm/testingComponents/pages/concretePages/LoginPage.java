@@ -71,11 +71,19 @@ public class LoginPage implements FormPage {
         btnLogIn.click();
     }
 
+    @Override
+    public void clearFormInformation(){
+        inCompanyName.clear();
+        inPassword.clear();
+    }
+
     /**
      * Enters invalid login information to the login form.
      */
     @Override
     public void enterWrongFormInformation() {
+        clearFormInformation();
+
         inCompanyName.sendKeys(Config.INVALID_COMPANY_NAME);
         inPassword.sendKeys(Config.INVALID_PASSWORD);
     }
@@ -85,6 +93,8 @@ public class LoginPage implements FormPage {
      */
     @Override
     public void enterRightFormInformation() {
+        clearFormInformation();
+
         inCompanyName.sendKeys(Config.VALID_COMPANY_NAME);
         inPassword.sendKeys(Config.VALID_PASSWORD);
     }

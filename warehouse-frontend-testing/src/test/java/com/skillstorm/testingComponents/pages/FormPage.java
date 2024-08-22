@@ -2,6 +2,7 @@ package com.skillstorm.testingComponents.pages;
 
 public interface FormPage extends Page {
     // Each page should enter the information into their own form.
+    public void clearFormInformation();
     public void enterWrongFormInformation();
     public void enterRightFormInformation(); 
 

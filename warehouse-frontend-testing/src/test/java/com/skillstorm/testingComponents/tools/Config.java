@@ -6,4 +6,5 @@ public class Config {
 
     public static final String INVALID_COMPANY_NAME = "";
     public static final String INVALID_PASSWORD = "";
+    public static final String INVALID_CONFIRM_PASSWORD = "";
 }
