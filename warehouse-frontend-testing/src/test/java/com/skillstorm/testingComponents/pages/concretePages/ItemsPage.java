@@ -15,6 +15,8 @@ import com.skillstorm.testingComponents.pages.abstractPages.ObjectPage;
 import com.skillstorm.testingComponents.pages.abstractPages.Page;
 
 public class ItemsPage extends ObjectPage {
+    // --- FIELDS --- 
+
     private String urlExtension = "/items";
 
     // Item form
@@ -30,24 +32,45 @@ public class ItemsPage extends ObjectPage {
     @FindBy(xpath = "//*[@id=\"root\"]/div[2]/form/input[3]")
     private WebElement btnAddItem;
     @FindBy(xpath = "//*[@id=\"root\"]/div[2]/button")
-    private WebElement btnCancel;
+    private WebElement btnCloseForm;
 
     // Items
 
-    @FindBy(xpath = "//*[@id=\"root\"]/table/tbody/tr/td[3]/button[1]")
+    private static final String IN_UPDATE_QUANTITY_XPATH = "//*[@id=\"root\"]/table/tbody/tr/td[2]/div/input";
+    @FindBy(xpath = IN_UPDATE_QUANTITY_XPATH)
+    private WebElement inUpdateQuantity;
+
+    private static final String BTN_MANAGE_XPATH = "//*[@id=\"root\"]/table/tbody/tr/td[3]/button[1]";
+    @FindBy(xpath = BTN_MANAGE_XPATH)
     private WebElement btnManage;
-    @FindBy(xpath = "//*[@id=\"root\"]/table/tbody/tr/td[3]/button[2]")
+
+    private static final String BTN_UPDATE_XPATH = "//*[@id=\"root\"]/table/tbody/tr/td[3]/button[1]";
+    @FindBy(xpath = BTN_UPDATE_XPATH)
+    private WebElement btnUpdateItem;
+
+    private static final String BTN_CANCEL_UPDATE_XPATH = "//*[@id=\"root\"]/table/tbody/tr/td[3]/button[2]";
+    @FindBy(xpath = BTN_CANCEL_UPDATE_XPATH)
+    private WebElement btnCancelUpdateItem;
+
+    private static final String BTN_DELETE_XPATH = "//*[@id=\"root\"]/table/tbody/tr/td[3]/button[2]";
+    @FindBy(xpath = BTN_DELETE_XPATH)
     private WebElement btnDelete;
 
-    // CONSTRUCTORS
+    // --- CONSTRUCTORS ---
+
     public ItemsPage(WebDriver driver, String baseUrl) {
         super(driver, baseUrl);
     }
 
+    // --- METHODS --- 
+
+    private void openItemModifier(){
+        
+    }
+
     @Override
     public void modifyObjectRight() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'modifyObjectRight'");
+        
     }
 
     @Override

@@ -14,6 +14,7 @@ import com.skillstorm.testingComponents.Navbar;
 import com.skillstorm.testingComponents.pages.IFormPage;
 import com.skillstorm.testingComponents.pages.abstractPages.FormPage;
 import com.skillstorm.testingComponents.tools.Config;
+import com.skillstorm.testingComponents.tools.PageTools;
 
 public class LoginPage extends FormPage {
     // --- FIELDS --- 
@@ -95,9 +96,16 @@ public class LoginPage extends FormPage {
 
     @Override
     public void logIn() {
+        // Attempt signup
+        PageTools.signUp(driver);
+        logIn();    // Very dangerous....
+
+        // Attempt log in
+        navigateToPage();
         enterRightFormInformation();
         submitForm();
-        throw new UnsupportedOperationException("TODO: Reimplement log in on LoginPage to support running across test cases.");
+
+        if(!verifySubmissionSuccess()) throw new RuntimeException("FATAL: Could not log in.");   // Check success
     }
     
     /**
