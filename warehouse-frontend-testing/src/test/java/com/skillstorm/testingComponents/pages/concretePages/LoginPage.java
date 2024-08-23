@@ -34,7 +34,8 @@ public class LoginPage implements FormPage {
     @FindBy(xpath = "//*[@id=\"root\"]/p")
     private WebElement txtFeedback;
 
-    private static final String LOGIN_FAILURE_MESSAGE = "Please fill in all fields.";
+    private static final String INVALID_LOGIN_MESSAGE = "Please fill in all fields.";
+    private static final String FAILED_LOGIN_MESSAGE = "Invalid credentials.";
 
     // --- CONSTRUCTORS ---
 
@@ -71,6 +72,9 @@ public class LoginPage implements FormPage {
         btnLogIn.click();
     }
 
+    /**
+     * Clears all login form fields.
+     */
     @Override
     public void clearFormInformation(){
         inCompanyName.clear();
@@ -165,7 +169,8 @@ public class LoginPage implements FormPage {
      */
     @Override
     public boolean verifySubmissionFailure() {
-        return txtFeedback.getText().equals(LOGIN_FAILURE_MESSAGE);
+        return txtFeedback.getText().equals(INVALID_LOGIN_MESSAGE) ||
+            txtFeedback.getText().equals(FAILED_LOGIN_MESSAGE);
     }
 
     /**

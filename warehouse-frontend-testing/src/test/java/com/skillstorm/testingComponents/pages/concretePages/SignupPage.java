@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import com.skillstorm.StepDefinitions;
 import com.skillstorm.testingComponents.Navbar;
 import com.skillstorm.testingComponents.pages.FormPage;
 import com.skillstorm.testingComponents.tools.Config;
@@ -33,6 +34,10 @@ public class SignupPage implements FormPage {
 
     @FindBy(xpath = "//*[@id=\"root\"]/p")
     private WebElement txtFeedback;
+
+    private static final String INVALID_SIGNUP_MESSAGE = "Please fill in all fields.";
+    private static final String PASSWORD_MISMATCH_MESSAGE = "Passwords don't match.";
+    private static final String EXISTING_COMPANY_MESSAGE = "That company is already signed up.";
 
     // --- CONSTRUCTORS ---
     
@@ -69,6 +74,9 @@ public class SignupPage implements FormPage {
         btnSignup.click();
     }
 
+    /**
+     * Clears all signup form fields.
+     */
     @Override
     public void clearFormInformation(){
         inCompanyName.clear();
@@ -76,6 +84,9 @@ public class SignupPage implements FormPage {
         inConfirmPassword.clear();
     }
 
+    /**
+     * Enters invalid information to the form.
+     */
     @Override
     public void enterWrongFormInformation() {
         clearFormInformation();
@@ -84,6 +95,10 @@ public class SignupPage implements FormPage {
         inPassword.sendKeys(Config.INVALID_PASSWORD);
         inConfirmPassword.sendKeys(Config.INVALID_CONFIRM_PASSWORD);
     }
+
+    /**
+     * Enters valid information to the signup form.
+     */
     @Override
     public void enterRightFormInformation() {
         clearFormInformation();
@@ -92,34 +107,54 @@ public class SignupPage implements FormPage {
         inPassword.sendKeys(Config.VALID_PASSWORD);
         inConfirmPassword.sendKeys(Config.VALID_PASSWORD);
     }
+
+    /**
+     * Submits the signup form.
+     */
     @Override
     public boolean submitForm() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'submitForm'");
+        clickBtnSignup();
+        return true;
     }
 
+    /**
+     * Navigates the browser to the Signup page.
+     * @throws Exception If some failure to navigate to the Signup page occurs.
+     */
     @Override
-    public void navigateToPage() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'navigateToPage'");
+    public void navigateToPage() throws Exception {
+        logOut();                   // Ensure logged out.
+        navbar.clickBtnSignup();     // Navigate to page.
+
+        if(!driver.getCurrentUrl().equals(url)) throw new Exception("Failed to navigate to Signup page.");
     }
 
+    /**
+     * Retrieves the page's URL.
+     * 
+     * @return The page's URL.
+     */
     @Override
     public String getURL() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getURL'");
+        return url;
     }
 
+    /**
+     * Goes through the process of logging in.
+     * 
+     * @throws UnsupportedOperationException The Signup page is a logged-out only page. Use the LoginPage class instead.
+     */
     @Override
     public void logIn() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'logIn'");
+        // Purposeful exception.
+        throw new UnsupportedOperationException("Signup page is a logged-out only page.");
     }
 
     @Override
     public void logOut() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'logOut'");
+        try{
+            navbar.clickBtnLogOut();
+        }catch(Exception e){}
     }
 
     /**
@@ -144,15 +179,24 @@ public class SignupPage implements FormPage {
         return true;
     }
 
+    /**
+     * Checks if the signup failure message appears.
+     */
     @Override
     public boolean verifySubmissionFailure() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'verifySubmissionFailure'");
+        return txtFeedback.getText().equals(INVALID_SIGNUP_MESSAGE) ||
+            txtFeedback.getText().equals(EXISTING_COMPANY_MESSAGE) ||
+            txtFeedback.getText().equals(PASSWORD_MISMATCH_MESSAGE);
     }
 
+    /**
+     * Checks if the success message appears, or the page has rerouted to the LoginPage
+     */
     @Override
     public boolean verifySubmissionSuccess() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'verifySubmissionSuccess'");
+        return txtFeedback.getText()
+            .equals("Success! \"" + Config.VALID_COMPANY_NAME + "\" was successfully registered. Please log in. (You will be redirected in 3 seconds.)")
+            
+            || driver.getCurrentUrl().equals(new LoginPage(driver, StepDefinitions.initialURL).getURL());
     }
 }
