@@ -1,8 +1,8 @@
 Feature: Usability
 
     Scenario: U2 - Simple Navigation with Buttons
-        Given I Am On “<page1>”,
-        When I Click “<button>” Button
+        Given I Am On "<page1>",
+        When I Click "<button>" Button
         Then I Am Taken To "<page2>"
     
     Examples:
@@ -37,8 +37,8 @@ Feature: Usability
     Scenario: U3 - Navigation with Buttons During Action
         Given I Am On "<page1>"
         And I Am Performing "<action>"
-        When I Click “<button>”
-        Then I Am Taken To “<page2>”
+        When I Click "<button>"
+        Then I Am Taken To "<page2>"
 
     Examples:
     | page1     | action            | button             | page2     |

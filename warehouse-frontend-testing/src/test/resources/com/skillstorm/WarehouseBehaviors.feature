@@ -30,7 +30,7 @@ Feature: Warehouse Behaviors
 
     Scenario: W3 - Valid Update
         Given I Am On "Warehouses"
-        When I "Correctly" Update “Warehouse”
+        When I "Correctly" Update "Warehouse"
         Then "Warehouse" Fields Have "Been" Changed
 
     ### DELETE ###
