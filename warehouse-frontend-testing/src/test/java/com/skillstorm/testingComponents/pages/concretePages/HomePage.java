@@ -5,17 +5,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.skillstorm.testingComponents.Navbar;
-import com.skillstorm.testingComponents.pages.Page;
+import com.skillstorm.testingComponents.pages.IPage;
+import com.skillstorm.testingComponents.pages.abstractPages.Page;
 import com.skillstorm.testingComponents.tools.PageTools;
 
-public class HomePage implements Page {
-    private WebDriver driver;
-    private String url;
+public class HomePage extends Page {
     private String urlExtension = "/homepage";
 
     // --- INTERACTABLES ---
-
-    private Navbar navbar;
 
     @FindBy(xpath = "//*[@id=\"root\"]/button[1]")
     private WebElement btnAccount;
@@ -25,11 +22,8 @@ public class HomePage implements Page {
 
     //  --- CONSTRUCTORS ---
 
-    public HomePage(WebDriver driver, String initialPage) {
-        this.driver = driver;
-        this.url = initialPage + "/" + urlExtension;
-
-        navbar = new Navbar(driver);
+    public HomePage(WebDriver driver, String baseUrl) {
+        super(driver, baseUrl);
     }
 
     // --- METHODS ---
@@ -68,70 +62,14 @@ public class HomePage implements Page {
         btnAccount.click();
     }
 
-    /**
-     * Navigates the browser to the Home page.
-     * @throws Exception If some failure to navigate to the Home page occurs.
-     */
     @Override
-    public void navigateToPage() throws Exception {
-        logIn();                // Ensures logged in.
-        navbar.clickBtnHome();  // Navigates to home.
-        
-        if(driver.getCurrentUrl() != url) throw new Exception("Failed to navigate to Landing page.");
+    public void navigateToPage() {
+        logOut();
+        driver.get(url);
     }
 
-    /**
-     * Retrieves the page's URL.
-     * 
-     * @return The page's URL.
-     */
     @Override
-    public String getURL() {
-        return url;
-    }
-
-    /**
-     * Goes through the process of logging in.
-     * @throws Exception 
-     */
-    @Override
-    public void logIn() throws Exception {
-        try{
-            navbar.loadLoggedInButtons();
-        }catch(Exception e){
-            PageTools.logIn(driver);
-        }
-    }
-
-    /**
-     * Goes through the process of logging out.
-     */
-    @Override
-    public void logOut() {
-        try{
-            navbar.clickBtnLogOut();
-        }catch(Exception e){}
-    }
-
-    /**
-     * Checks to see if the page is currently logged in.
-     * 
-     * @return logged in status.
-     */
-    @Override
-    public boolean checkLoggedIn() {
-        navbar.loadLoggedInButtons();
-        return true;
-    }
-
-    /**
-     * Checks to see if the page is currently logged out.
-     * 
-     * @return logged out status.
-     */
-    @Override
-    public boolean checkLoggedOut() {
-        navbar.loadLoggedOutButtons();
-        return true;
-    }
+    protected String getUrlExtension() {
+        return urlExtension;
+    }   
 }

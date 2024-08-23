@@ -1,22 +1,25 @@
 package com.skillstorm.testingComponents.pages.concretePages;
 
+import java.util.Arrays;
+import java.util.List;
+
+import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.skillstorm.testingComponents.Navbar;
-import com.skillstorm.testingComponents.pages.FormPage;
-import com.skillstorm.testingComponents.pages.ObjectPage;
-import com.skillstorm.testingComponents.pages.Page;
+import com.skillstorm.testingComponents.pages.IFormPage;
+import com.skillstorm.testingComponents.pages.IObjectPage;
+import com.skillstorm.testingComponents.pages.abstractPages.ObjectPage;
+import com.skillstorm.testingComponents.tools.PageTools;
 
-public class AccountPage implements FormPage, ObjectPage {
-    private WebDriver driver;
-    private String url;
+public class AccountPage extends ObjectPage {
+    // --- FIELDS --- 
+
     private String urlExtension = "/account";
 
     // INTERACTABLES
-
-    private Navbar navbar;
 
     // Company name
     @FindBy(xpath = "//*[@id=\"root\"]/form/div/input")
@@ -45,15 +48,65 @@ public class AccountPage implements FormPage, ObjectPage {
     @FindBy(xpath = "//*[@id=\"root\"]/p")
     private WebElement txtFeedback;
 
-    // CONSTRUCTORS
-    public AccountPage(WebDriver driver, String initialPage) {
-        this.driver = driver;
-        this.url = initialPage + "/" + urlExtension;
+    // --- CONSTRUCTORS ---
 
-        navbar = new Navbar(driver);
+    public AccountPage(WebDriver driver, String baseUrl) {
+        super(driver, baseUrl);
     }
 
-    // METHODS
+    // --- METHODS ---
+
+    // PAGE UNIQUES
+
+    /**
+     * Clicks the update button.
+     */
+    public void clickBtnUpdate(){
+        btnUpdate.click();
+    }
+
+    /**
+     * Clicks the delete button.
+     */
+    public void clickBtnDelete(){
+        btnDelete.click();
+    }
+
+    /**
+     * Clicks the confirm delete button.
+     */
+    public void clickBtnConfirmDelete(){
+        btnConfirmDelete.click();
+    }
+
+    /**
+     * Clicks the cancel delete button.
+     */
+    public void clickBtnCancelDelete(){
+        btnCancelDelete.click();
+    }
+
+    // BASIC PAGE
+
+    @Override
+    public void clickButton(String btnName) {
+        switch(btnName){
+            case "btnUpdate":
+                clickBtnUpdate();
+                break;
+            case "btnDelete":
+                clickBtnDelete();
+                break;
+            case "btnConfirmDelete":
+                clickBtnConfirmDelete();
+                break;
+            case "btnCancelDelete":
+                clickBtnCancelDelete();
+                break;
+            default:
+                throw new InvalidArgumentException("Button '" + btnName + "' does not exist.");
+        }
+    }
 
     @Override
     public void modifyObjectRight() {
@@ -65,94 +118,6 @@ public class AccountPage implements FormPage, ObjectPage {
     public void modifyObjectWrong() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'modifyObjectWrong'");
-    }
-
-    @Override
-    public void deleteObject() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteObject'");
-    }
-
-    @Override
-    public void enterWrongFormInformation() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'enterWrongFormInformation'");
-    }
-
-    @Override
-    public void enterRightFormInformation() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'enterRightFormInformation'");
-    }
-
-    @Override
-    public boolean submitForm() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'submitForm'");
-    }
-
-    @Override
-    public void navigateToPage() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'navigateToPage'");
-    }
-
-    @Override
-    public String getURL() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getURL'");
-    }
-
-    @Override
-    public void logIn() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'logIn'");
-    }
-
-    @Override
-    public void logOut() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'logOut'");
-    }
-
-    /**
-     * Checks to see if the page is currently logged in.
-     * 
-     * @return logged in status.
-     */
-    @Override
-    public boolean checkLoggedIn() {
-        navbar.loadLoggedInButtons();
-        return true;
-    }
-
-    /**
-     * Checks to see if the page is currently logged out.
-     * 
-     * @return logged out status.
-     */
-    @Override
-    public boolean checkLoggedOut() {
-        navbar.loadLoggedOutButtons();
-        return true;
-    }
-
-    @Override
-    public boolean isUserPerformingAction(String action) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isUserPerformingAction'");
-    }
-
-    @Override
-    public void clickButton(String btnName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'clickButton'");
-    }
-
-    @Override
-    public void performAction(String action) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'performAction'");
     }
 
     @Override
@@ -174,6 +139,30 @@ public class AccountPage implements FormPage, ObjectPage {
     }
 
     @Override
+    public void performAction(String action) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'performAction'");
+    }
+
+    @Override
+    public boolean isUserPerformingAction(String action) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isUserPerformingAction'");
+    }
+
+    @Override
+    public void enterWrongFormInformation() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'enterWrongFormInformation'");
+    }
+
+    @Override
+    public void enterRightFormInformation() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'enterRightFormInformation'");
+    }
+
+    @Override
     public boolean verifySubmissionFailure() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'verifySubmissionFailure'");
@@ -183,5 +172,31 @@ public class AccountPage implements FormPage, ObjectPage {
     public boolean verifySubmissionSuccess() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'verifySubmissionSuccess'");
+    }
+
+    @Override
+    public void navigateToPage() {
+        logIn();
+        driver.get(url);
+    }
+
+    @Override
+    protected WebElement getDeleteButton() {
+        return btnDelete;
+    }
+
+    @Override
+    protected List<WebElement> getFormFields() {
+        return Arrays.asList(inCompanyName, inPassword);
+    }
+
+    @Override
+    protected WebElement getSubmitButton() {
+        return btnUpdate;
+    }
+
+    @Override
+    protected String getUrlExtension() {
+        return urlExtension;
     }
 }

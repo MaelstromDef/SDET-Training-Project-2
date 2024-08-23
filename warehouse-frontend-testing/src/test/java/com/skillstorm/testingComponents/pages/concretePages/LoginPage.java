@@ -3,22 +3,24 @@ package com.skillstorm.testingComponents.pages.concretePages;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.skillstorm.testingComponents.Navbar;
-import com.skillstorm.testingComponents.pages.FormPage;
+import com.skillstorm.testingComponents.pages.IFormPage;
+import com.skillstorm.testingComponents.pages.abstractPages.FormPage;
 import com.skillstorm.testingComponents.tools.Config;
 
-public class LoginPage implements FormPage {
-    private WebDriver driver;
-    private String url;
+public class LoginPage extends FormPage {
+    // --- FIELDS --- 
+
     private String urlExtension = "/login";
 
-    // --- INTERACTABLES ---
-
-    private Navbar navbar;
+    // INTERACTABLES
 
     @FindBy(xpath = "//*[@id=\"root\"]/form/input[1]")
     private WebElement inCompanyName;
@@ -39,11 +41,8 @@ public class LoginPage implements FormPage {
 
     // --- CONSTRUCTORS ---
 
-    public LoginPage(WebDriver driver, String initialPage) {
-        this.driver = driver;
-        this.url = initialPage + "/" + urlExtension;
-
-        navbar = new Navbar(driver);
+    public LoginPage(WebDriver driver, String baseUrl) {
+        super(driver, baseUrl);
     }
 
     // --- METHODS ---
@@ -73,15 +72,6 @@ public class LoginPage implements FormPage {
     }
 
     /**
-     * Clears all login form fields.
-     */
-    @Override
-    public void clearFormInformation(){
-        inCompanyName.clear();
-        inPassword.clear();
-    }
-
-    /**
      * Enters invalid login information to the login form.
      */
     @Override
@@ -103,67 +93,13 @@ public class LoginPage implements FormPage {
         inPassword.sendKeys(Config.VALID_PASSWORD);
     }
 
-    /**
-     * Submits the login form.
-     */
-    @Override
-    public boolean submitForm() {
-        btnLogIn.click();
-        return true;
-    }
-
-    /**
-     * Navigates the browser to the Login page.
-     * @throws Exception If some failure to navigate to the Login page occurs.
-     */
-    @Override
-    public void navigateToPage() throws Exception {
-        logOut();                   // Ensure logged out.
-        navbar.clickBtnLogin();     // Navigate to page.
-
-        if(!driver.getCurrentUrl().equals(url)) throw new Exception("Failed to navigate to Landing page.");
-    }
-
-    @Override
-    public String getURL() {
-        return url;
-    }
-
     @Override
     public void logIn() {
         enterRightFormInformation();
         submitForm();
+        throw new UnsupportedOperationException("TODO: Reimplement log in on LoginPage to support running across test cases.");
     }
-
-    @Override
-    public void logOut() {
-        try{
-            navbar.clickBtnLogOut();
-        }catch(Exception e){}
-    }
-
-    /**
-     * Checks to see if the page is currently logged in.
-     * 
-     * @return logged in status.
-     */
-    @Override
-    public boolean checkLoggedIn() {
-        navbar.loadLoggedInButtons();
-        return true;
-    }
-
-    /**
-     * Checks to see if the page is currently logged out.
-     * 
-     * @return logged out status.
-     */
-    @Override
-    public boolean checkLoggedOut() {
-        navbar.loadLoggedOutButtons();
-        return true;
-    }
-
+    
     /**
      * Checks if the login failure message appears.
      */
@@ -179,5 +115,26 @@ public class LoginPage implements FormPage {
     @Override
     public boolean verifySubmissionSuccess() {
         return !driver.getCurrentUrl().equals(url);
+    }
+
+    @Override
+    public void navigateToPage() {
+        logOut();
+        driver.get(url);
+    }
+
+    @Override
+    protected List<WebElement> getFormFields() {
+        return Arrays.asList(inCompanyName, inPassword);
+    }
+
+    @Override
+    protected WebElement getSubmitButton() {
+        return btnLogIn;
+    }
+
+    @Override
+    protected String getUrlExtension() {
+        return urlExtension;
     }
 }
