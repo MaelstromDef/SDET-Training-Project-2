@@ -65,7 +65,7 @@ public class ItemsPage extends ObjectPage {
     // --- METHODS --- 
 
     private void openItemModifier(){
-        
+        btnManage.click();
     }
 
     @Override

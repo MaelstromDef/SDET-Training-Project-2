@@ -9,4 +9,12 @@ public class Config {
     public static final String INVALID_COMPANY_NAME = "";
     public static final String INVALID_PASSWORD = "";
     public static final String INVALID_CONFIRM_PASSWORD = "";
+
+    public static final String VALID_WAREHOUSE_NAME = "My Valid Warehouse";
+    public static final String VALID_WAREHOUSE_LOCATION = "My Valid Location";
+    public static final String VALID_WAREHOUSE_SIZE = "10";
+
+    public static final String INVALID_WAREHOUSE_NAME = "";
+    public static final String INVALID_WAREHOUSE_LOCATION = "";
+    public static final String INVALID_WAREHOUSE_SIZE = "";
 }

@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import com.skillstorm.testingComponents.pages.abstractPages.ObjectPage;
+import com.skillstorm.testingComponents.tools.Config;
 
 public class WarehousesPage extends ObjectPage {
     private String urlExtension = "/warehouses";
@@ -28,7 +29,7 @@ public class WarehousesPage extends ObjectPage {
     private WebElement btnAddWarehouse;
 
     @FindBy(xpath = "//*[@id=\"root\"]/div[2]")
-    private WebElement btnCancel;
+    private WebElement btnCloseForm;
 
     // Warehouse management
 
@@ -37,6 +38,30 @@ public class WarehousesPage extends ObjectPage {
 
     @FindBy(xpath = "//*[@id=\"root\"]/table/tbody/tr/td[4]/button[2]")
     private WebElement btnDelete;
+    
+    // Warehouse viewpoints
+
+    private static final String TABLE_HEADER_XPATH = "//*[@id=\"root\"]/table/thead";
+    @FindBy(xpath = TABLE_HEADER_XPATH)
+    private WebElement elTableHeader;
+
+    private static final String OBJECT_ROW_XPATH = "//*[@id=\"root\"]/table/tbody/tr";
+    @FindBy(xpath = OBJECT_ROW_XPATH)
+    private WebElement elObjectRow;
+
+    private static final String OBJECT_NAME_XPATH = "//*[@id=\"root\"]/table/tbody/tr/td[1]";
+    @FindBy(xpath = OBJECT_NAME_XPATH)
+    private WebElement txtObjectName;
+
+    // Form Feedback
+
+    private static final String FEEDBACK_XPATH = "//*[@id=\"root\"]/div[2]/form/label[4]";
+    @FindBy(xpath = FEEDBACK_XPATH)
+    private WebElement txtFeedback;
+
+    private static final String MSG_EMPTY_FIELDS = "Fields cannot be empty.";
+    private static final String MSG_NEGATIVE_SIZE = "Size must be greater than 0.";
+    private static final String MSG_ERROR = "Something went wrong, please try again.";
 
     // --- CONSTRUCTORS ---
 
@@ -46,68 +71,84 @@ public class WarehousesPage extends ObjectPage {
 
     @Override
     public void modifyObjectRight() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'modifyObjectRight'");
+        btnManage.click();
     }
 
     @Override
     public void modifyObjectWrong() {
-        // TODO Auto-generated method stub
+        // No way to incorrectly modify warehouses in the frontend.
         throw new UnsupportedOperationException("Unimplemented method 'modifyObjectWrong'");
     }
 
     @Override
     public boolean verifyListExistence() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'verifyListExistence'");
+        return elTableHeader.isDisplayed();
     }
 
     @Override
     public boolean verifyObjectExistence() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'verifyObjectExistence'");
+        return elObjectRow.isDisplayed();
     }
 
     @Override
     public boolean verifyObjectUpdated() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'verifyObjectUpdated'");
+        return !(driver.getCurrentUrl().equals(url));
     }
 
     @Override
     public void performAction(String action) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'performAction'");
+        switch (action) {
+            case "New Warehouse":
+                btnOpenForm.click();
+                break;
+        
+            default:
+                throw new IllegalArgumentException("Action '" + action + "' does not exist.");
+        }
     }
 
     @Override
     public boolean isUserPerformingAction(String action) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isUserPerformingAction'");
+        switch(action){
+            case "New Warehouse":
+                return !driver.getCurrentUrl().equals(url);
+            default:
+                throw new IllegalArgumentException("Action '" + action + "' does not exist.");
+        }
     }
 
     @Override
     public void enterWrongFormInformation() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'enterWrongFormInformation'");
+        clickBtnOpenForm();
+        clearFormInformation();
+
+        inName.sendKeys(Config.VALID_WAREHOUSE_NAME);
+        inLocation.sendKeys(Config.VALID_WAREHOUSE_LOCATION);
+        inSize.sendKeys(Config.VALID_WAREHOUSE_SIZE);
     }
 
     @Override
     public void enterRightFormInformation() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'enterRightFormInformation'");
+        clickBtnOpenForm();
+        clearFormInformation();
+
+        inName.sendKeys(Config.VALID_WAREHOUSE_NAME);
+        inLocation.sendKeys(Config.VALID_WAREHOUSE_LOCATION);
+        inSize.sendKeys(Config.VALID_WAREHOUSE_SIZE);
     }
 
     @Override
     public boolean verifySubmissionFailure() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'verifySubmissionFailure'");
+        String feedback = txtFeedback.getText();
+
+        return feedback.equals(MSG_EMPTY_FIELDS) || 
+            feedback.equals(MSG_NEGATIVE_SIZE) ||
+            feedback.equals(MSG_ERROR);
     }
 
     @Override
     public boolean verifySubmissionSuccess() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'verifySubmissionSuccess'");
+        return txtObjectName.isDisplayed();
     }
 
     @Override
@@ -118,8 +159,45 @@ public class WarehousesPage extends ObjectPage {
 
     @Override
     public void clickButton(String btnName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'clickButton'");
+        switch(btnName){
+            case "btnAddWarehouse":
+                clickBtnAddWarehouse();
+                break;
+            case "btnOpenForm":
+                clickBtnOpenForm();
+                break;
+            case "btnCancel":
+                clickBtnCancel();
+                break;
+            case "btnManage":
+                clickBtnManage();
+                break;
+            case "btnDelete":
+                clickBtnDelete();
+                break;
+            default:
+                throw new IllegalArgumentException("Button '" + btnName + "' does not exist.");
+        }
+    }
+
+    public void clickBtnAddWarehouse(){
+        btnAddWarehouse.click();
+    }
+
+    public void clickBtnOpenForm(){
+        btnOpenForm.click();
+    }
+
+    public void clickBtnCancel(){
+        btnCloseForm.click();
+    }
+
+    public void clickBtnManage(){
+        btnManage.click();
+    }
+
+    public void clickBtnDelete(){
+        btnDelete.click();
     }
 
     @Override
