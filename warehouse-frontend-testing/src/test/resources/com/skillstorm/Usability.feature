@@ -22,7 +22,7 @@ Feature: Usability
     | Account   | btnHome            | Home      |
     | Account   | btnAccount         | Account   |
     | Account   | btnWarehouse       | Warehouse |
-    | Account   | btnDeleteAccount   | Landing   |
+    | Account   | btnUpdateAccount   | Account   |
     | Warehouse | btnHome            | Home      |
     | Warehouse | btnAccount         | Account   |
     | Warehouse | btnWarehouse       | Warehouse |
@@ -42,11 +42,11 @@ Feature: Usability
 
     Examples:
     | page1     | action            | button             | page2     |
-    | Account   | Account Update    | btnHome            | Home      |
-    | Account   | Account Update    | btnAccount         | Account   |
-    | Account   | Account Update    | btnWarehouse       | Warehouse |
-    | Account   | Account Update    | btnUpdateAccount   | Account   |
-    | Account   | Account Update    | btnDeleteAccount   | Landing   |
+    | Account   | Account Delete    | btnHome            | Home      |
+    | Account   | Account Delete    | btnAccount         | Account   |
+    | Account   | Account Delete    | btnWarehouse       | Warehouse |
+    | Account   | Account Delete    | btnCancelDelete    | Account   |
+    | Account   | Account Delete    | btnConfirmDelete   | Landing   |
     | Warehouse | New Warehouse     | btnHome            | Home      |
     | Warehouse | New Warehouse     | btnAccount         | Account   |
     | Warehouse | New Warehouse     | btnWarehouse       | Warehouse |
@@ -75,11 +75,11 @@ Feature: Usability
         And I Will Be Performing "<action>"
     
     Examples:
-    | page1     | button           | page2     | action         |
-    | Account   | btnUpdateAccount | Account   | Account Update |
-    | Warehouse | btnAddWarehouse  | Warehouse | New Warehouse  |
-    | Item      | btnAddItem       | Item      | New Item       |
-    | Item      | btnUpdateItem    | Item      | Item Update    |
+    | page1     | button          | page2     | action         |
+    | Account   | btnDeletAccount | Account   | Account Delete |
+    | Warehouse | btnAddWarehouse | Warehouse | New Warehouse  |
+    | Item      | btnAddItem      | Item      | New Item       |
+    | Item      | btnUpdateItem   | Item      | Item Update    |
     
     
     
@@ -91,11 +91,12 @@ Feature: Usability
         And I Will Be Performing "<action2>"
 
     Examples:
-    | page1     | action         | button          | page2     | action2        |
-    | Warehouse | New Warehouse  | btnAddWarehouse | Warehouse | New Warehouse  |
-    | Item      | New Item       | btnAddItem      | Item      | New Item       |
-    | Item      | New Item       | btnUpdateItem   | Item      | Item Update    |
-    | Item      | Item Update    | btnAddItem      | Item      | New Item       |
+    | page1     | action         | button           | page2     | action2        |
+    | Account   | Account Delete | btnUpdateAccount | Account   | Account Delete |
+    | Warehouse | New Warehouse  | btnAddWarehouse  | Warehouse | New Warehouse  |
+    | Item      | New Item       | btnAddItem       | Item      | New Item       |
+    | Item      | New Item       | btnUpdateItem    | Item      | Item Update    |
+    | Item      | Item Update    | btnAddItem       | Item      | New Item       |
 
 
  
