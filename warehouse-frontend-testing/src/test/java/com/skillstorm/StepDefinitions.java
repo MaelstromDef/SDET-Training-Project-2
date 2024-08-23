@@ -99,7 +99,7 @@ public class StepDefinitions {
     @Given("I Am Logged {string}") //In or Out
     public void iAmLogged(String inOrOut) {
         waitAMomentForWebDriver();
-        if (inOrOut == "In") {
+        if (inOrOut.equals("In")) {
             try{
                 pageObject.logIn();
             } catch (Exception e ) {
@@ -107,7 +107,7 @@ public class StepDefinitions {
             } 
             
             assertTrue(pageObject.checkLoggedIn());
-        } else if (inOrOut == "Out") {
+        } else if (inOrOut.equals("Out")) {
             pageObject.logOut();
             assertTrue(pageObject.checkLoggedOut());
         } else {
@@ -126,9 +126,9 @@ public class StepDefinitions {
         waitAMomentForWebDriver();
         
         FormPage formPage = (FormPage) pageObject;
-        if (correct == "Correct") {
+        if (correct.equals("Correct")) {
             formPage.enterRightFormInformation();
-        } else if (correct == "Incorrect") {
+        } else if (correct.equals("Incorrect")) {
             formPage.enterWrongFormInformation();
         } else {
             throw new IllegalArgumentException("Expected 'Correct' or 'Incorrect', but received: " + correct);
@@ -141,9 +141,9 @@ public class StepDefinitions {
         waitAMomentForWebDriver();
 
         ObjectPage objectPage = (ObjectPage) pageObject;
-        if (correctly == "Correctly")
+        if (correctly.equals("Correct"))
             objectPage.modifyObjectRight();
-        else if (correctly == "Incorrectly")
+        else if (correctly.equals("Incorrect"))
             objectPage.modifyObjectWrong();
         else
             throw new IllegalArgumentException("Expected 'Correctly' or 'Incorrectly', but received: " + correctly);
@@ -232,9 +232,9 @@ public class StepDefinitions {
         waitAMomentForWebDriver();
 
         ObjectPage objectPage = (ObjectPage) pageObject;
-        if (canSee == "Can") {
+        if (canSee.equals("Can")) {
             assertTrue(objectPage.verifyObjectExistence());
-        } else if (canSee == "Can Not") {
+        } else if (canSee.equals("Can Not")) {
             assertFalse(objectPage.verifyObjectExistence());
         } else {
             throw new IllegalArgumentException("Expected 'Can' or 'Can Not', but received: " + canSee);
@@ -254,9 +254,9 @@ public class StepDefinitions {
         waitAMomentForWebDriver();
 
         ObjectPage objectPage = (ObjectPage) pageObject;
-        if (been == "Been" ) {
+        if (been.equals("Been") ) {
             assertTrue(objectPage.verifyObjectUpdated());
-        } else if (been == "Not Been") {
+        } else if (been.equals("Not Been")) {
             assertFalse(objectPage.verifyObjectUpdated());
         } else {
             throw new IllegalArgumentException("Expected 'Been' or 'Not Been', but received: " + been);
@@ -281,9 +281,9 @@ public class StepDefinitions {
     @Then("I {string} Logged In")
     public void iLoggedIn(String am) {
         
-        if (am == "Am") {          
+        if (am.equals("Am")) {          
             assertTrue(pageObject.checkLoggedIn());
-        } else if (am == "Am Not") {
+        } else if (am.equals("Am Not")) {
             assertTrue(pageObject.checkLoggedOut());
         } else {
             throw new InvalidArgumentException("Expected 'In' or 'Out', instead received: " + am);
