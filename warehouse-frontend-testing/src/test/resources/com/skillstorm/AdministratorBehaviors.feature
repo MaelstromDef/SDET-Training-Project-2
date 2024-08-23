@@ -24,7 +24,7 @@ Feature: Administrator Behaviors
 
     Scenario: A4 - Invalid login attempt.
         Given I Am On "Login"
-        And I Entered "Incorrect" Information
+        And I Enter "Incorrect" Information
         When I Submit The Form
         Then I "Am Not" Logged In
 
@@ -56,5 +56,5 @@ Feature: Administrator Behaviors
 
     Scenario: A6 - Valid account deletion.
         Given I Am On "Account"
-        When I Click "btnDeleteAccount" button
+        When I Click "btnDeleteAccount" Button
         Then "Account" No Longer Exists

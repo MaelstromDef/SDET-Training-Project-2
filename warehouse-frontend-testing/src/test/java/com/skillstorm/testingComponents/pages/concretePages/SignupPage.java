@@ -12,7 +12,7 @@ import com.skillstorm.testingComponents.pages.abstractPages.FormPage;
 import com.skillstorm.testingComponents.tools.Config;
 
 public class SignupPage extends FormPage {
-    private String urlExtension = "/signup";
+    private String urlExtension = "signup";
 
     // --- INTERACTABLES ---
 
@@ -41,6 +41,7 @@ public class SignupPage extends FormPage {
     
     public SignupPage(WebDriver driver, String baseUrl) {
         super(driver, baseUrl);
+        this.url = baseUrl + getUrlExtension();
     }
 
     // METHODS

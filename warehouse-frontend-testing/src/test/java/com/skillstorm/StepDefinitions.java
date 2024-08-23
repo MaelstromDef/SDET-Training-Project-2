@@ -20,9 +20,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import com.skillstorm.testingComponents.pages.abstractPages.FormPage;
-import com.skillstorm.testingComponents.pages.abstractPages.ObjectPage;
-import com.skillstorm.testingComponents.pages.abstractPages.Page;
+import com.skillstorm.testingComponents.pages.IFormPage;
+import com.skillstorm.testingComponents.pages.IObjectPage;
+import com.skillstorm.testingComponents.pages.IPage;
 import com.skillstorm.testingComponents.pages.concretePages.AccountPage;
 import com.skillstorm.testingComponents.pages.concretePages.HomePage;
 import com.skillstorm.testingComponents.pages.concretePages.ItemsPage;
@@ -34,7 +34,7 @@ import com.skillstorm.testingComponents.pages.concretePages.WarehousesPage;
 public class StepDefinitions {
     
     private static WebDriver driver;
-    private Page pageObject;
+    private IPage pageObject;
     public static String initialURL = "http://ahuggins-warehousemanager-frontend.s3-website.us-east-2.amazonaws.com/";
 
     @BeforeAll
@@ -91,7 +91,7 @@ public class StepDefinitions {
         try{
             pageObject.navigateToPage();
         } catch (Exception e ) {
-            throw new RuntimeException("Navigation to Page " + page + "failed");
+            throw new RuntimeException(e.getMessage());
         } 
         assertEquals(driver.getCurrentUrl(), pageObject.getUrl()); 
     }
@@ -103,7 +103,7 @@ public class StepDefinitions {
             try{
                 pageObject.logIn();
             } catch (Exception e ) {
-                throw new RuntimeException("log in failed");
+                throw new RuntimeException(e.getMessage());
             } 
             
             assertTrue(pageObject.checkLoggedIn());
@@ -118,14 +118,14 @@ public class StepDefinitions {
     @Given("I Am Performing {string}") //action
     public void iAmPerforming(String action) {
         waitAMomentForWebDriver();
-        ((ObjectPage)pageObject).performAction(action);
+        ((IObjectPage)pageObject).performAction(action);
     }
 
     @Given("I Enter {string} Information") //correct or incorrect
     public void iEnterCorrectInformation(String correct) {
         waitAMomentForWebDriver();
         
-        FormPage formPage = (FormPage) pageObject;
+        IFormPage formPage = (IFormPage) pageObject;
         if (correct.equals("Correct")) {
             formPage.enterRightFormInformation();
         } else if (correct.equals("Incorrect")) {
@@ -140,7 +140,7 @@ public class StepDefinitions {
         assertTrue(type.equals("Warehouse") || type.equals("Item") || type.equals("Account"));
         waitAMomentForWebDriver();
 
-        ObjectPage objectPage = (ObjectPage) pageObject;
+        IObjectPage objectPage = (IObjectPage) pageObject;
         if (correctly.equals("Correct"))
             objectPage.modifyObjectRight();
         else if (correctly.equals("Incorrect"))
@@ -162,7 +162,7 @@ public class StepDefinitions {
     @When("I Attempt To Navigate To {string}") //page name
     public void iAttemptToNavigateTo (String page) {
         waitAMomentForWebDriver();
-        driver.get(initialURL + "/" + page.toLowerCase());
+        driver.get(initialURL + page.toLowerCase());
     }
 
     @When("I Click {string} Button")
@@ -171,11 +171,11 @@ public class StepDefinitions {
         pageObject.clickButton(btnName);
     }
 
-    @When("I Submit the Form")
+    @When("I Submit The Form")
     public void iSubmitTheForm() {
         waitAMomentForWebDriver();
 
-        FormPage formPage = (FormPage) pageObject;
+        IFormPage formPage = (IFormPage) pageObject;
         formPage.submitForm();
     }
 
@@ -189,13 +189,14 @@ public class StepDefinitions {
     @Then("And I Will Be Performing {string}" ) // action
     public void iWillBePerforming(String action) {
         waitAMomentForWebDriver();
-        assertTrue(((ObjectPage)pageObject).isUserPerformingAction(action));
+        assertTrue(((IObjectPage)pageObject).isUserPerformingAction(action));
     }
 
     @Then("I Am Taken To {string}") //page name
     public void iAmTakenTo(String page) {
         waitAMomentForWebDriver();
-        assertEquals(driver.getCurrentUrl(), initialURL + "/" + page.toLowerCase());;
+        if(page.toLowerCase().equals("landing")) assertEquals(initialURL, driver.getCurrentUrl());
+        else assertEquals(initialURL + page.toLowerCase(), driver.getCurrentUrl());
     } 
 
     @Then("A New {string} Is Created")
@@ -208,7 +209,7 @@ public class StepDefinitions {
         assertTrue(type.equals("Warehouse") || type.equals("Item") || type.equals("Account"));
         waitAMomentForWebDriver();
 
-        FormPage formPage = (FormPage) pageObject;
+        IFormPage formPage = (IFormPage) pageObject;
         assertTrue(formPage.verifySubmissionSuccess());
     }
 
@@ -216,7 +217,7 @@ public class StepDefinitions {
     public void iSeeAnErrorMessage() {
         waitAMomentForWebDriver();
 
-        FormPage formPage = (FormPage) pageObject;
+        IFormPage formPage = (IFormPage) pageObject;
         assertTrue(formPage.verifySubmissionFailure());
     }
 
@@ -231,7 +232,7 @@ public class StepDefinitions {
         assertTrue(type.equals("Warehouse") || type.equals("Item") || type.equals("Account"));
         waitAMomentForWebDriver();
 
-        ObjectPage objectPage = (ObjectPage) pageObject;
+        IObjectPage objectPage = (IObjectPage) pageObject;
         if (canSee.equals("Can")) {
             assertTrue(objectPage.verifyObjectExistence());
         } else if (canSee.equals("Can Not")) {
@@ -253,7 +254,7 @@ public class StepDefinitions {
         assertTrue(type.equals("Warehouse") || type.equals("Item") || type.equals("Account"));
         waitAMomentForWebDriver();
 
-        ObjectPage objectPage = (ObjectPage) pageObject;
+        IObjectPage objectPage = (IObjectPage) pageObject;
         if (been.equals("Been") ) {
             assertTrue(objectPage.verifyObjectUpdated());
         } else if (been.equals("Not Been")) {
@@ -274,7 +275,7 @@ public class StepDefinitions {
         assertTrue(type.equals("Warehouse") || type.equals("Item") || type.equals("Account"));
         waitAMomentForWebDriver();
 
-        ObjectPage objectPage = (ObjectPage) pageObject;
+        IObjectPage objectPage = (IObjectPage) pageObject;
         assertFalse(objectPage.verifyObjectExistence());
     }
 

@@ -10,7 +10,7 @@ import com.skillstorm.testingComponents.pages.abstractPages.ObjectPage;
 import com.skillstorm.testingComponents.tools.Config;
 
 public class WarehousesPage extends ObjectPage {
-    private String urlExtension = "/warehouses";
+    private String urlExtension = "warehouses";
 
     // --- INTERACTABLES ---
 
@@ -67,6 +67,7 @@ public class WarehousesPage extends ObjectPage {
 
     public WarehousesPage(WebDriver driver, String baseUrl) {
         super(driver, baseUrl);
+        this.url = baseUrl + getUrlExtension();
     }
 
     @Override

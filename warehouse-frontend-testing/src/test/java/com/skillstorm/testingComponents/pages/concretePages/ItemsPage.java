@@ -7,17 +7,19 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import com.skillstorm.StepDefinitions;
 import com.skillstorm.testingComponents.Navbar;
 import com.skillstorm.testingComponents.pages.IFormPage;
 import com.skillstorm.testingComponents.pages.IObjectPage;
 import com.skillstorm.testingComponents.pages.IPage;
 import com.skillstorm.testingComponents.pages.abstractPages.ObjectPage;
 import com.skillstorm.testingComponents.pages.abstractPages.Page;
+import com.skillstorm.testingComponents.tools.Config;
 
 public class ItemsPage extends ObjectPage {
     // --- FIELDS --- 
 
-    private String urlExtension = "/items";
+    private String urlExtension = "items";
 
     // Item form
 
@@ -56,93 +58,189 @@ public class ItemsPage extends ObjectPage {
     @FindBy(xpath = BTN_DELETE_XPATH)
     private WebElement btnDelete;
 
+    // Object Viewpoints
+
+    private static final String TABLE_HEAD_XPATH = "//*[@id=\"root\"]/table/thead";
+    @FindBy(xpath = TABLE_HEAD_XPATH)
+    private WebElement elTableHead;
+
+    private static final String OBJECT_ROW_XPATH = "//*[@id=\"root\"]/table/tbody/tr";
+    @FindBy(xpath = OBJECT_ROW_XPATH)
+    private WebElement elObjectRow;
+
+    private static final String OBJECT_NAME_XPATH = "//*[@id=\"root\"]/table/tbody/tr/td[1]";
+    @FindBy(xpath = OBJECT_NAME_XPATH)
+    private WebElement txtObjectName;
+
+    private static final String OBJECT_QUANTITY_XPATH = "//*[@id=\"root\"]/table/tbody/tr/td[2]/div";
+    @FindBy(xpath = OBJECT_QUANTITY_XPATH)
+    private WebElement txtObjectQuantity;
+
+    // Feedback
+
+    private static final String TXT_FEEDBACK_XPATH = "//*[@id=\"root\"]/div[2]/form/label[3]";
+    @FindBy(xpath = TXT_FEEDBACK_XPATH)
+    private WebElement txtFeedback;
+
+    private static final String MSG_ITEM_EXISTS = "That item already exists, please modify the quantity below.";
+    private static final String MSG_ERROR = "Something went wrong, please try again.";
+    private static final String MSG_EMPTY_FIELDS = "Name cannot be empty.";
+    private static final String MSG_INVALID_QUANTITY = "Quantity must be greater than 0.";
+
     // --- CONSTRUCTORS ---
 
     public ItemsPage(WebDriver driver, String baseUrl) {
         super(driver, baseUrl);
+        this.url = baseUrl + getUrlExtension();
     }
 
     // --- METHODS --- 
 
-    private void openItemModifier(){
-        btnManage.click();
-    }
-
     @Override
     public void modifyObjectRight() {
-        
+        clickBtnManage();
+
+        inUpdateQuantity.sendKeys(Config.VALID_ITEM_QUANTITY);
     }
 
     @Override
     public void modifyObjectWrong() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'modifyObjectWrong'");
+        clickBtnManage();
+
+        inUpdateQuantity.sendKeys(Config.INVALID_ITEM_QUANTITY);
     }
 
     @Override
     public boolean verifyListExistence() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'verifyListExistence'");
+        return elTableHead.isDisplayed();
     }
 
     @Override
     public boolean verifyObjectExistence() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'verifyObjectExistence'");
+        return elObjectRow.isDisplayed() && txtObjectName.getText().equals(Config.VALID_ITEM_NAME);
     }
 
     @Override
     public boolean verifyObjectUpdated() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'verifyObjectUpdated'");
+        return txtObjectQuantity.getText().equals(Config.VALID_ITEM_QUANTITY);
     }
 
     @Override
     public void performAction(String action) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'performAction'");
+        switch (action) {
+            case "New Item":
+                clickBtnOpenForm();
+                break;
+            case "Item Update":
+                clickBtnManage();
+                break;
+            default:
+                throw new IllegalArgumentException("Action '" + action + "' does not exist.");
+        }
     }
 
     @Override
     public boolean isUserPerformingAction(String action) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isUserPerformingAction'");
+        switch(action){
+            case "New Item":
+                return inName.isDisplayed();
+            case "Item Update":
+                return inUpdateQuantity.isDisplayed();
+            default:
+                throw new IllegalArgumentException("Action '" + action + "' does not exist.");
+        }
     }
 
     @Override
     public void enterWrongFormInformation() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'enterWrongFormInformation'");
+        clickBtnOpenForm();
+        clearFormInformation();
+
+        inName.sendKeys(Config.INVALID_ITEM_NAME);
+        inQuantity.sendKeys(Config.INVALID_ITEM_QUANTITY);
     }
 
     @Override
     public void enterRightFormInformation() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'enterRightFormInformation'");
+        clickBtnOpenForm();
+        clearFormInformation();
+
+        inName.sendKeys(Config.VALID_ITEM_NAME);
+        inQuantity.sendKeys(Config.VALID_ITEM_QUANTITY);
     }
 
     @Override
     public boolean verifySubmissionFailure() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'verifySubmissionFailure'");
+        String feedback = txtFeedback.getText();
+
+        return feedback.equals(MSG_EMPTY_FIELDS) ||
+            feedback.equals(MSG_ERROR) ||
+            feedback.equals(MSG_INVALID_QUANTITY) ||
+            feedback.equals(MSG_ITEM_EXISTS);
     }
 
     @Override
     public boolean verifySubmissionSuccess() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'verifySubmissionSuccess'");
+        return verifyObjectExistence();
     }
 
     @Override
     public void navigateToPage() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'navigateToPage'");
+        logIn();
+
+        WarehousesPage warehousesPage = new WarehousesPage(driver, StepDefinitions.initialURL);
+        warehousesPage.navigateToPage();
+        warehousesPage.clickBtnManage();
     }
 
     @Override
     public void clickButton(String btnName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'clickButton'");
+        switch (btnName) {
+            case "btnOpenForm":
+                clickBtnOpenForm();
+                break;
+            case "btnCloseForm":
+                clickBtnCloseForm();
+                break;
+            case "btnManage":
+                clickBtnManage();
+                break;
+            case "btnUpdateItem":
+                clickBtnUpdateItem();
+                break;
+            case "btnCancelUpdateItem":
+                clickBtnCancelUpdateItem();
+                break;
+            case "btnDelete":
+                clickBtnDelete();
+                break;
+            default:
+                throw new IllegalArgumentException("Button '" + btnName + "' does not exist.");
+        }
+    }
+
+    public void clickBtnOpenForm(){
+        btnOpenForm.click();
+    }
+
+    public void clickBtnCloseForm(){
+        btnCloseForm.click();
+    }
+
+    public void clickBtnManage(){
+        btnManage.click();
+    }
+
+    public void clickBtnUpdateItem(){
+        btnUpdateItem.click();
+    }
+
+    public void clickBtnCancelUpdateItem(){
+        btnCancelUpdateItem.click();
+    }
+
+    public void clickBtnDelete(){
+        btnDelete.click();
     }
 
     @Override

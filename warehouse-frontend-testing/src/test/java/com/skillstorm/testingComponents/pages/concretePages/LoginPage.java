@@ -19,7 +19,7 @@ import com.skillstorm.testingComponents.tools.PageTools;
 public class LoginPage extends FormPage {
     // --- FIELDS --- 
 
-    private String urlExtension = "/login";
+    private String urlExtension = "login";
 
     // INTERACTABLES
 
@@ -44,6 +44,7 @@ public class LoginPage extends FormPage {
 
     public LoginPage(WebDriver driver, String baseUrl) {
         super(driver, baseUrl);
+        this.url = baseUrl + getUrlExtension();
     }
 
     // --- METHODS ---

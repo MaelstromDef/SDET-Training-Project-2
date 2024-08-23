@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import com.skillstorm.testingComponents.pages.abstractPages.Page;
 
 public class LandingPage extends Page {
-    private String urlExtension = "/landing";
+    private String urlExtension = "landing";
 
     // --- INTERACTABLES ---
 
@@ -20,6 +20,7 @@ public class LandingPage extends Page {
 
     public LandingPage(WebDriver driver, String baseUrl) {
         super(driver, baseUrl);
+        this.url = baseUrl + getUrlExtension();
     }
 
     // --- METHODS ---

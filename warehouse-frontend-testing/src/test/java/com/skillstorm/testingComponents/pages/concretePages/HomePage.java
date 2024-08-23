@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import com.skillstorm.testingComponents.pages.abstractPages.Page;
 
 public class HomePage extends Page {
-    private String urlExtension = "/homepage";
+    private String urlExtension = "homepage";
 
     // --- INTERACTABLES ---
 
@@ -21,6 +21,7 @@ public class HomePage extends Page {
 
     public HomePage(WebDriver driver, String baseUrl) {
         super(driver, baseUrl);
+        this.url = baseUrl + getUrlExtension();
     }
 
     // --- METHODS ---

@@ -17,4 +17,10 @@ public class Config {
     public static final String INVALID_WAREHOUSE_NAME = "";
     public static final String INVALID_WAREHOUSE_LOCATION = "";
     public static final String INVALID_WAREHOUSE_SIZE = "";
+
+    public static final String VALID_ITEM_NAME = "My Item";
+    public static final String VALID_ITEM_QUANTITY = "10";
+
+    public static final String INVALID_ITEM_NAME = "";
+    public static final String INVALID_ITEM_QUANTITY = "";
 }

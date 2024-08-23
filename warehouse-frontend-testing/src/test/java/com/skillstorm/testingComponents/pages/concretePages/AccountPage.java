@@ -19,7 +19,7 @@ import com.skillstorm.testingComponents.tools.PageTools;
 public class AccountPage extends ObjectPage {
     // --- FIELDS --- 
 
-    private String urlExtension = "/account";
+    private String urlExtension = "account";
 
     // INTERACTABLES
 
@@ -60,6 +60,7 @@ public class AccountPage extends ObjectPage {
 
     public AccountPage(WebDriver driver, String baseUrl) {
         super(driver, baseUrl);
+        this.url = baseUrl + getUrlExtension();
     }
 
     // --- METHODS ---

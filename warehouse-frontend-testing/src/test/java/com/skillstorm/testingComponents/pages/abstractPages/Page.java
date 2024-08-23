@@ -20,7 +20,6 @@ public abstract class Page implements IPage {
 
     public Page(WebDriver driver, String baseUrl){
         this.driver = driver;
-        this.url = baseUrl + getUrlExtension();
 
         navbar = new Navbar(driver);
     }
