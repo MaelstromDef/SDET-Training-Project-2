@@ -33,12 +33,12 @@ import com.skillstorm.testingComponents.pages.concretePages.WarehousesPage;
 
 public class StepDefinitions {
     
-    private WebDriver driver;
+    private static WebDriver driver;
     private Page pageObject;
     public static String initialURL = "http://ahuggins-warehousemanager-frontend.s3-website.us-east-2.amazonaws.com/";
 
     @BeforeAll
-    public void setup() {
+    public static void setup() {
         ChromeOptions options = new ChromeOptions();
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
@@ -47,7 +47,7 @@ public class StepDefinitions {
     }
 
     @AfterAll
-    public void tearDown() {
+    public static void tearDown() {
         System.out.println("Closing All Web Browsers");
         driver.quit();
     }
