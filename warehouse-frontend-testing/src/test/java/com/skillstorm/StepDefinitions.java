@@ -20,9 +20,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import com.skillstorm.testingComponents.pages.FormPage;
-import com.skillstorm.testingComponents.pages.ObjectPage;
-import com.skillstorm.testingComponents.pages.Page;
+import com.skillstorm.testingComponents.pages.abstractPages.FormPage;
+import com.skillstorm.testingComponents.pages.abstractPages.ObjectPage;
+import com.skillstorm.testingComponents.pages.abstractPages.Page;
 import com.skillstorm.testingComponents.pages.concretePages.AccountPage;
 import com.skillstorm.testingComponents.pages.concretePages.HomePage;
 import com.skillstorm.testingComponents.pages.concretePages.ItemsPage;
@@ -93,7 +93,7 @@ public class StepDefinitions {
         } catch (Exception e ) {
             throw new RuntimeException("Navigation to Page " + page + "failed");
         } 
-        assertEquals(driver.getCurrentUrl(), pageObject.getURL()); 
+        assertEquals(driver.getCurrentUrl(), pageObject.getUrl()); 
     }
 
     @Given("I Am Logged {string}") //In or Out
