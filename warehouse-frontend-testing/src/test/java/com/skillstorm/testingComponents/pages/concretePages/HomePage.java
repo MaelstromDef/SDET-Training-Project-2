@@ -4,10 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import com.skillstorm.testingComponents.Navbar;
-import com.skillstorm.testingComponents.pages.IPage;
 import com.skillstorm.testingComponents.pages.abstractPages.Page;
-import com.skillstorm.testingComponents.tools.PageTools;
 
 public class HomePage extends Page {
     private String urlExtension = "/homepage";
