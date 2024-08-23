@@ -1,7 +1,7 @@
 Feature: Usability
 
     Scenario: U2 - Simple Navigation with Buttons
-        Given I Am On "<page1>",
+        Given I Am On "<page1>"
         When I Click "<button>" Button
         Then I Am Taken To "<page2>"
     
