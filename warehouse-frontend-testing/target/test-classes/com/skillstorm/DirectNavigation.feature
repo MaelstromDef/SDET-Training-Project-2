@@ -1,8 +1,8 @@
 Feature: Direct Navigation States
 
   Scenario Outline: N1 - Directly Going From One Page to Another
-    Given I Am On "<Page1>"
-    And I Am Logged "<InOut>"
+    Given I Am Logged "<InOut>"
+    And I Am On "<Page1>"
     When I Attempt To Navigate To "<Page2>"
     Then I Am Taken To "<Page3>"
   
