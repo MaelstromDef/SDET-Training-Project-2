@@ -1,22 +1,20 @@
 package com.skillstorm.testingComponents.pages.concretePages;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.skillstorm.StepDefinitions;
-import com.skillstorm.testingComponents.Navbar;
-import com.skillstorm.testingComponents.pages.FormPage;
+import com.skillstorm.testingComponents.pages.abstractPages.FormPage;
 import com.skillstorm.testingComponents.tools.Config;
 
-public class SignupPage implements FormPage {
-    private WebDriver driver;
-    private String url;
+public class SignupPage extends FormPage {
     private String urlExtension = "/signup";
 
     // --- INTERACTABLES ---
-
-    private Navbar navbar;
 
     @FindBy(xpath = "//*[@id=\"root\"]/form/input[1]")
     private WebElement inCompanyName;
@@ -41,11 +39,8 @@ public class SignupPage implements FormPage {
 
     // --- CONSTRUCTORS ---
     
-    public SignupPage(WebDriver driver, String initialPage) {
-        this.driver = driver;
-        this.url = initialPage + "/" + urlExtension;
-
-        navbar = new Navbar(driver);
+    public SignupPage(WebDriver driver, String baseUrl) {
+        super(driver, baseUrl);
     }
 
     // METHODS
@@ -75,16 +70,6 @@ public class SignupPage implements FormPage {
     }
 
     /**
-     * Clears all signup form fields.
-     */
-    @Override
-    public void clearFormInformation(){
-        inCompanyName.clear();
-        inPassword.clear();
-        inConfirmPassword.clear();
-    }
-
-    /**
      * Enters invalid information to the form.
      */
     @Override
@@ -109,77 +94,6 @@ public class SignupPage implements FormPage {
     }
 
     /**
-     * Submits the signup form.
-     */
-    @Override
-    public boolean submitForm() {
-        clickBtnSignup();
-        return true;
-    }
-
-    /**
-     * Navigates the browser to the Signup page.
-     * @throws Exception If some failure to navigate to the Signup page occurs.
-     */
-    @Override
-    public void navigateToPage() throws Exception {
-        logOut();                   // Ensure logged out.
-        navbar.clickBtnSignup();     // Navigate to page.
-
-        if(!driver.getCurrentUrl().equals(url)) throw new Exception("Failed to navigate to Signup page.");
-    }
-
-    /**
-     * Retrieves the page's URL.
-     * 
-     * @return The page's URL.
-     */
-    @Override
-    public String getURL() {
-        return url;
-    }
-
-    /**
-     * Goes through the process of logging in.
-     * 
-     * @throws UnsupportedOperationException The Signup page is a logged-out only page. Use the LoginPage class instead.
-     */
-    @Override
-    public void logIn() {
-        // Purposeful exception.
-        throw new UnsupportedOperationException("Signup page is a logged-out only page.");
-    }
-
-    @Override
-    public void logOut() {
-        try{
-            navbar.clickBtnLogOut();
-        }catch(Exception e){}
-    }
-
-    /**
-     * Checks to see if the page is currently logged in.
-     * 
-     * @return logged in status.
-     */
-    @Override
-    public boolean checkLoggedIn() {
-        navbar.loadLoggedInButtons();
-        return true;
-    }
-
-    /**
-     * Checks to see if the page is currently logged out.
-     * 
-     * @return logged out status.
-     */
-    @Override
-    public boolean checkLoggedOut() {
-        navbar.loadLoggedOutButtons();
-        return true;
-    }
-
-    /**
      * Checks if the signup failure message appears.
      */
     @Override
@@ -197,6 +111,27 @@ public class SignupPage implements FormPage {
         return txtFeedback.getText()
             .equals("Success! \"" + Config.VALID_COMPANY_NAME + "\" was successfully registered. Please log in. (You will be redirected in 3 seconds.)")
             
-            || driver.getCurrentUrl().equals(new LoginPage(driver, StepDefinitions.initialURL).getURL());
+            || driver.getCurrentUrl().equals(new LoginPage(driver, StepDefinitions.initialURL).getUrl());
+    }
+
+    @Override
+    public void navigateToPage() {
+        logOut();
+        driver.get(url);
+    }
+
+    @Override
+    protected List<WebElement> getFormFields() {
+        return Arrays.asList(inCompanyName, inPassword, inConfirmPassword);
+    }
+
+    @Override
+    protected WebElement getSubmitButton() {
+        return btnSignup;
+    }
+
+    @Override
+    protected String getUrlExtension() {
+        return urlExtension;
     }
 }

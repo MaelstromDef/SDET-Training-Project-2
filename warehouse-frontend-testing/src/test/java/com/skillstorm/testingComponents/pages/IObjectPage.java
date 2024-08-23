@@ -7,7 +7,7 @@
 
 package com.skillstorm.testingComponents.pages;
 
-public interface ObjectPage extends Page {
+public interface IObjectPage extends IFormPage {
     // Each page should only have one item
     public void modifyObjectRight();
     public void modifyObjectWrong();

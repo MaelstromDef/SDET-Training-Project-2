@@ -3,15 +3,15 @@ package com.skillstorm.testingComponents.pages;
 import java.util.NoSuchElementException;
 import java.util.function.BooleanSupplier;
 
-public interface Page {
-    void navigateToPage() throws Exception;
+public interface IPage {
+    void navigateToPage();
 
-    String getURL();
+    String getUrl();
     
-    void logIn() throws Exception;
+    void logIn();
     void logOut();
 
-    boolean checkLoggedIn() throws NoSuchElementException;
+    boolean checkLoggedIn();
     boolean checkLoggedOut();
 
     void clickButton(String btnName);

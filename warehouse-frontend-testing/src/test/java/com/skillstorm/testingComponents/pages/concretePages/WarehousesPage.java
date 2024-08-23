@@ -1,22 +1,17 @@
 package com.skillstorm.testingComponents.pages.concretePages;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import com.skillstorm.testingComponents.pages.abstractPages.ObjectPage;
 
-import com.skillstorm.testingComponents.Navbar;
-import com.skillstorm.testingComponents.pages.FormPage;
-import com.skillstorm.testingComponents.pages.ObjectPage;
-import com.skillstorm.testingComponents.pages.Page;
-
-public class WarehousesPage implements FormPage, ObjectPage {
-    private WebDriver driver;
-    private String url;
+public class WarehousesPage extends ObjectPage {
     private String urlExtension = "/warehouses";
 
     // --- INTERACTABLES ---
-
-    private Navbar navbar;
 
     // Add warehouse form
     @FindBy(xpath = "//*[@id=\"root\"]/div[2]/button")
@@ -45,12 +40,9 @@ public class WarehousesPage implements FormPage, ObjectPage {
 
     // --- CONSTRUCTORS ---
 
-    public WarehousesPage(WebDriver driver, String initialPage) {
-        this.driver = driver;
-        this.url = initialPage + "/" + urlExtension;
+    public WarehousesPage(WebDriver driver, String baseUrl) {
+        super(driver, baseUrl);
     }
-
-    // --- METHODS ---
 
     @Override
     public void modifyObjectRight() {
@@ -62,94 +54,6 @@ public class WarehousesPage implements FormPage, ObjectPage {
     public void modifyObjectWrong() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'modifyObjectWrong'");
-    }
-
-    @Override
-    public void deleteObject() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteObject'");
-    }
-
-    @Override
-    public void enterWrongFormInformation() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'enterWrongFormInformation'");
-    }
-
-    @Override
-    public void enterRightFormInformation() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'enterRightFormInformation'");
-    }
-
-    @Override
-    public boolean submitForm() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'submitForm'");
-    }
-
-    @Override
-    public void navigateToPage() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'navigateToPage'");
-    }
-
-    @Override
-    public String getURL() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getURL'");
-    }
-
-    @Override
-    public void logIn() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'logIn'");
-    }
-
-    @Override
-    public void logOut() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'logOut'");
-    }
-
-    /**
-     * Checks to see if the page is currently logged in.
-     * 
-     * @return logged in status.
-     */
-    @Override
-    public boolean checkLoggedIn() {
-        navbar.loadLoggedInButtons();
-        return true;
-    }
-
-    /**
-     * Checks to see if the page is currently logged out.
-     * 
-     * @return logged out status.
-     */
-    @Override
-    public boolean checkLoggedOut() {
-        navbar.loadLoggedOutButtons();
-        return true;
-    }
-
-    @Override
-    public boolean isUserPerformingAction(String action) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isUserPerformingAction'");
-    }
-
-    @Override
-    public void clickButton(String btnName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'clickButton'");
-    }
-
-    @Override
-    public void performAction(String action) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'performAction'");
     }
 
     @Override
@@ -171,6 +75,30 @@ public class WarehousesPage implements FormPage, ObjectPage {
     }
 
     @Override
+    public void performAction(String action) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'performAction'");
+    }
+
+    @Override
+    public boolean isUserPerformingAction(String action) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isUserPerformingAction'");
+    }
+
+    @Override
+    public void enterWrongFormInformation() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'enterWrongFormInformation'");
+    }
+
+    @Override
+    public void enterRightFormInformation() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'enterRightFormInformation'");
+    }
+
+    @Override
     public boolean verifySubmissionFailure() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'verifySubmissionFailure'");
@@ -180,5 +108,37 @@ public class WarehousesPage implements FormPage, ObjectPage {
     public boolean verifySubmissionSuccess() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'verifySubmissionSuccess'");
+    }
+
+    @Override
+    public void navigateToPage() {
+        logIn();
+        driver.get(url);
+    }
+
+    @Override
+    public void clickButton(String btnName) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'clickButton'");
+    }
+
+    @Override
+    protected WebElement getDeleteButton() {
+        return btnDelete;
+    }
+
+    @Override
+    protected List<WebElement> getFormFields() {
+        return Arrays.asList(inLocation, inName, inSize);
+    }
+
+    @Override
+    protected WebElement getSubmitButton() {
+        return btnAddWarehouse;
+    }
+
+    @Override
+    protected String getUrlExtension() {
+        return urlExtension;
     }
 }
