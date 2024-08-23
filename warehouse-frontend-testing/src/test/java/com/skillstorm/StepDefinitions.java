@@ -1,6 +1,8 @@
 package com.skillstorm;
 
+import io.cucumber.java.AfterAll;
 import io.cucumber.java.Before;
+import io.cucumber.java.BeforeAll;
 import io.cucumber.java.en.*;
 import net.bytebuddy.asm.Advice.Enter;
 
@@ -35,13 +37,19 @@ public class StepDefinitions {
     private Page pageObject;
     public static String initialURL = "http://ahuggins-warehousemanager-frontend.s3-website.us-east-2.amazonaws.com/";
 
-    @Before
+    @BeforeAll
     public void setup() {
         ChromeOptions options = new ChromeOptions();
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get(initialURL);
         assertEquals(driver.getCurrentUrl(), initialURL);
+    }
+
+    @AfterAll
+    public void tearDown() {
+        System.out.println("Closing All Web Browsers");
+        driver.quit();
     }
 
     /**
