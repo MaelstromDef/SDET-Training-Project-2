@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -99,13 +101,19 @@ public class LoginPage extends FormPage {
     public void logIn() {
         // Attempt signup
         PageTools.signUp(driver);
-        logIn();    // Very dangerous....
+        
+        //TODO: code below was causing a loop
+        //logIn();    // Very dangerous....
 
         // Attempt log in
         navigateToPage();
         enterRightFormInformation();
         submitForm();
-
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e.getMessage());
+        }
         if(!verifySubmissionSuccess()) throw new RuntimeException("FATAL: Could not log in.");   // Check success
     }
     
@@ -130,6 +138,7 @@ public class LoginPage extends FormPage {
     public void navigateToPage() {
         logOut();
         driver.get(url);
+        loadElements();
     }
 
     @Override

@@ -64,6 +64,7 @@ public class HomePage extends Page {
     public void navigateToPage() {
         logOut();
         driver.get(url);
+        loadElements();
     }
 
     @Override

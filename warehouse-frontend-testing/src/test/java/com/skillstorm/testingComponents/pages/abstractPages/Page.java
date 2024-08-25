@@ -3,6 +3,7 @@ package com.skillstorm.testingComponents.pages.abstractPages;
 import java.util.NoSuchElementException;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
 
 import com.skillstorm.testingComponents.Navbar;
 import com.skillstorm.testingComponents.pages.IPage;
@@ -15,6 +16,7 @@ public abstract class Page implements IPage {
     protected String url;
 
     protected Navbar navbar;
+    protected String status;
 
     // --- CONSTRUCTORS ---
 
@@ -78,6 +80,17 @@ public abstract class Page implements IPage {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void loadElements() {
+        if (driver.getCurrentUrl().equals(url)) {
+            try {
+                PageFactory.initElements(driver, this);
+            } catch (NoSuchElementException e) {
+                status = "Has Empty Elements";
+            }
+        }
     }
 
     protected abstract String getUrlExtension();

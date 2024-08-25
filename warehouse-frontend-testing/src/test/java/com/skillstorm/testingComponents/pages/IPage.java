@@ -5,6 +5,7 @@ import java.util.function.BooleanSupplier;
 
 public interface IPage {
     void navigateToPage();
+    void loadElements();
 
     String getUrl();
     

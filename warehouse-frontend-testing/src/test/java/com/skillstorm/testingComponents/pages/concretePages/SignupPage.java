@@ -119,6 +119,7 @@ public class SignupPage extends FormPage {
     public void navigateToPage() {
         logOut();
         driver.get(url);
+        loadElements();
     }
 
     @Override

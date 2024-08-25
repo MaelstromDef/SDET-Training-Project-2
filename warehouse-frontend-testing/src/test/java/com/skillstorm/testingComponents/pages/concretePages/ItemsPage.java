@@ -117,6 +117,7 @@ public class ItemsPage extends ObjectPage {
 
     @Override
     public boolean verifyObjectExistence() {
+        if (elObjectRow == null || txtObjectName == null) {return false;}
         return elObjectRow.isDisplayed() && txtObjectName.getText().equals(Config.VALID_ITEM_NAME);
     }
 
@@ -191,6 +192,7 @@ public class ItemsPage extends ObjectPage {
         WarehousesPage warehousesPage = new WarehousesPage(driver, StepDefinitions.initialURL);
         warehousesPage.navigateToPage();
         warehousesPage.clickBtnManage();
+        loadElements();
     }
 
     @Override

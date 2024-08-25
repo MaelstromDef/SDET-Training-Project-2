@@ -169,6 +169,7 @@ public class AccountPage extends ObjectPage {
      */
     @Override
     public boolean verifyObjectExistence() {
+        if (inCompanyName == null) {return false;}
         return !(inCompanyName.getText().trim().equals(""));
     }
 
@@ -254,6 +255,7 @@ public class AccountPage extends ObjectPage {
     public void navigateToPage() {
         logIn();
         driver.get(url);
+        loadElements();
     }
 
     @Override

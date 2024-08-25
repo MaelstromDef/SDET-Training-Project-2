@@ -67,6 +67,7 @@ public class LandingPage extends Page {
     public void navigateToPage() {
         logOut();                   // Ensure page is logged out.
         navbar.clickBtnLanding();   // Navigate to landing.
+        loadElements();
     }
 
     @Override

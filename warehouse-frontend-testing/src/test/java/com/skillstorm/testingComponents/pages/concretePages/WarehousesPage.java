@@ -88,6 +88,7 @@ public class WarehousesPage extends ObjectPage {
 
     @Override
     public boolean verifyObjectExistence() {
+        if (elObjectRow == null) {return false;}
         return elObjectRow.isDisplayed();
     }
 
@@ -156,6 +157,7 @@ public class WarehousesPage extends ObjectPage {
     public void navigateToPage() {
         logIn();
         driver.get(url);
+        loadElements();
     }
 
     @Override
