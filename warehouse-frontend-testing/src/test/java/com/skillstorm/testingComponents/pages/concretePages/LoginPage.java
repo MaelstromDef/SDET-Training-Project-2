@@ -109,6 +109,9 @@ public class LoginPage extends FormPage {
         navigateToPage();
         enterRightFormInformation();
         submitForm();
+        
+        //TODO: The submission verification was giving failure because there wasn't enough time for the form to redirect
+        //to a new page before checking, so i put a pause in and that works for now but we need to find another fix.
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {

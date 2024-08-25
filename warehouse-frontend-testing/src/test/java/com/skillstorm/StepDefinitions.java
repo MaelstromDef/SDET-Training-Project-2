@@ -217,7 +217,7 @@ public class StepDefinitions {
         IObjectPage objectPage = (IObjectPage) pageObject;
         objectPage.loadElements();
         waitAMomentForWebDriver();
-        
+
         if (canSee.equals("Can")) {
             assertTrue(objectPage.verifyObjectExistence());
         } else if (canSee.equals("Can Not")) {
