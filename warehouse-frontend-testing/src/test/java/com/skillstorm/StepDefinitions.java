@@ -62,32 +62,9 @@ public class StepDefinitions {
     @Given("I Am On {string}") //page name
     public void iAmOn(String page) {
         waitAMomentForWebDriver();
-        switch (page) {
-        case "Home":
-            pageObject = new HomePage(driver, initialURL);
-            break;
-        case "Account":
-            pageObject = new AccountPage(driver, initialURL);
-            break;
-        case "Warehouses":
-            pageObject = new WarehousesPage(driver, initialURL); 
-            break;
-        case "Item":
-            pageObject = new ItemsPage(driver, initialURL); 
-            break;
-        case "Landing":
-            pageObject = new LandingPage(driver, initialURL); 
-            break;
-        case "Signup":
-            pageObject = new SignupPage(driver, initialURL); 
-            break;
-        case "Login":
-            pageObject = new LoginPage(driver, initialURL);
-            break;
-        default:
-            throw new IllegalArgumentException("Incorrect Page Name");
-        }
+        loadPage(page);
         assertTrue(pageObject != null);
+        
         try{
             pageObject.navigateToPage();
         } catch (Exception e ) {
@@ -99,6 +76,10 @@ public class StepDefinitions {
     @Given("I Am Logged {string}") //In or Out
     public void iAmLogged(String inOrOut) {
         waitAMomentForWebDriver();
+        if (pageObject == null) {
+            loadPage("Login");
+        }
+        
         if (inOrOut.equals("In")) {
             try{
                 pageObject.logIn();
@@ -161,6 +142,7 @@ public class StepDefinitions {
 
     @When("I Attempt To Navigate To {string}") //page name
     public void iAttemptToNavigateTo (String page) {
+        loadPage(page);
         waitAMomentForWebDriver();
         driver.get(initialURL + page.toLowerCase());
     }
@@ -233,6 +215,9 @@ public class StepDefinitions {
         waitAMomentForWebDriver();
 
         IObjectPage objectPage = (IObjectPage) pageObject;
+        objectPage.loadElements();
+        waitAMomentForWebDriver();
+        
         if (canSee.equals("Can")) {
             assertTrue(objectPage.verifyObjectExistence());
         } else if (canSee.equals("Can Not")) {
@@ -302,6 +287,34 @@ public class StepDefinitions {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    void loadPage(String page) {
+        switch (page) {
+            case "Home":
+                pageObject = new HomePage(driver, initialURL);
+                break;
+            case "Account":
+                pageObject = new AccountPage(driver, initialURL);
+                break;
+            case "Warehouses":
+                pageObject = new WarehousesPage(driver, initialURL); 
+                break;
+            case "Item":
+                pageObject = new ItemsPage(driver, initialURL); 
+                break;
+            case "Landing":
+                pageObject = new LandingPage(driver, initialURL); 
+                break;
+            case "Signup":
+                pageObject = new SignupPage(driver, initialURL); 
+                break;
+            case "Login":
+                pageObject = new LoginPage(driver, initialURL);
+                break;
+            default:
+                throw new IllegalArgumentException("Incorrect Page Name");
         }
     }
     
