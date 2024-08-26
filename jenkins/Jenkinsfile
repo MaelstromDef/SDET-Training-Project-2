@@ -6,9 +6,8 @@ pipeline {
         stage('Build Frontend'){
             steps{
                 sh "echo Building Front End"
-                sh "cd project1Frontend && npm install && npm run build"
-                sh "cat README.md" 
-                sh "ls dist/*"  
+                sh "cd project1Frontend && npm install && npm run build && ls dist/*"
+  
             }
         }
 
