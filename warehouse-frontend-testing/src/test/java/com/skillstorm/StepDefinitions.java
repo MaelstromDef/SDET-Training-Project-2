@@ -19,6 +19,7 @@ import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.annotations.AfterSuite;
 
 import com.skillstorm.testingComponents.pages.IFormPage;
 import com.skillstorm.testingComponents.pages.IObjectPage;
@@ -48,6 +49,13 @@ public class StepDefinitions {
 
     @AfterAll
     public static void tearDown() {
+        // Remove account
+        AccountPage page = new AccountPage(driver, initialURL);
+        page.navigateToPage();
+        page.deleteObject();
+
+        if(page.verifyObjectExistence()) throw new RuntimeException("Account was not deleted.");
+        
         System.out.println("Closing All Web Browsers");
         driver.quit();
     }
@@ -70,22 +78,16 @@ public class StepDefinitions {
         } catch (Exception e ) {
             throw new RuntimeException(e.getMessage());
         } 
-        assertEquals(driver.getCurrentUrl(), pageObject.getUrl()); 
+        assertEquals(pageObject.getUrl(), driver.getCurrentUrl()); 
     }
 
     @Given("I Am Logged {string}") //In or Out
     public void iAmLogged(String inOrOut) {
         waitAMomentForWebDriver();
-        if (pageObject == null) {
-            loadPage("Login");
-        }
+        loadPage("Login");
         
         if (inOrOut.equals("In")) {
-            try{
-                pageObject.logIn();
-            } catch (Exception e ) {
-                throw new RuntimeException(e.getMessage());
-            } 
+            pageObject.logIn();
             
             assertTrue(pageObject.checkLoggedIn());
         } else if (inOrOut.equals("Out")) {
@@ -275,8 +277,6 @@ public class StepDefinitions {
             throw new InvalidArgumentException("Expected 'In' or 'Out', instead received: " + am);
         }
     }
-
-
 
 
     ////////////////////////////////////////////////// 

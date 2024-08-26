@@ -68,6 +68,34 @@ public class Navbar {
 
     // CLICK BUTTONS
 
+    public void clickButton(String btnName){
+        switch (btnName) {
+            case "btnLanding":
+                clickBtnLanding();
+                break;
+            case "btnLogin":
+                clickBtnLogin();
+                break;
+            case "btnSignup":
+                clickBtnSignup();
+                break;
+            case "btnHome":
+                clickBtnHome();
+                break;
+            case "btnAccount":
+                clickBtnAccount();
+                break;
+            case "btnWarehouses":
+                clickBtnWarehouses();
+                break;
+            case "btnLogOut":
+                clickBtnLogOut();
+                break;
+            default:
+                throw new IllegalArgumentException("Button '" + btnName + "' does not exist.");
+        }
+    }
+
     /**
      * Clicks the landing button.
      * 

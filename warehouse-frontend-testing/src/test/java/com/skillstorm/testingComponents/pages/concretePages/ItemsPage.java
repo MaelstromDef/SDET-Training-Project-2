@@ -191,7 +191,15 @@ public class ItemsPage extends ObjectPage {
 
         WarehousesPage warehousesPage = new WarehousesPage(driver, StepDefinitions.initialURL);
         warehousesPage.navigateToPage();
+
+        if(!driver.getCurrentUrl().equals(warehousesPage.getUrl())){
+            try{
+                Thread.sleep(1000);
+            }catch(Exception e){}
+        }
+
         warehousesPage.clickBtnManage();
+
         loadElements();
     }
 
@@ -217,7 +225,8 @@ public class ItemsPage extends ObjectPage {
                 clickBtnDelete();
                 break;
             default:
-                throw new IllegalArgumentException("Button '" + btnName + "' does not exist.");
+                navbar.clickButton(btnName);
+                break;
         }
     }
 

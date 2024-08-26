@@ -119,7 +119,8 @@ public class AccountPage extends ObjectPage {
                 clickBtnCancelDelete();
                 break;
             default:
-                throw new InvalidArgumentException("Button '" + btnName + "' does not exist.");
+                navbar.clickButton(btnName);
+                break;
         }
     }
 
@@ -179,6 +180,13 @@ public class AccountPage extends ObjectPage {
     @Override
     public boolean verifyObjectUpdated() {
         return txtFeedback.getText().equals(MSG_ACCOUNT_UPDATED);
+    }
+
+    @Override
+    public void deleteObject(){
+        clickBtnDelete();
+        loadElements();
+        clickBtnConfirmDelete();
     }
 
     /**
@@ -254,7 +262,7 @@ public class AccountPage extends ObjectPage {
     @Override
     public void navigateToPage() {
         logIn();
-        driver.get(url);
+        navbar.clickBtnAccount();
         loadElements();
     }
 

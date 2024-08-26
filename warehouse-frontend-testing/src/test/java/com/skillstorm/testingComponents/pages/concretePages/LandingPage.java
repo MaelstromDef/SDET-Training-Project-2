@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import com.skillstorm.testingComponents.pages.abstractPages.Page;
 
 public class LandingPage extends Page {
-    private String urlExtension = "landing";
+    private String urlExtension = "";
 
     // --- INTERACTABLES ---
 
@@ -41,7 +41,8 @@ public class LandingPage extends Page {
                 clickBtnSignup();
                 break;
             default:
-                throw new IllegalArgumentException("Button '" + btnName + "' does not exist.");
+                navbar.clickButton(btnName);
+                break;
         }
     }
 

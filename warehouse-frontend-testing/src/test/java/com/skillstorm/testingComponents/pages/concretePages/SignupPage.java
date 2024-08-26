@@ -59,7 +59,8 @@ public class SignupPage extends FormPage {
                 clickBtnSignup();
                 break;
             default:
-                throw new IllegalArgumentException("Button '" + btnName + "' does not exist.");
+                navbar.clickButton(btnName);
+                break;
         }
     }
 
@@ -118,7 +119,7 @@ public class SignupPage extends FormPage {
     @Override
     public void navigateToPage() {
         logOut();
-        driver.get(url);
+        navbar.clickBtnSignup();
         loadElements();
     }
 

@@ -64,7 +64,8 @@ public class LoginPage extends FormPage {
                 clickBtnLogIn();
                 break;
             default:
-                throw new IllegalArgumentException("Button '" + btnName + "' does not exist.");
+                navbar.clickButton(btnName);
+                break;
         }
     }
 
@@ -140,7 +141,7 @@ public class LoginPage extends FormPage {
     @Override
     public void navigateToPage() {
         logOut();
-        driver.get(url);
+        navbar.clickBtnLogin();
         loadElements();
     }
 

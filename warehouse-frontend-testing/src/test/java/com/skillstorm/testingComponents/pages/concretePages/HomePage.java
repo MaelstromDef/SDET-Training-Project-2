@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import com.skillstorm.testingComponents.pages.abstractPages.Page;
 
 public class HomePage extends Page {
-    private String urlExtension = "homepage";
+    private String urlExtension = "home";
 
     // --- INTERACTABLES ---
 
@@ -42,7 +42,8 @@ public class HomePage extends Page {
                 clickBtnAccount();
                 break;
             default:
-                throw new IllegalArgumentException("Button '" + btnName + "' does not exist.");
+                navbar.clickButton(btnName);
+                break;
         }
     }
 
@@ -63,7 +64,7 @@ public class HomePage extends Page {
     @Override
     public void navigateToPage() {
         logOut();
-        driver.get(url);
+        navbar.clickBtnHome();
         loadElements();
     }
 

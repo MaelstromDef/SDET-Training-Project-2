@@ -156,7 +156,7 @@ public class WarehousesPage extends ObjectPage {
     @Override
     public void navigateToPage() {
         logIn();
-        driver.get(url);
+        navbar.clickBtnWarehouses();
         loadElements();
     }
 
@@ -179,7 +179,8 @@ public class WarehousesPage extends ObjectPage {
                 clickBtnDelete();
                 break;
             default:
-                throw new IllegalArgumentException("Button '" + btnName + "' does not exist.");
+                navbar.clickButton(btnName);
+                break;
         }
     }
 
