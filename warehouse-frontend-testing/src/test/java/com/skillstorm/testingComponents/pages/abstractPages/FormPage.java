@@ -17,6 +17,7 @@ public abstract class FormPage extends Page implements IFormPage {
      */
     @Override
     public void clearFormInformation(){
+        loadElements();
         List<WebElement> fields = getFormFields();
 
         for(int i = 0; i < fields.size(); i++){

@@ -125,6 +125,7 @@ public class SignupPage extends FormPage {
 
     @Override
     protected List<WebElement> getFormFields() {
+        loadElements();
         return Arrays.asList(inCompanyName, inPassword, inConfirmPassword);
     }
 

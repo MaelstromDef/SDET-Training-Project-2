@@ -261,6 +261,7 @@ public class ItemsPage extends ObjectPage {
 
     @Override
     protected List<WebElement> getFormFields() {
+        loadElements();
         return Arrays.asList(inName, inQuantity);
     }
 

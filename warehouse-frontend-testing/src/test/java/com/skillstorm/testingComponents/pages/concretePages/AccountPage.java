@@ -273,6 +273,7 @@ public class AccountPage extends ObjectPage {
 
     @Override
     protected List<WebElement> getFormFields() {
+        loadElements();
         return Arrays.asList(inCompanyName, inPassword);
     }
 

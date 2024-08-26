@@ -211,6 +211,7 @@ public class WarehousesPage extends ObjectPage {
 
     @Override
     protected List<WebElement> getFormFields() {
+        loadElements();
         return Arrays.asList(inLocation, inName, inSize);
     }
 
