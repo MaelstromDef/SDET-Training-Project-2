@@ -3,9 +3,11 @@ pipeline {
 
     stages{
 
-        stage('Testing 1'){
+        stage('Build Frontend'){
             steps{
-                sh "echo Testing 1"                
+                sh "echo Building Front End"
+                //sh "cd react && npm i @trussworks/react-uswds && npm install && npm run build"
+                sh "cat project1Frontend/README.md"   
             }
         }
 
@@ -14,7 +16,6 @@ pipeline {
                 sh "echo Testing 2"                
             }
         }
-        
         stage('Testing 3'){
             steps{
                 sh "echo Testing 3"                
@@ -23,13 +24,6 @@ pipeline {
     }
 }
 
-        // stage('Build Frontend'){
-        //     steps{
-        //         sh "echo Building Front End"
-        //         //sh "cd react && npm i @trussworks/react-uswds && npm install && npm run build"
-        //         sh "cat react/test.txt"   
-        //     }
-        // }
 
         
         // }
