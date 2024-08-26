@@ -8,6 +8,7 @@ import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 import com.skillstorm.testingComponents.Navbar;
 import com.skillstorm.testingComponents.pages.IFormPage;
@@ -71,6 +72,7 @@ public class AccountPage extends ObjectPage {
      * Clicks the update button.
      */
     public void clickBtnUpdate(){
+        loadElements();
         btnUpdate.click();
     }
 
@@ -78,6 +80,7 @@ public class AccountPage extends ObjectPage {
      * Clicks the delete button.
      */
     public void clickBtnDelete(){
+        loadElements();
         btnDelete.click();
     }
 
@@ -85,6 +88,7 @@ public class AccountPage extends ObjectPage {
      * Clicks the confirm delete button.
      */
     public void clickBtnConfirmDelete(){
+        loadElements();
         btnConfirmDelete.click();
     }
 
@@ -92,6 +96,7 @@ public class AccountPage extends ObjectPage {
      * Clicks the cancel delete button.
      */
     public void clickBtnCancelDelete(){
+        loadElements();
         btnCancelDelete.click();
     }
 
@@ -197,7 +202,7 @@ public class AccountPage extends ObjectPage {
     @Override
     public void performAction(String action) {
         switch (action) {
-            case "Deleting Account":
+            case "Account Delete":
                 btnDelete.click();
                 break;
         
@@ -285,5 +290,10 @@ public class AccountPage extends ObjectPage {
     @Override
     protected String getUrlExtension() {
         return urlExtension;
+    }
+
+    @Override
+    public void loadElements(){
+        
     }
 }

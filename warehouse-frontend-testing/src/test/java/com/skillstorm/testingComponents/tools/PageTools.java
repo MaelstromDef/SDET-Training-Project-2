@@ -1,6 +1,7 @@
 package com.skillstorm.testingComponents.tools;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -17,9 +18,9 @@ public class PageTools {
 
     public static void logOut(WebDriver driver) {
         try {
-            WebElement btnLogOut = driver.findElement(By.xpath("//*[@id=\"root\"]/div/a[1]"));
+            WebElement btnLogOut = driver.findElement(By.xpath("//*[@id=\"root\"]/div/a[4]"));
             btnLogOut.click();
-        } catch (Exception e) {}
+        } catch (NoSuchElementException e) {}
     }
 
     public static void signUp(WebDriver driver) {

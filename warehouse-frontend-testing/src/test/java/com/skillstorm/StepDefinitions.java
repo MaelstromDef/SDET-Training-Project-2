@@ -1,5 +1,6 @@
 package com.skillstorm;
 
+import io.cucumber.java.After;
 import io.cucumber.java.AfterAll;
 import io.cucumber.java.Before;
 import io.cucumber.java.BeforeAll;
@@ -47,14 +48,28 @@ public class StepDefinitions {
         assertEquals(driver.getCurrentUrl(), initialURL);
     }
 
+    @Before
+    public void loadStartPage(){
+        driver.get(initialURL);
+    }
+
+    @After
+    public void cleanUp(){
+        pageObject = null;
+    }
+
     @AfterAll
     public static void tearDown() {
         // Remove account
-        AccountPage page = new AccountPage(driver, initialURL);
-        page.navigateToPage();
-        page.deleteObject();
+        try {
+            AccountPage page = new AccountPage(driver, initialURL);
+            page.navigateToPage();
+            page.deleteObject();
 
-        if(page.verifyObjectExistence()) throw new RuntimeException("Account was not deleted.");
+            if(page.verifyObjectExistence()) throw new RuntimeException("Account was not deleted.");
+        } catch (Exception e) {
+            throw e;
+        }
         
         System.out.println("Closing All Web Browsers");
         driver.quit();
@@ -73,18 +88,18 @@ public class StepDefinitions {
         loadPage(page);
         assertTrue(pageObject != null);
         
-        try{
-            pageObject.navigateToPage();
-        } catch (Exception e ) {
-            throw new RuntimeException(e.getMessage());
-        } 
+        pageObject.navigateToPage();
+        waitAMomentForWebDriver();
         assertEquals(pageObject.getUrl(), driver.getCurrentUrl()); 
     }
 
     @Given("I Am Logged {string}") //In or Out
     public void iAmLogged(String inOrOut) {
         waitAMomentForWebDriver();
-        loadPage("Login");
+        
+        if(pageObject == null){
+            loadPage("Login");
+        }
         
         if (inOrOut.equals("In")) {
             pageObject.logIn();
@@ -124,9 +139,9 @@ public class StepDefinitions {
         waitAMomentForWebDriver();
 
         IObjectPage objectPage = (IObjectPage) pageObject;
-        if (correctly.equals("Correct"))
+        if (correctly.equals("Correctly"))
             objectPage.modifyObjectRight();
-        else if (correctly.equals("Incorrect"))
+        else if (correctly.equals("Incorrectly"))
             objectPage.modifyObjectWrong();
         else
             throw new IllegalArgumentException("Expected 'Correctly' or 'Incorrectly', but received: " + correctly);
@@ -142,11 +157,18 @@ public class StepDefinitions {
      * *********************************************************************
      */
 
+    @When("I Attempt To Directly Navigate To {string}") //page name
+    public void iAttemptToDirectlyNavigateTo (String page) {
+        loadPage(page);
+        waitAMomentForWebDriver();
+        driver.get(initialURL + page.toLowerCase());
+    }
+
     @When("I Attempt To Navigate To {string}") //page name
     public void iAttemptToNavigateTo (String page) {
         loadPage(page);
         waitAMomentForWebDriver();
-        driver.get(initialURL + page.toLowerCase());
+        pageObject.navigateToPage();
     }
 
     @When("I Click {string} Button")
@@ -180,6 +202,7 @@ public class StepDefinitions {
     public void iAmTakenTo(String page) {
         waitAMomentForWebDriver();
         if(page.toLowerCase().equals("landing")) assertEquals(initialURL, driver.getCurrentUrl());
+        else if(page.toLowerCase().equals("item")) assertEquals(initialURL + "items", driver.getCurrentUrl());
         else assertEquals(initialURL + page.toLowerCase(), driver.getCurrentUrl());
     } 
 
@@ -317,6 +340,4 @@ public class StepDefinitions {
                 throw new IllegalArgumentException("Incorrect Page Name");
         }
     }
-    
-
 }

@@ -63,7 +63,7 @@ public class HomePage extends Page {
 
     @Override
     public void navigateToPage() {
-        logOut();
+        logIn();
         navbar.clickBtnHome();
         loadElements();
     }

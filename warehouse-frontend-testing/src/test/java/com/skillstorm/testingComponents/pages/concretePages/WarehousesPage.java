@@ -172,7 +172,7 @@ public class WarehousesPage extends ObjectPage {
             case "btnCancel":
                 clickBtnCancel();
                 break;
-            case "btnManage":
+            case "btnManageWarehouse":
                 clickBtnManage();
                 break;
             case "btnDelete":

@@ -1,7 +1,6 @@
 package com.skillstorm.testingComponents.pages.abstractPages;
 
-import java.util.NoSuchElementException;
-
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
@@ -34,6 +33,18 @@ public abstract class Page implements IPage {
     @Override
     public String getUrl() {
         return url;
+    }
+
+    @Override
+    public void awaitValidUrl(){
+        if(!driver.getCurrentUrl().equals(getUrl())){
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
     }
 
     /**

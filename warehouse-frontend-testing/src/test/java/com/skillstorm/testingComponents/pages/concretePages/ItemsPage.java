@@ -3,6 +3,7 @@ package com.skillstorm.testingComponents.pages.concretePages;
 import java.util.Arrays;
 import java.util.List;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -26,14 +27,20 @@ public class ItemsPage extends ObjectPage {
     @FindBy(xpath = "//*[@id=\"root\"]/div[2]/button")
     private WebElement btnOpenForm;
 
-    @FindBy(xpath = "//*[@id=\"root\"]/div[2]/form/input[1]")
+    private static final String IN_NAME_XPATH = "//*[@id=\"root\"]/div[2]/form/input[1]";
+    @FindBy(xpath = IN_NAME_XPATH)
     private WebElement inName;
-    @FindBy(xpath = "//*[@id=\"root\"]/div[2]/form/input[2]")
+
+    private static final String IN_QUANTITY_XPATH = "//*[@id=\"root\"]/div[2]/form/input[2]";
+    @FindBy(xpath = IN_QUANTITY_XPATH)
     private WebElement inQuantity;
 
-    @FindBy(xpath = "//*[@id=\"root\"]/div[2]/form/input[3]")
+    private static final String BTN_ADD_ITEM_XPATH = "//*[@id=\"root\"]/div[2]/form/input[3]";
+    @FindBy(xpath = BTN_ADD_ITEM_XPATH)
     private WebElement btnAddItem;
-    @FindBy(xpath = "//*[@id=\"root\"]/div[2]/button")
+
+    private static final String BTN_CLOSE_FORM_XPATH = "//*[@id=\"root\"]/div[2]/button";
+    @FindBy(xpath = BTN_CLOSE_FORM_XPATH)
     private WebElement btnCloseForm;
 
     // Items
@@ -221,7 +228,7 @@ public class ItemsPage extends ObjectPage {
             case "btnCancelUpdateItem":
                 clickBtnCancelUpdateItem();
                 break;
-            case "btnDelete":
+            case "btnDeleteItem":
                 clickBtnDelete();
                 break;
             default:
@@ -273,5 +280,5 @@ public class ItemsPage extends ObjectPage {
     @Override
     protected String getUrlExtension() {
         return urlExtension;
-    }  
+    }
 }

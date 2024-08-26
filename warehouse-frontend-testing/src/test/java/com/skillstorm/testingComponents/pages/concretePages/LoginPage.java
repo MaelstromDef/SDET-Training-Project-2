@@ -1,19 +1,12 @@
 package com.skillstorm.testingComponents.pages.concretePages;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
 import java.util.Arrays;
 import java.util.List;
-
-import javax.management.RuntimeErrorException;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import com.skillstorm.testingComponents.Navbar;
-import com.skillstorm.testingComponents.pages.IFormPage;
 import com.skillstorm.testingComponents.pages.abstractPages.FormPage;
 import com.skillstorm.testingComponents.tools.Config;
 import com.skillstorm.testingComponents.tools.PageTools;
@@ -142,6 +135,8 @@ public class LoginPage extends FormPage {
     public void navigateToPage() {
         logOut();
         navbar.clickBtnLogin();
+
+        awaitValidUrl();
         loadElements();
     }
 

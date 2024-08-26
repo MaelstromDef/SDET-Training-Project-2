@@ -120,6 +120,8 @@ public class SignupPage extends FormPage {
     public void navigateToPage() {
         logOut();
         navbar.clickBtnSignup();
+
+        awaitValidUrl();
         loadElements();
     }
 

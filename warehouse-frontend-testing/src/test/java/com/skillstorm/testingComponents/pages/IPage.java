@@ -8,6 +8,7 @@ public interface IPage {
     void loadElements();
 
     String getUrl();
+    void awaitValidUrl();
     
     void logIn();
     void logOut();
