@@ -49,5 +49,5 @@ Feature: Direct Navigation States
 | Out   | Login      | Home       | Landing    |
 | Out   | Login      | Account    | Landing    |
 | Out   | Login      | Warehouses | Landing    |
-| Out   | Login      | Login      | Login      |
+| Out   | Login      | Item       | Landing    |
 
