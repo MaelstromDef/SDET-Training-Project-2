@@ -6,8 +6,9 @@ pipeline {
         stage('Build Frontend'){
             steps{
                 sh "echo Building Front End"
-                //sh "cd react && npm i @trussworks/react-uswds && npm install && npm run build"
-                sh "cat project1Frontend/README.md"   
+                sh "cd project1Frontend && npm install && npm run build"
+                sh "cat README.md" 
+                sh "ls dist/*"  
             }
         }
 
