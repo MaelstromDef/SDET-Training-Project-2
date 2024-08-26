@@ -11,9 +11,18 @@ pipeline {
             }
         }
 
-        stage('Testing 2'){
+        stage('Deploy Frontend'){
             steps{
-                sh "echo Testing 2"                
+                script{
+                    try {
+                      withAWS(region: 'us-east-2', credentials: 'AWS_CREDENTIALS'){
+                        sh "aws s3 sync project1Frontend/dist s3://inv-mgr-temp-bfrank" 
+                        }
+                    }catch (Exception e) {
+                            echo "${e}"
+                            throw e
+                    }   
+                }
             }
         }
         stage('Testing 3'){
@@ -26,7 +35,6 @@ pipeline {
 
 
         
-        // }
         // stage('Deploy Frontend'){
         //     steps{
         //         script{
