@@ -15,8 +15,8 @@ pipeline {
             steps{
                 script{
                     try {
-                      withAWS(region: 'us-east-2', credentials: 'AWS_CREDENTIALS'){
-                        sh "aws s3 sync project1Frontend/dist s3://inv-mgr-temp-bfrank" 
+                        withAWS(region: 'us-east-2') {
+                            sh "aws s3 sync project1Frontend/dist s3://inv-mgr-temp-bfrank"
                         }
                     }catch (Exception e) {
                             echo "${e}"
