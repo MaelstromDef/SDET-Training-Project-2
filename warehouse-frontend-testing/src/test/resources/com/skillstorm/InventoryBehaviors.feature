@@ -11,7 +11,7 @@ Feature: Inventory Behaviors
   Scenario: I10 - Invalid Creation of Item
     Given I Am On "Item"
     And I Enter "Incorrect" Information
-    When I Click "btnAddItem" Button
+    When I Click "btnAddItem"
     Then I See An Error Message
 
 
@@ -20,7 +20,7 @@ Feature: Inventory Behaviors
 
   Scenario: I1 - Valid Read of Item 
     Given I Am On "Warehouses"
-    When I Click "btnManageWarehouse" Button
+    When I Click "btnManageWarehouse"
     Then I Am Taken To "Item"
     And I "Can" See "Item" Information
   
@@ -36,13 +36,13 @@ Feature: Inventory Behaviors
   Scenario: I5 - Valid Update of Item 
     Given I Am On "Item"
     And I "Correctly" Update "Item"
-    When I Click "btnUpdateItem" Button
+    When I Click "btnUpdateItem"
     Then "Item" Fields Have "Been" Changed
 
   Scenario: I9 - Invalid Update of Item
     Given I Am On "Item"
     And I "Incorrectly" Update "Item"
-    When I Click "btnUpdateItem" Button
+    When I Click "btnUpdateItem"
     Then "Item" Fields Have "Not Been" Changed
 
   
@@ -50,7 +50,7 @@ Feature: Inventory Behaviors
 
   Scenario: I7 - Valid Delete of Item 
     Given I Am On "Item"
-    When I Click "btnDeleteItem" Button
+    When I Click "btnDeleteItem"
     Then "Item" No Longer Exists
 
 

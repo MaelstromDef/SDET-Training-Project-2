@@ -43,18 +43,18 @@ Feature: Administrator Behaviors
     Scenario: A5 - Valid account update.
         Given I Am On "Account"
         And I "Correctly" Update "Account"
-        When I Click "btnUpdateAccount" Button
+        When I Click "btnUpdateAccount"
         Then "Account" Fields Have "Been" Changed
 
     Scenario: A9 - Invalid admin update.
         Given I Am On "Account"
         And I "Incorrectly" Update "Account"
-        When I Click "btnUpdateAccount" Button
+        When I Click "btnUpdateAccount"
         Then "Account" Fields Have "Not Been" Changed
 
     ### DELETE ###
 
     Scenario: A6 - Valid account deletion.
         Given I Am On "Account"
-        When I Click "btnDeleteAccount" Button
+        When I Click "btnDeleteAccount"
         Then "Account" No Longer Exists

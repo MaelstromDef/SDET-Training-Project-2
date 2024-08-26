@@ -27,7 +27,9 @@ public class AccountPage extends ObjectPage {
     // Company name
     @FindBy(xpath = "//*[@id=\"root\"]/form/div/input")
     private WebElement inCompanyName;
-    @FindBy(xpath = "//*[@id=\"root\"]/form/div/div/input")
+
+    private static final String CHK_COMPANY_NAME_XPATH = "//*[@id=\"root\"]/form/div/div/input";
+    @FindBy(xpath = CHK_COMPANY_NAME_XPATH)
     private WebElement chkCompanyName;  // Checkbox to enable company name input field.
 
     // Password
@@ -290,10 +292,5 @@ public class AccountPage extends ObjectPage {
     @Override
     protected String getUrlExtension() {
         return urlExtension;
-    }
-
-    @Override
-    public void loadElements(){
-        
     }
 }

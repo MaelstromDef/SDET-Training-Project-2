@@ -2,7 +2,7 @@ Feature: Usability
 
     Scenario: U2 - Simple Navigation with Buttons
         Given I Am On "<page1>"
-        When I Click "<button>" Button
+        When I Click "<button>"
         Then I Am Taken To "<page2>"
     
     Examples:
@@ -87,7 +87,7 @@ Feature: Usability
         And I Will Be Performing "<action2>"
 
     Examples:
-    | page1     | action         | button           | page2     | action2        |
+    | page1     | action1         | button           | page2     | action2        |
     | Account   | Account Delete | btnUpdateAccount | Account   | Account Delete |
     | Warehouses | New Warehouse  | btnAddWarehouse  | Warehouses | New Warehouse  |
     | Item      | New Item       | btnAddItem       | Item      | New Item       |

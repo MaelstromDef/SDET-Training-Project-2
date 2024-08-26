@@ -37,5 +37,5 @@ Feature: Warehouse Behaviors
 
     Scenario: W6 - Valid Delete
         Given I Am On "Warehouses"
-        When I Click "btnDeleteWarehouse" Button
+        When I Click "btnDeleteWarehouse"
         Then "Warehouse" No Longer Exists

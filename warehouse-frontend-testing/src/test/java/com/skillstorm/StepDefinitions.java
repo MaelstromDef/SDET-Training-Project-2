@@ -171,8 +171,8 @@ public class StepDefinitions {
         pageObject.navigateToPage();
     }
 
-    @When("I Click {string} Button")
-    public void iClickButton(String btnName) {
+    @When("I Click {string}")
+    public void iClick(String btnName) {
         waitAMomentForWebDriver();
         pageObject.clickButton(btnName);
     }
@@ -192,7 +192,7 @@ public class StepDefinitions {
      * *********************************************************************
      */
 
-    @Then("And I Will Be Performing {string}" ) // action
+    @Then("I Will Be Performing {string}" ) // action
     public void iWillBePerforming(String action) {
         waitAMomentForWebDriver();
         assertTrue(((IObjectPage)pageObject).isUserPerformingAction(action));

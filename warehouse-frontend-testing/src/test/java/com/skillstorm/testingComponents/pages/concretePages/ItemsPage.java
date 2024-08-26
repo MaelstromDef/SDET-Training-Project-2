@@ -219,6 +219,9 @@ public class ItemsPage extends ObjectPage {
             case "btnCloseForm":
                 clickBtnCloseForm();
                 break;
+            case "btnAddItem":
+                clickBtnAddItem();
+                break;
             case "btnManage":
                 clickBtnManage();
                 break;
@@ -243,6 +246,10 @@ public class ItemsPage extends ObjectPage {
 
     public void clickBtnCloseForm(){
         btnCloseForm.click();
+    }
+
+    public void clickBtnAddItem(){
+        btnAddItem.click();
     }
 
     public void clickBtnManage(){
