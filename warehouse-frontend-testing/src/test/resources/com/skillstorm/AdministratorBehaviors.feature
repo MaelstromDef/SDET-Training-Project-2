@@ -1,3 +1,4 @@
+@administrator
 Feature: Administrator Behaviors
 
     ### CREATE ###

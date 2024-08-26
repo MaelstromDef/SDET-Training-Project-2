@@ -1,5 +1,7 @@
 package com.skillstorm.testingComponents.pages.concretePages;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -194,17 +196,8 @@ public class ItemsPage extends ObjectPage {
 
     @Override
     public void navigateToPage() {
-        logIn();
-
         WarehousesPage warehousesPage = new WarehousesPage(driver, StepDefinitions.initialURL);
         warehousesPage.navigateToPage();
-
-        if(!driver.getCurrentUrl().equals(warehousesPage.getUrl())){
-            try{
-                Thread.sleep(1000);
-            }catch(Exception e){}
-        }
-
         warehousesPage.clickBtnManage();
 
         loadElements();

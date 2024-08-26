@@ -15,12 +15,15 @@ public class WarehousesPage extends ObjectPage {
     // --- INTERACTABLES ---
 
     // Add warehouse form
-    @FindBy(xpath = "//*[@id=\"root\"]/div[2]/button")
+    private static final String BTN_OPEN_FORM_XPATH = "//*[@id=\"root\"]/div[2]/button";
+    @FindBy(xpath = BTN_OPEN_FORM_XPATH)
     private WebElement btnOpenForm;
 
     @FindBy(xpath = "//*[@id=\"root\"]/div[2]/form/input[1]")
     private WebElement inName;
-    @FindBy(xpath = "//*[@id=\"root\"]/div[2]/form/input[2]")
+
+    private static final String IN_LOCATION_XPATH = "//*[@id=\"root\"]/div[2]/form/input[2]";
+    @FindBy(xpath = IN_LOCATION_XPATH)
     private WebElement inLocation;
     @FindBy(xpath = "//*[@id=\"root\"]/div[2]/form/input[3]")
     private WebElement inSize;
@@ -131,7 +134,7 @@ public class WarehousesPage extends ObjectPage {
 
     @Override
     public void enterRightFormInformation() {
-        clickBtnOpenForm();
+        if(!inName.isDisplayed()) clickBtnOpenForm();
         clearFormInformation();
 
         inName.sendKeys(Config.VALID_WAREHOUSE_NAME);
@@ -196,11 +199,19 @@ public class WarehousesPage extends ObjectPage {
         btnCloseForm.click();
     }
 
+    public void ensureWarehouseExists(){
+        loadElements();
+        createWarehouse();
+        loadElements();
+    }
+
     public void clickBtnManage(){
+        ensureWarehouseExists();
         btnManage.click();
     }
 
     public void clickBtnDelete(){
+        ensureWarehouseExists();
         btnDelete.click();
     }
 
@@ -223,5 +234,14 @@ public class WarehousesPage extends ObjectPage {
     @Override
     protected String getUrlExtension() {
         return urlExtension;
+    }
+
+    /**
+     * Ensures the warehouse is created.
+     */
+    public void createWarehouse(){
+        loadElements();
+        enterRightFormInformation();
+        submitForm();
     }
 }

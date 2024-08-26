@@ -1,3 +1,4 @@
+@usability
 Feature: Usability
 
     Scenario: U2 - Simple Navigation with Buttons
@@ -33,7 +34,7 @@ Feature: Usability
     | Item      | btnDeleteItem      | Item      |
 
 
-
+    @u3
     Scenario: U3 - Navigation with Buttons During Action
         Given I Am On "<page1>"
         And I Am Performing "<action>"
@@ -72,7 +73,7 @@ Feature: Usability
     
     Examples:
     | page1     | button          | page2     | action         |
-    | Account   | btnDeletAccount | Account   | Account Delete |
+    | Account   | btnDeleteAccount | Account   | Account Delete |
     | Warehouses | btnAddWarehouse | Warehouses | New Warehouse  |
     | Item      | btnAddItem      | Item      | New Item       |
     | Item      | btnUpdateItem   | Item      | Item Update    |

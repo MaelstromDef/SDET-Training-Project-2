@@ -111,7 +111,7 @@ public class LoginPage extends FormPage {
         } catch (InterruptedException e) {
             throw new RuntimeException(e.getMessage());
         }
-        if(!verifySubmissionSuccess()) throw new RuntimeException("FATAL: Could not log in.");   // Check success
+        if(!verifySubmissionSuccess()) throw new RuntimeException("FATAL: Could not log in. \nCurrent URL: " + driver.getCurrentUrl());   // Check success
     }
     
     /**
