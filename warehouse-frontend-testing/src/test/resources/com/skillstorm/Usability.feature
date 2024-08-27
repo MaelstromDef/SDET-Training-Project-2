@@ -41,6 +41,7 @@ Feature: Usability
         When I Click "<button>"
         Then I Am Taken To "<page2>"
 
+    @u3Account
     Examples:
     | page1     | action            | button             | page2     |
     | Account   | Account Delete    | btnHome            | Home      |
@@ -48,10 +49,18 @@ Feature: Usability
     | Account   | Account Delete    | btnWarehouse       | Warehouses |
     | Account   | Account Delete    | btnCancelDelete    | Account   |
     | Account   | Account Delete    | btnConfirmDelete   | Landing   |
+
+    @u3Warehouses
+    Examples:
+    | page1     | action            | button             | page2     |
     | Warehouses | New Warehouse     | btnHome            | Home      |
     | Warehouses | New Warehouse     | btnAccount         | Account   |
     | Warehouses | New Warehouse     | btnWarehouse       | Warehouses |
     | Warehouses | New Warehouse     | btnManageWarehouse | Item      |
+
+    @u3Items
+    Examples:
+    | page1     | action            | button             | page2     |
     | Item      | New Item          | btnHome            | Home      |
     | Item      | New Item          | btnAccount         | Account   |
     | Item      | New Item          | btnWarehouse       | Warehouses |
