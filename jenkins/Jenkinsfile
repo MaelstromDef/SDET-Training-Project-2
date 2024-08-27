@@ -80,10 +80,12 @@ pipeline {
                             
                             aws s3 cp target/*.jar s3://ahuggins-warehousemanager-backend 
 
+                            JAR_FILE=target/*.jar
+
                             aws elasticbeanstalk create-application-version \
                                 --application-name ahuggins-warehousemanager \
                                 --version-label v${VERSION} \
-                                --source-bundle S3Bucket=ahuggins-warehousemanager-backend,S3Key=warehousedemo-${VERSION}.jar 
+                                --source-bundle S3Bucket=ahuggins-warehousemanager-backend,S3Key=${JAR_FILE}
 
                             aws elasticbeanstalk update-environment \
                                 --application-name ahuggins-warehousemanager \
