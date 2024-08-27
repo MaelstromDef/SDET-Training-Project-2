@@ -177,7 +177,7 @@ public class AccountPage extends ObjectPage {
      */
     @Override
     public boolean verifyObjectExistence() {
-        return inCompanyName == null;
+        return inCompanyName != null;
     }
 
     /**
@@ -220,7 +220,7 @@ public class AccountPage extends ObjectPage {
     @Override
     public boolean isUserPerformingAction(String action) {
         switch(action){
-            case "Deleting Account":
+            case "Account Delete":
                 btnConfirmDelete = driver.findElement(By.xpath(BTN_CONFIRM_DELETE_XPATH));
                 btnCancelDelete = driver.findElement(By.xpath(BTN_CANCEL_DELETE_XPATH));
 

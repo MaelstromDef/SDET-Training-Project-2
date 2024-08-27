@@ -93,19 +93,27 @@ public class WarehousesPage extends ObjectPage {
     @Override
     public boolean verifyObjectExistence() {
         if (elObjectRow == null) {return false;}
-        return elObjectRow.isDisplayed();
+        try {
+            return txtObjectName.isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 
     @Override
     public boolean verifyObjectUpdated() {
-        return !(driver.getCurrentUrl().equals(url));
+        try {
+            return elTableHeader.isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 
     @Override
     public void performAction(String action) {
         switch (action) {
             case "New Warehouse":
-                btnOpenForm.click();
+                clickBtnOpenForm();
                 break;
         
             default:
@@ -117,7 +125,11 @@ public class WarehousesPage extends ObjectPage {
     public boolean isUserPerformingAction(String action) {
         switch(action){
             case "New Warehouse":
-                return !driver.getCurrentUrl().equals(url);
+                try {
+                    return inName.isDisplayed();
+                } catch (NoSuchElementException e) {
+                    return false;
+                }
             default:
                 throw new IllegalArgumentException("Action '" + action + "' does not exist.");
         }
@@ -189,6 +201,7 @@ public class WarehousesPage extends ObjectPage {
     }
 
     public void clickBtnAddWarehouse(){
+        clickBtnOpenForm();
         btnAddWarehouse.click();
     }
 

@@ -222,11 +222,20 @@ public class ItemsPage extends ObjectPage {
 
     @Override
     public boolean isUserPerformingAction(String action) {
+        loadElements();
         switch(action){
             case "New Item":
-                return inName.isDisplayed();
+                try {
+                    return inName.isDisplayed();
+                } catch (NoSuchElementException e) {
+                    return false;
+                }
             case "Item Update":
-                return inUpdateQuantity.isDisplayed();
+                try {
+                    return inUpdateQuantity.isDisplayed();
+                } catch (NoSuchElementException e) {
+                    return false;
+                }
             default:
                 throw new IllegalArgumentException("Action '" + action + "' does not exist.");
         }
@@ -279,6 +288,7 @@ public class ItemsPage extends ObjectPage {
     }
 
     public void clickBtnAddItem(){
+        clickBtnOpenForm();
         btnAddItem.click();
     }
 
