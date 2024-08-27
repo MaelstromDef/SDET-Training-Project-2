@@ -72,6 +72,7 @@ pipeline {
                         sh '''
                             cd /var/lib/jenkins/workspace/inventory-manager-pipeline/warehousedemo/
 
+                            echo ${project.version}
                             VERSION=$(mvn -q \
                                 -Dexec.executable=echo \
                                 -Dexec.args='${project.version}' \
