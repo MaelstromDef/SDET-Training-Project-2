@@ -68,18 +68,18 @@ pipeline {
         stage('Deploy Backend'){
             steps{
                 script{
-                    sh '''
-                        cd /var/lib/jenkins/workspace/inventory-manager-pipeline/warehousedemo/
+                    withAWS(region: 'us-east-1', credentials: 'AWS_CREDENTIALS'){
+                        sh '''
+                            cd /var/lib/jenkins/workspace/inventory-manager-pipeline/warehousedemo/
 
                             VERSION=$(mvn -q \
                             -Dexec.executable=echo \
                             -Dexec.args='${project.version}' \
                             --non-recursive \
                             exec:exec).trim()
-                    '''
-                    withAWS(region: 'us-east-1', credentials: 'AWS_CREDENTIALS'){
-                        sh '''
-                            cd /var/lib/jenkins/workspace/inventory-manager-pipeline/warehousedemo/target
+                            
+                            cd target
+                            
                             echo ${VERSION}
 
                         '''
