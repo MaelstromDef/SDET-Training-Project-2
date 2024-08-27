@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         DB_DDL_AUTO = "none"
-
     }
 
     stages{
@@ -68,26 +67,26 @@ pipeline {
         // }
         stage('Deploy Backend'){
             steps{
-                script{
+                dir('warehousedemo'){
                     sh '''
                         cd /var/lib/jenkins/workspace/inventory-manager-pipeline/warehousedemo/
 
-                        MVN_VERSION=$(mvn -q \
-                        -Dexec.executable=echo \
-                        -Dexec.args='${project.version}' \
-                        --non-recursive \
-                        exec:exec)
-
-                        echo ${MVN_VERSION}
+                            VERSION=$(mvn -q \
+                            -Dexec.executable=echo \
+                            -Dexec.args='${project.version}' \
+                            --non-recursive \
+                            exec:exec).trim()
                     '''
                     withAWS(region: 'us-east-1', credentials: 'AWS_CREDENTIALS'){
+                        sh '''
+                            cd /var/lib/jenkins/workspace/inventory-manager-pipeline/warehousedemo/target
+                            echo ${VERSION}
 
-
-
-                        // sh 'pwd'
-                        // sh "aws s3 cp demo/target/demo-1.0-SNAPSHOT.jar s3://bjgomes-bucket-sdet-backend"
-                        // sh "echo 'aws elasticbeanstalk create-application-version --application-name myName --version-label 0.0.1 --source-bundle S3Bucket=\"bjgomes-bucket-sdet-backend\",S3Key=\"demo-1.0-SNAPSHOT.jar\"'"
-                        // sh "ech 'aws elasticbeanstalk update-environment --environment-name myName --version-label 0.0.1'"
+                        '''
+                            //                         aws elasticbeanstalk create-application-version \
+                            // --application-name ahuggins-warehousemanager-backend \
+                            // --version-label v${VERION} \
+                            // --source-bundle S3Bucket=ahuggins-warehouse-backend,S3Key=warehousedemo-${VERSION}.jar
                     }  
                 }   
             }
