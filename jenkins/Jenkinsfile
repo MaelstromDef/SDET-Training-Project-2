@@ -67,8 +67,9 @@ pipeline {
         // }
         stage('Deploy Backend'){
             steps{
-                script{
-                    withAWS(region: 'us-east-1', credentials: 'AWS_CREDENTIALS'){
+                withAWS(region: 'us-east-1', credentials: 'AWS_CREDENTIALS'){
+                    script{
+                    
                         sh '''
                             cd /var/lib/jenkins/workspace/inventory-manager-pipeline/warehousedemo/
 
