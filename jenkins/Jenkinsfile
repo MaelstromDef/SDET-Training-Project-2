@@ -16,7 +16,7 @@ pipeline {
                 script{
                     try {
                         withAWS(region: 'us-east-2', credentials: 'AWS_CREDENTIALS') {
-                            sh "aws s3 sync project1Frontend/dist s3://inv-mgr-temp-bfrank"
+                            sh "aws s3 sync project1Frontend/dist s3://ahuggins-warehousemanager-frontend"
                         }
                     }catch (Exception e) {
                             echo "${e}"
