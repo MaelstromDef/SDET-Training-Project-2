@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        DB_DDL_AUTO = "none"
+
+    }
+
     stages{
 
         stage('Build Frontend'){
@@ -32,28 +37,34 @@ pipeline {
         // }
         stage('Build and Analyze Backend') {
             steps {
-                dir('warehousedemo') {
-                    sh 'mvn clean verify -Pcoverage -Dspring.profiles.active=build'
+                script{
+                    withCredentials([
+                        string(credentialsId: 'DB_USERNAME', variable: 'DB_USERNAME'),
+                        string(credentialsId: 'DB_PASSWORD', variable: 'DB_PASSWORD'),
+                        string(credentialsId: 'DB_URL', variable: 'DB_URL')
+                    ]) {
+                        
+                        sh "echo Testing Credentials: BD_USERNAME: ${DB_USERNAME}"
 
-                    // withSonarQubeEnv('SonarCloud') {
-                    //     sh '''
-                    //     mvn sonar:sonar \
-                    //         -Dsonar.projectKey=brittshook_inventory-mgmt-p1 \
-                    //         -Dsonar.projectName=inventory-mgmt-p1-backend \
-                    //         -Dsonar.java.binaries=target/classes \
-                    //         -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
-                    //     '''
-                    // }
+                        dir('warehousedemo') {
+                            sh 'mvn clean verify -Pcoverage -Dspring.profiles.active=build'
+
+                            // withSonarQubeEnv('SonarCloud') {
+                            //     sh '''
+                            //     mvn sonar:sonar \
+                            //         -Dsonar.projectKey=brittshook_inventory-mgmt-p1 \
+                            //         -Dsonar.projectName=inventory-mgmt-p1-backend \
+                            //         -Dsonar.java.binaries=target/classes \
+                            //         -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+                            //     '''
+                            // }
+                        }
+                        sh 'cd warehousedemo && mvn clean install -DskipTests=true -Dspring.profiles.active=build'
+                    }
                 }
-                sh 'cd warehousedemo && mvn clean install -DskipTests=true -Dspring.profiles.active=build'
             }
         }
 
-        stage('Test Backend') {
-            steps {
-                sh 'cd warehousedemo && mvn test -Dspring.profiles.active=test'
-            }
-        }
         // stage('Test Backend'){
         //     steps{
         //         sh "cd demo && mvn test"
