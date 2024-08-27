@@ -78,14 +78,13 @@ pipeline {
                                 --non-recursive \
                                 exec:exec)
                             
-                            cd target
-                            
-                            aws elasticbeanstalk create-application-version \
-                            --application-name ahuggins-warehousemanager-backend \
-                            --version-label v${VERION} \
-                            --source-bundle S3Bucket=ahuggins-warehousemanager-backend,S3Key=warehousedemo-${VERSION}.jar
+                            aws s3 cp target/*.jar s3://huggins-warehousemanager-backend                            
 
                         '''
+                        // aws elasticbeanstalk create-application-version \
+                        //         --application-name ahuggins-warehousemanager-backend \
+                        //         --version-label v${VERION} \
+                        //         --source-bundle S3Bucket=ahuggins-warehousemanager-backend,S3Key=warehousedemo-${VERSION}.jar
                     }  
                 }   
             }
