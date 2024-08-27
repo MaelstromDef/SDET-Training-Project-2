@@ -80,7 +80,7 @@ pipeline {
                             
                             aws s3 cp target/*.jar s3://ahuggins-warehousemanager-backend 
 
-                            JAR_FILE=$(ls target/*.jar)
+                            JAR_FILE=$(echo $(basename target/*.jar))
 
                             aws elasticbeanstalk create-application-version \
                                 --application-name ahuggins-warehousemanager \
