@@ -69,7 +69,7 @@ pipeline {
         stage('Deploy Backend'){
             steps{
                 script{
-                    sh """
+                    sh '''
                         cd /var/lib/jenkins/workspace/inventory-manager-pipeline/warehousedemo/
 
                         MVN_VERSION=$(mvn -q \
@@ -79,7 +79,7 @@ pipeline {
                         exec:exec)
 
                         echo ${MVN_VERSION}
-                    """
+                    '''
                     withAWS(region: 'us-east-1', credentials: 'AWS_CREDENTIALS'){
 
 
