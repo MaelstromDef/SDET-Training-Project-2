@@ -68,21 +68,21 @@ pipeline {
         stage('Deploy Backend'){
             steps{
                 script{
-                    sh '''
-                        cd /var/lib/jenkins/workspace/inventory-manager-pipeline/warehousedemo/
+                    withAWS(region: 'us-east-1', credentials: 'AWS_CREDENTIALS'){
+                        sh '''
+                            cd /var/lib/jenkins/workspace/inventory-manager-pipeline/warehousedemo/
 
-                        VERSION=$(mvn -q \
-                            -Dexec.executable=echo \
-                            -Dexec.args='${project.version}' \
-                            --non-recursive \
-                            exec:exec).trim()
-                        
-                        cd target
-                        
-                        echo ${VERSION}
+                            VERSION=$(mvn -q \
+                                -Dexec.executable=echo \
+                                -Dexec.args='${project.version}' \
+                                --non-recursive \
+                                exec:exec)
+                            
+                            cd target
+                            
+                            echo ${VERSION}
 
-                    '''
-                    // withAWS(region: 'us-east-1', credentials: 'AWS_CREDENTIALS'){
+                        '''
 
                     
 
@@ -90,7 +90,7 @@ pipeline {
                     //         // --application-name ahuggins-warehousemanager-backend \
                     //         // --version-label v${VERION} \
                     //         // --source-bundle S3Bucket=ahuggins-warehouse-backend,S3Key=warehousedemo-${VERSION}.jar
-                    // }  
+                    }  
                 }   
             }
         }
