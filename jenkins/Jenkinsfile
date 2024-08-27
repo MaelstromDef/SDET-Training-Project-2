@@ -80,16 +80,12 @@ pipeline {
                             
                             cd target
                             
-                            echo ${VERSION}
+                            aws elasticbeanstalk create-application-version \
+                            --application-name ahuggins-warehousemanager-backend \
+                            --version-label v${VERION} \
+                            --source-bundle S3Bucket=ahuggins-warehouse-backend,S3Key=warehousedemo-${VERSION}.jar
 
                         '''
-
-                    
-
-                    //         //                         aws elasticbeanstalk create-application-version \
-                    //         // --application-name ahuggins-warehousemanager-backend \
-                    //         // --version-label v${VERION} \
-                    //         // --source-bundle S3Bucket=ahuggins-warehouse-backend,S3Key=warehousedemo-${VERSION}.jar
                     }  
                 }   
             }
