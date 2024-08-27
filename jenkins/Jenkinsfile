@@ -67,7 +67,7 @@ pipeline {
         // }
         stage('Deploy Backend'){
             steps{
-                dir('warehousedemo'){
+                script{
                     sh '''
                         cd /var/lib/jenkins/workspace/inventory-manager-pipeline/warehousedemo/
 
