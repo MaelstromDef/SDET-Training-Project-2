@@ -79,7 +79,7 @@ pipeline {
                                 exec:exec)
                             
                             aws s3 cp target/*.jar s3://ahuggins-warehousemanager-backend 
-                            aws s3 cp s3://ahuggins-warehousemanager-backend . wedidit.jar
+                            aws s3 cp s3://ahuggins-warehousemanager-backend/*.jar . && ls *.jar
 
                             JAR_FILE=$(echo $(basename target/*.jar))
 
