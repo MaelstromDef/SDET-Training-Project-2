@@ -78,13 +78,19 @@ pipeline {
                                 --non-recursive \
                                 exec:exec)
                             
-                            aws s3 cp target/*.jar s3://ahuggins-warehousemanager-backend                            
+                            aws s3 cp target/*.jar s3://ahuggins-warehousemanager-backend 
+
+                            aws elasticbeanstalk create-application-version \
+                                --application-name ahuggins-warehousemanager-backend \
+                                --version-label v${VERSION} \
+                                --source-bundle S3Bucket=ahuggins-warehousemanager-backend,S3Key=warehousedemo-${VERSION}.jar 
+
+                            aws elasticbeanstalk update-environment \
+                                --application-name ahuggins-warehousemanager-backend \
+                                --environment-name Ahuggins-warehousemanager-backend-env \
+                                --version-label v${VERSION}                          
 
                         '''
-                        // aws elasticbeanstalk create-application-version \
-                        //         --application-name ahuggins-warehousemanager-backend \
-                        //         --version-label v${VERION} \
-                        //         --source-bundle S3Bucket=ahuggins-warehousemanager-backend,S3Key=warehousedemo-${VERSION}.jar
                     }  
                 }   
             }
@@ -155,7 +161,3 @@ pipeline {
 //--version-label v1.0.1 `
 //--source-bundle S3Bucket=simple-sort-app,S3Key=inventory-manager-1.0.1-SNAPSHOT.jar 
 
-//aws elasticbeanstalk update-environment `
-//--application-name simple-sort-app `
-//--environment-name simple-sort-app-env `
-//--version-label v1.0.1
