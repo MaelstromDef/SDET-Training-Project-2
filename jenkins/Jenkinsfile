@@ -78,7 +78,7 @@ pipeline {
                                 --non-recursive \
                                 exec:exec)
                             
-                            aws s3 cp target/*.jar s3://huggins-warehousemanager-backend                            
+                            aws s3 cp target/*.jar s3://ahuggins-warehousemanager-backend                            
 
                         '''
                         // aws elasticbeanstalk create-application-version \
