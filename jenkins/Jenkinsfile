@@ -69,18 +69,19 @@ pipeline {
         stage('Deploy Backend'){
             steps{
                 script{
-                  withAWS(region: 'us-east-1', credentials: 'AWS_CREDENTIALS'){
-                        sh """
-                            cd /var/lib/jenkins/workspace/inventory-manager-pipeline/warehousedemo/
+                    sh """
+                        cd /var/lib/jenkins/workspace/inventory-manager-pipeline/warehousedemo/
 
-                            MVN_VERSION=$(mvn -q \
-                                -Dexec.executable=echo \
-                                -Dexec.args='${project.version}' \
-                                --non-recursive \
-                                exec:exec)
+                        MVN_VERSION=$(mvn -q \
+                        -Dexec.executable=echo \
+                        -Dexec.args='${project.version}' \
+                        --non-recursive \
+                        exec:exec)
 
-                            echo ${MVN_VERSION}
-                        """
+                        echo ${MVN_VERSION}
+                    """
+                    withAWS(region: 'us-east-1', credentials: 'AWS_CREDENTIALS'){
+
 
 
                         // sh 'pwd'
