@@ -89,7 +89,7 @@ pipeline {
 
                             aws elasticbeanstalk update-environment \
                                 --application-name ahuggins-warehousemanager \
-                                --environment-name Ahuggins-warehousemanager-backend-env \
+                                --environment-name Ahuggins-warehousemanager-env \
                                 --version-label v${VERSION}                          
 
                         '''
