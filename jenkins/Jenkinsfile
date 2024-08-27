@@ -79,7 +79,7 @@ pipeline {
                                 --non-recursive \
                                 exec:exec)
 
-                            echo $MVN_VERSION
+                            echo ${MVN_VERSION}
                         """
 
 
