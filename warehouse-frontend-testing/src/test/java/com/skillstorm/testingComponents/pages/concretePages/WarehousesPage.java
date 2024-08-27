@@ -3,6 +3,7 @@ package com.skillstorm.testingComponents.pages.concretePages;
 import java.util.Arrays;
 import java.util.List;
 
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -134,7 +135,7 @@ public class WarehousesPage extends ObjectPage {
 
     @Override
     public void enterRightFormInformation() {
-        if(!inName.isDisplayed()) clickBtnOpenForm();
+        clickBtnOpenForm();
         clearFormInformation();
 
         inName.sendKeys(Config.VALID_WAREHOUSE_NAME);
@@ -192,7 +193,11 @@ public class WarehousesPage extends ObjectPage {
     }
 
     public void clickBtnOpenForm(){
-        btnOpenForm.click();
+        try{
+            inName.isDisplayed();
+        }catch(NoSuchElementException e){
+            btnOpenForm.click();
+        }
     }
 
     public void clickBtnCancel(){
@@ -200,7 +205,6 @@ public class WarehousesPage extends ObjectPage {
     }
 
     public void ensureWarehouseExists(){
-        loadElements();
         createWarehouse();
         loadElements();
     }

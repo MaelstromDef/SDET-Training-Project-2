@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -64,6 +65,7 @@ public class ItemsPage extends ObjectPage {
     private WebElement btnCancelUpdateItem;
 
     private static final String BTN_DELETE_XPATH = "//*[@id=\"root\"]/table/tbody/tr/td[3]/button[2]";
+    private static final String BTN_DELETE_XPATH_MANAGING = "//*[@id=\"root\"]/table/tbody/tr/td[3]/button[3]";
     @FindBy(xpath = BTN_DELETE_XPATH)
     private WebElement btnDelete;
 
@@ -106,6 +108,28 @@ public class ItemsPage extends ObjectPage {
     // --- METHODS --- 
 
     @Override
+    public void navigateToPage() {
+        WarehousesPage warehousesPage = new WarehousesPage(driver, StepDefinitions.initialURL);
+        warehousesPage.navigateToPage();
+        warehousesPage.clickBtnManage();
+
+        loadElements();
+    }
+
+    public void createItem(){
+        loadElements();
+        enterRightFormInformation();
+        submitForm();
+    }
+
+    public void ensureItemExists(){
+        createItem();
+        loadElements();
+    }
+
+    //#region OBJECT
+
+    @Override
     public void modifyObjectRight() {
         clickBtnManage();
 
@@ -135,6 +159,53 @@ public class ItemsPage extends ObjectPage {
         return txtObjectQuantity.getText().equals(Config.VALID_ITEM_QUANTITY);
     }
 
+    //#endregion
+
+    //#region FORM
+
+    @Override
+    public boolean verifySubmissionFailure() {
+        String feedback = txtFeedback.getText();
+
+        return feedback.equals(MSG_EMPTY_FIELDS) ||
+            feedback.equals(MSG_ERROR) ||
+            feedback.equals(MSG_INVALID_QUANTITY) ||
+            feedback.equals(MSG_ITEM_EXISTS);
+    }
+
+    @Override
+    public void enterWrongFormInformation() {
+        clickBtnOpenForm();
+        clearFormInformation();
+
+        inName.sendKeys(Config.INVALID_ITEM_NAME);
+        inQuantity.sendKeys(Config.INVALID_ITEM_QUANTITY);
+    }
+
+    @Override
+    public void enterRightFormInformation() {
+        clickBtnOpenForm();
+        clearFormInformation();
+
+        inName.sendKeys(Config.VALID_ITEM_NAME);
+        inQuantity.sendKeys(Config.VALID_ITEM_QUANTITY);
+    }
+
+    @Override
+    public boolean verifySubmissionSuccess() {
+        return verifyObjectExistence();
+    }
+
+    @Override
+    protected List<WebElement> getFormFields() {
+        clickBtnOpenForm();
+        return Arrays.asList(inName, inQuantity);
+    }
+
+    //#endregion
+
+    //#region ACTIONS
+
     @Override
     public void performAction(String action) {
         switch (action) {
@@ -161,47 +232,9 @@ public class ItemsPage extends ObjectPage {
         }
     }
 
-    @Override
-    public void enterWrongFormInformation() {
-        clickBtnOpenForm();
-        clearFormInformation();
+    //#endregion
 
-        inName.sendKeys(Config.INVALID_ITEM_NAME);
-        inQuantity.sendKeys(Config.INVALID_ITEM_QUANTITY);
-    }
-
-    @Override
-    public void enterRightFormInformation() {
-        clickBtnOpenForm();
-        clearFormInformation();
-
-        inName.sendKeys(Config.VALID_ITEM_NAME);
-        inQuantity.sendKeys(Config.VALID_ITEM_QUANTITY);
-    }
-
-    @Override
-    public boolean verifySubmissionFailure() {
-        String feedback = txtFeedback.getText();
-
-        return feedback.equals(MSG_EMPTY_FIELDS) ||
-            feedback.equals(MSG_ERROR) ||
-            feedback.equals(MSG_INVALID_QUANTITY) ||
-            feedback.equals(MSG_ITEM_EXISTS);
-    }
-
-    @Override
-    public boolean verifySubmissionSuccess() {
-        return verifyObjectExistence();
-    }
-
-    @Override
-    public void navigateToPage() {
-        WarehousesPage warehousesPage = new WarehousesPage(driver, StepDefinitions.initialURL);
-        warehousesPage.navigateToPage();
-        warehousesPage.clickBtnManage();
-
-        loadElements();
-    }
+    //#region BUTTONS
 
     @Override
     public void clickButton(String btnName) {
@@ -221,7 +254,7 @@ public class ItemsPage extends ObjectPage {
             case "btnUpdateItem":
                 clickBtnUpdateItem();
                 break;
-            case "btnCancelUpdateItem":
+            case "btnCancel":
                 clickBtnCancelUpdateItem();
                 break;
             case "btnDeleteItem":
@@ -234,7 +267,11 @@ public class ItemsPage extends ObjectPage {
     }
 
     public void clickBtnOpenForm(){
-        btnOpenForm.click();
+        try{
+            inName.isDisplayed();
+        }catch(NoSuchElementException e){
+            btnOpenForm.click();
+        }
     }
 
     public void clickBtnCloseForm(){
@@ -246,19 +283,33 @@ public class ItemsPage extends ObjectPage {
     }
 
     public void clickBtnManage(){
+        ensureItemExists();
         btnManage.click();
     }
 
     public void clickBtnUpdateItem(){
+        ensureItemExists();
+        clickBtnManage();
         btnUpdateItem.click();
     }
 
     public void clickBtnCancelUpdateItem(){
+        ensureItemExists();
+        clickBtnManage();
         btnCancelUpdateItem.click();
     }
 
     public void clickBtnDelete(){
-        btnDelete.click();
+        ensureItemExists();
+        try{
+            btnDelete = driver.findElement(By.xpath(BTN_DELETE_XPATH));
+            if(!btnDelete.getText().equals("Delete")){
+                btnDelete = driver.findElement(By.xpath(BTN_DELETE_XPATH_MANAGING));
+            }
+        }catch(NoSuchElementException e){
+            e.addInfo("Description", "btnDelete could not be loaded.");
+            throw e;
+        }
     }
 
     @Override
@@ -267,15 +318,11 @@ public class ItemsPage extends ObjectPage {
     }
 
     @Override
-    protected List<WebElement> getFormFields() {
-        loadElements();
-        return Arrays.asList(inName, inQuantity);
-    }
-
-    @Override
     protected WebElement getSubmitButton() {
         return btnAddItem;
     }
+
+    //#endregion
 
     @Override
     protected String getUrlExtension() {
