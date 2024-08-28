@@ -7,11 +7,28 @@ pipeline {
 
     stages{
 
-        stage('Build Frontend'){
+        stage('Build and Analyze Frontend'){
             steps{
-                sh "echo Building Front End"
-                sh "cd project1Frontend && npm install && npm run build && ls dist/"
-  
+                script{
+                    withSonarQubeEnv('SonarCloud') {
+                        dir('project1Frontend') {
+                            sh '''
+                                npm install
+                                npm run build
+
+                                npx sonar-scanner \
+                                -Dsonar.projectKey=maelstromdef_warehousemanager-frontend \
+                                -Dsonar.projectName=warehousemanager-frontend \
+                                -Dsonar.sources=src \
+                                -Dsonar.exclusions=**/__tests__/**,src/test/** \
+                                
+                            '''
+                        }
+                        // CANT IMPLEMENT UNTIL JEST
+                        // npm run test -- --coverage
+                        // -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info <--at end of npx sonar-scanner command
+                    }
+                }  
             }
         }
 
@@ -22,7 +39,7 @@ pipeline {
                         withAWS(region: 'us-east-2', credentials: 'AWS_CREDENTIALS') {
                             sh "aws s3 sync project1Frontend/dist s3://ahuggins-warehousemanager-frontend"
                         }
-                    }catch (Exception e) {
+                    } catch (Exception e) {
                             echo "${e}"
                             throw e
                     }   
@@ -56,7 +73,7 @@ pipeline {
                             }
                         }
                     }
-                    
+
                     sh 'cd warehousedemo && mvn clean install -DskipTests=true -Dspring.profiles.active=build'
                 }
             }
