@@ -33,29 +33,31 @@ pipeline {
         stage('Build and Analyze Backend') {
             steps {
                 script{
-                    withCredentials([
-                        string(credentialsId: 'DB_USERNAME', variable: 'DB_USERNAME'),
-                        string(credentialsId: 'DB_PASSWORD', variable: 'DB_PASSWORD'),
-                        string(credentialsId: 'DB_URL', variable: 'DB_URL')
-                    ]) {
-                        
-                        sh "echo Testing Credentials: BD_USERNAME: ${DB_USERNAME}"
+                    dir('warehousedemo') {
+                        withCredentials([
+                            string(credentialsId: 'DB_USERNAME', variable: 'DB_USERNAME'),
+                            string(credentialsId: 'DB_PASSWORD', variable: 'DB_PASSWORD'),
+                            string(credentialsId: 'DB_URL', variable: 'DB_URL')
+                        ]) {
+                            
+                            sh "echo Testing Credentials: BD_USERNAME: ${DB_USERNAME}"
 
-                        dir('warehousedemo') {
+                            
                             sh 'mvn clean verify -Pcoverage -Dspring.profiles.active=build'
 
-                            // withSonarQubeEnv('SonarCloud') {
-                            //     sh '''
-                            //     mvn sonar:sonar \
-                            //         -Dsonar.projectKey=brittshook_inventory-mgmt-p1 \
-                            //         -Dsonar.projectName=inventory-mgmt-p1-backend \
-                            //         -Dsonar.java.binaries=target/classes \
-                            //         -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
-                            //     '''
-                            // }
+                            withSonarQubeEnv('SonarCloud') {
+                                sh '''
+                                mvn sonar:sonar \
+                                    -Dsonar.projectKey=MaelstromDef_SDET-Training-Project-2 \
+                                    -Dsonar.projectName=SDET-Training-Project-2-backend \
+                                    -Dsonar.java.binaries=target/classes \
+                                    -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+                                '''
+                            }
                         }
-                        sh 'cd warehousedemo && mvn clean install -DskipTests=true -Dspring.profiles.active=build'
                     }
+                    
+                    sh 'cd warehousedemo && mvn clean install -DskipTests=true -Dspring.profiles.active=build'
                 }
             }
         }
@@ -72,7 +74,6 @@ pipeline {
                         sh '''
                             cd /var/lib/jenkins/workspace/inventory-manager-pipeline/warehousedemo/
 
-                            echo "${project.version}"
                             VERSION=$(mvn -q \
                                 -Dexec.executable=echo \
                                 -Dexec.args='${project.version}' \
