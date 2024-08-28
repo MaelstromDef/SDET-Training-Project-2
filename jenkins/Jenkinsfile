@@ -6,7 +6,6 @@ pipeline {
     }
 
     stages{
-
         stage('Build and Analyze Frontend'){
             steps{
                 script{
@@ -24,26 +23,11 @@ pipeline {
                                 
                             '''
                         }
-                        // CANT IMPLEMENT UNTIL JEST
+                        // CANT IMPLEMENT UNTIL JEST FOR COVERAGE
                         // npm run test -- --coverage
                         // -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info <--at end of npx sonar-scanner command
                     }
                 }  
-            }
-        }
-
-        stage('Deploy Frontend'){
-            steps{
-                script{
-                    try {
-                        withAWS(region: 'us-east-2', credentials: 'AWS_CREDENTIALS') {
-                            sh "aws s3 sync project1Frontend/dist s3://ahuggins-warehousemanager-frontend"
-                        }
-                    } catch (Exception e) {
-                            echo "${e}"
-                            throw e
-                    }   
-                }
             }
         }
 
@@ -79,11 +63,29 @@ pipeline {
             }
         }
 
-        // stage('Test Backend'){
-        //     steps{
-        //         sh "cd demo && mvn test"
-        //     }
-        // }
+        stage('Test Backend'){
+            steps{
+                dir('warehousedemo') {
+                    sh "mvn test -Dspring.profiles.active=test"
+                }
+            }
+        }
+
+        stage('Deploy Frontend'){
+            steps{
+                script{
+                    try {
+                        withAWS(region: 'us-east-2', credentials: 'AWS_CREDENTIALS') {
+                            sh "aws s3 sync project1Frontend/dist s3://ahuggins-warehousemanager-frontend"
+                        }
+                    } catch (Exception e) {
+                            echo "${e}"
+                            throw e
+                    }   
+                }
+            }
+        }
+
         stage('Deploy Backend'){
             steps{
                 script{
@@ -117,46 +119,11 @@ pipeline {
             }
         }
     }
+
+
 }
 
 
-        
-        // stage('Deploy Frontend'){
-        //     steps{
-        //         script{
-        //             try {
-        //               withAWS(region: 'us-east-1', credentials: 'AWS_CREDENTIALS'){
-        //                 sh "aws s3 sync frontend/dist s3://bjgomes-bucket-sdet" 
-        //                 }
-        //             }catch (Exception e) {
-        //                     echo "${e}"
-        //                     throw e
-        //             }   
-        //         }
-        //     }
-        // }
-        // stage('Build Backend'){
-        //     steps{
-        //         sh "cd demo && mvn clean install && ls target/"
-        //     }
-        // }
-        // stage('Test Backend'){
-        //     steps{
-        //         sh "cd demo && mvn test"
-        //     }
-        // }
-        // stage('Deploy Backend'){
-        //     steps{
-        //         script{
-        //           withAWS(region: 'us-east-1', credentials: 'AWS_CREDENTIALS'){
-        //                 sh 'pwd'
-        //                 sh "aws s3 cp demo/target/demo-1.0-SNAPSHOT.jar s3://bjgomes-bucket-sdet-backend"
-        //                 sh "echo 'aws elasticbeanstalk create-application-version --application-name myName --version-label 0.0.1 --source-bundle S3Bucket=\"bjgomes-bucket-sdet-backend\",S3Key=\"demo-1.0-SNAPSHOT.jar\"'"
-        //                 sh "ech 'aws elasticbeanstalk update-environment --environment-name myName --version-label 0.0.1'"
-        //             }  
-        //         }   
-        //     }
-        // }
 
 //docker build -t myjenkins-blueocean .
 //docker network create jenkins
