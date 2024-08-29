@@ -118,7 +118,6 @@ public class ModelTests {
 
     @Test
     public void testWarehouses () {
-        // TODO: add on any tests for extra methods
         /**
          * Warehouses:
          *      int id;
@@ -162,7 +161,6 @@ public class ModelTests {
 
     @Test
     public void testItem () {
-        // TODO: Create Tests for Item
 
         /**
          * Item:
@@ -202,7 +200,6 @@ public class ModelTests {
     
     @Test
     public void testStoredItems () {
-         // TODO: add on any extra tests for extra methods
         /**
          * StoredItem:
          *      StoredItemKey id
@@ -225,7 +222,7 @@ public class ModelTests {
         System.out.println("Starting Tests for StoredItem Key");
 
         storedItemKey.setItemId(3);
-        storedItemKey.setItemId(4);
+        storedItemKey.setWarehouseId(4);
         assertTrue(storedItemKey.getItemId() == 3);
         assertTrue(storedItemKey.getWarehouseId() == 4);
         assertTrue(mockId.getItemId() == 1);
