@@ -65,8 +65,14 @@ pipeline {
 
         stage('Test Backend'){
             steps{
-                dir('warehousedemo') {
-                    sh "mvn test -Dspring.profiles.active=test"
+                withCredentials([
+                    string(credentialsId: 'DB_USERNAME', variable: 'DB_USERNAME'),
+                    string(credentialsId: 'DB_PASSWORD', variable: 'DB_PASSWORD'),
+                    string(credentialsId: 'DB_URL', variable: 'DB_URL')
+                ]) {
+                    dir('warehousedemo') {
+                        sh "mvn test -Dspring.profiles.active=test"
+                    }
                 }
             }
         }
