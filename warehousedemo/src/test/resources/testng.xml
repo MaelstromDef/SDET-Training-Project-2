@@ -14,4 +14,9 @@
             <class name="com.ahuggins.warehousedemo.componentTests.Services.SecurityServiceTests" /> 
         </classes>
     </test>
+    <test verbose="2" name="Model Tests" preserve-order="false">
+        <classes>
+            <class name="com.ahuggins.warehousedemo.componentTests.ModelTests" />
+        </classes>
+    </test>
 </suite>
