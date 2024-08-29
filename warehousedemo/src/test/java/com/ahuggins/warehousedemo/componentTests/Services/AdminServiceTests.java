@@ -7,10 +7,6 @@
 
 package com.ahuggins.warehousedemo.componentTests.Services;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -20,6 +16,7 @@ import java.util.Optional;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -85,10 +82,10 @@ public class AdminServiceTests {
         List<AdministratorDto> actual = service.getAllAdministrators();
 
         for(int i = 0; i < actual.size(); i++){
-            assertNotNull(actual.get(i));
-            assertNotNull(expected.get(i));
-            assertEquals(expected.get(i).getId(), actual.get(i).getId());
-            assertEquals(expected.get(i).getCompanyName(), actual.get(i).getCompanyName());
+            Assert.assertNotNull(actual.get(i));
+            Assert.assertNotNull(expected.get(i));
+            Assert.assertEquals(expected.get(i).getId(), actual.get(i).getId());
+            Assert.assertEquals(expected.get(i).getCompanyName(), actual.get(i).getCompanyName());
         }
     }
 
@@ -99,14 +96,13 @@ public class AdminServiceTests {
         when(repo.findById(admins[0].getId())).thenReturn(optional);
         Optional<AdministratorDto> actual = service.getAdministratorById(admins[0].getId());
 
-        assertEquals(optional, actual);
+        Assert.assertEquals(optional.get().getId(), actual.get().getId());
+        Assert.assertEquals(optional.get().getCompanyName(), actual.get().getCompanyName());
     }
 
     // WARNING: NEEDS ENV
     @Test(dataProvider = "dp_Administrators")
     public void testLogin(Administrator admin) throws Exception{
-        
-
         String jwt = null;
         admin.setPassword("password");
         
@@ -114,23 +110,58 @@ public class AdminServiceTests {
         .thenReturn(Arrays.asList(admin));
 
         jwt = service.login(admin);
-        assertNotNull(jwt);
-    }
-
-    // WARNING: NEEDS ENV
-    @Test
-    public void testCreateAdministrator(){
-
+        Assert.assertNotNull(jwt);
     }
 
     // WARNING: NEEDS ENV
     @Test(dataProvider = "dp_Administrators")
+    public void testCreateAdministrator(Administrator admin){
+        // INVALID CREATIONS
+
+        // Empty password
+        admin.setPassword(null);
+        List<Administrator> repoFindReturn = Arrays.asList(new Administrator[0]);
+        AdministratorDto dto = new AdministratorDto(admin.getId(), admin.getCompanyName());
+
+        when(repo.findByCompanyName(admin.getCompanyName())).thenReturn(repoFindReturn);
+        when(repo.save(admin)).thenReturn(admin);
+
+        Assert.assertTrue(service.createAdministrator(admin).isEmpty());    // Empty password
+
+        // Company exists
+        repoFindReturn = Arrays.asList(admin);
+        admin.setPassword("password");
+
+        when(repo.findByCompanyName(admin.getCompanyName())).thenReturn(repoFindReturn);
+
+        Assert.assertTrue(service.createAdministrator(admin).isEmpty());    // Company exists
+
+        // VALID CREATIONS
+        
+        admin.setPassword("password");
+        repoFindReturn = Arrays.asList(new Administrator[0]);
+
+        when(repo.findByCompanyName(admin.getCompanyName())).thenReturn(repoFindReturn);
+
+        Optional<AdministratorDto> actual = service.createAdministrator(admin);
+
+        Assert.assertEquals(dto.getId(), actual.get().getId());
+        Assert.assertEquals(dto.getCompanyName(), actual.get().getCompanyName());
+    }
+
+    /**
+     * Tests that AdminService::updateAdministrator runs properly,
+     * using a valid and invalid update via ID, and an invalid password.
+     * @param admin Administrator to update, which is updated by adding "Updated " to the beginning of the company name.
+     */
+    @Test(dataProvider = "dp_Administrators")
     public void testUpdateAdministrator(Administrator admin){
         int id = admin.getId();
+        admin.setPassword("password");
 
         // Create an updated admin
         Administrator updatedAdmin = new Administrator();
-        updatedAdmin.setCompanyName("Updated Company Name");
+        updatedAdmin.setCompanyName("Updated " + admin.getCompanyName());
         updatedAdmin.setId(id);
         updatedAdmin.setPassword(admin.getPassword());
         updatedAdmin.setWarehouses(admin.getWarehouses());
@@ -143,21 +174,26 @@ public class AdminServiceTests {
         try {
             // Valid update
             Optional<AdministratorDto> dto = service.updateAdministrator(admin.getId(), updatedAdmin);
-            assertEquals(updatedAdmin.getCompanyName(), dto.get().getCompanyName());
+            Assert.assertEquals(updatedAdmin.getCompanyName(), dto.get().getCompanyName());
 
             // Cross-admin attacks
             admin.setId(id + 1);
             service.updateAdministrator(id, updatedAdmin);
-            assertEquals(updatedAdmin.getCompanyName(), dto.get().getCompanyName());
-            assertEquals(id, dto.get().getId());
+            Assert.assertEquals(updatedAdmin.getCompanyName(), dto.get().getCompanyName());
+            Assert.assertEquals(id, dto.get().getId());
+
+            // Empty password.
+            updatedAdmin.setPassword(null);
+            Assert.assertThrows(IllegalAccessException.class, () -> service.updateAdministrator(id, updatedAdmin));
         } catch (IllegalAccessException e) {
-            fail("Update failed.\n" + e.getMessage());
+            Assert.fail("Update failed.\n" + e.getMessage());
         }
     }
 
-    @Test
-    public void testDeleteAdministrator(){
-
+    @Test(dataProvider = "dp_Administrators")
+    public void testDeleteAdministrator(Administrator admin){
+        service.deleteAdministrator(admin.getId());
+        Assert.assertTrue(true, "AdminService::deleteAdministrator was called successfully.");
     }
 
     //#endregion
