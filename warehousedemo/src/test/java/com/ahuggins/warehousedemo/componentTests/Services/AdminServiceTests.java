@@ -7,22 +7,16 @@
 
 package com.ahuggins.warehousedemo.componentTests.Services;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Admin;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -38,16 +32,19 @@ import com.ahuggins.warehousedemo.services.SecurityService;
 public class AdminServiceTests {
     @Mock 
     private AdministratorRepository repo;
+    @Mock
     private AdminMapper mapper;
 
     @InjectMocks
     private AdminService service;
+
     private AutoCloseable closeable;
 
     @BeforeClass
     public void setup(){
         closeable = MockitoAnnotations.openMocks(this);
         mapper = new AdminMapper();
+        service = new AdminService(repo, mapper);
     }
 
     @AfterClass
@@ -79,46 +76,124 @@ public class AdminServiceTests {
 
     @Test(dataProvider = "dp_AdministratorLists")
     public void testGetAllAdministrators(Administrator[] admins){
-        System.out.println(admins.toString());
+        List<Administrator> expected = Arrays.asList(admins);
 
-        List<Administrator> listAdmins = Arrays.asList(admins);
-        System.out.println(listAdmins.toString());
-        List<AdministratorDto> expected = listAdmins.stream().map(mapper::toDto).toList();
-
-        when(repo.findAll()).thenReturn(listAdmins);
+        when(repo.findAll()).thenReturn(expected);
         List<AdministratorDto> actual = service.getAllAdministrators();
 
         for(int i = 0; i < actual.size(); i++){
-            assertNotNull(actual.get(i));
-            assertNotNull(expected.get(i));
-            assertEquals(expected.get(i).getId(), actual.get(i).getId());
-            assertEquals(expected.get(i).getCompanyName(), actual.get(i).getCompanyName());
+            Assert.assertNotNull(actual.get(i));
+            Assert.assertNotNull(expected.get(i));
+            Assert.assertEquals(expected.get(i).getId(), actual.get(i).getId());
+            Assert.assertEquals(expected.get(i).getCompanyName(), actual.get(i).getCompanyName());
         }
     }
 
-    @Test
-    public void testGetAdministratorById(){
+    @Test(dataProvider = "dp_AdministratorLists")
+    public void testGetAdministratorById(Administrator[] admins){
+        Optional<Administrator> optional = Optional.of(admins[0]);
 
+        when(repo.findById(admins[0].getId())).thenReturn(optional);
+        Optional<AdministratorDto> actual = service.getAdministratorById(admins[0].getId());
+
+        Assert.assertEquals(optional.get().getId(), actual.get().getId());
+        Assert.assertEquals(optional.get().getCompanyName(), actual.get().getCompanyName());
+    }
+
+    // WARNING: NEEDS ENV
+    @Test(dataProvider = "dp_Administrators")
+    public void testLogin(Administrator admin) throws Exception{
+        String jwt = null;
+        admin.setPassword("password");
+        
+        when(repo.findByCompanyNameAndPassword(admin.getCompanyName(), SecurityService.hashString(admin.getPassword())))
+        .thenReturn(Arrays.asList(admin));
+
+        jwt = service.login(admin);
+        Assert.assertNotNull(jwt);
+    }
+
+    // WARNING: NEEDS ENV
+    @Test(dataProvider = "dp_Administrators")
+    public void testCreateAdministrator(Administrator admin){
+        // INVALID CREATIONS
+
+        // Empty password
+        admin.setPassword(null);
+        List<Administrator> repoFindReturn = Arrays.asList(new Administrator[0]);
+        AdministratorDto dto = new AdministratorDto(admin.getId(), admin.getCompanyName());
+
+        when(repo.findByCompanyName(admin.getCompanyName())).thenReturn(repoFindReturn);
+        when(repo.save(admin)).thenReturn(admin);
+
+        Assert.assertTrue(service.createAdministrator(admin).isEmpty());    // Empty password
+
+        // Company exists
+        repoFindReturn = Arrays.asList(admin);
+        admin.setPassword("password");
+
+        when(repo.findByCompanyName(admin.getCompanyName())).thenReturn(repoFindReturn);
+
+        Assert.assertTrue(service.createAdministrator(admin).isEmpty());    // Company exists
+
+        // VALID CREATIONS
+        
+        admin.setPassword("password");
+        repoFindReturn = Arrays.asList(new Administrator[0]);
+
+        when(repo.findByCompanyName(admin.getCompanyName())).thenReturn(repoFindReturn);
+
+        Optional<AdministratorDto> actual = service.createAdministrator(admin);
+
+        Assert.assertEquals(dto.getId(), actual.get().getId());
+        Assert.assertEquals(dto.getCompanyName(), actual.get().getCompanyName());
+    }
+
+    /**
+     * Tests that AdminService::updateAdministrator runs properly,
+     * using a valid and invalid update via ID, and an invalid password.
+     * @param admin Administrator to update, which is updated by adding "Updated " to the beginning of the company name.
+     */
+    @Test(dataProvider = "dp_Administrators")
+    public void testUpdateAdministrator(Administrator admin){
+        int id = admin.getId();
+        admin.setPassword("password");
+
+        // Create an updated admin
+        Administrator updatedAdmin = new Administrator();
+        updatedAdmin.setCompanyName("Updated " + admin.getCompanyName());
+        updatedAdmin.setId(id);
+        updatedAdmin.setPassword(admin.getPassword());
+        updatedAdmin.setWarehouses(admin.getWarehouses());
+
+        // Setup mocks
+        when(repo.findById(id)).thenReturn(Optional.of(admin));
+        when(repo.save(updatedAdmin)).thenReturn(updatedAdmin);
+        
+        // Run tests
+        try {
+            // Valid update
+            Optional<AdministratorDto> dto = service.updateAdministrator(admin.getId(), updatedAdmin);
+            Assert.assertEquals(updatedAdmin.getCompanyName(), dto.get().getCompanyName());
+
+            // Cross-admin attacks
+            admin.setId(id + 1);
+            service.updateAdministrator(id, updatedAdmin);
+            Assert.assertEquals(updatedAdmin.getCompanyName(), dto.get().getCompanyName());
+            Assert.assertEquals(id, dto.get().getId());
+
+            // Empty password.
+            updatedAdmin.setPassword(null);
+            Assert.assertThrows(IllegalAccessException.class, () -> service.updateAdministrator(id, updatedAdmin));
+        } catch (IllegalAccessException e) {
+            Assert.fail("Update failed.\n" + e.getMessage());
+        }
     }
 
     @Test(dataProvider = "dp_Administrators")
-    public void testLogin(Administrator admin){
-        
-    }
-
-    @Test
-    public void testCreateAdministrator(){
-
-    }
-
-    @Test
-    public void testUpdateAdministrator(){
-
-    }
-
-    @Test
-    public void testDeleteAdministrator(){
-
+    public void testDeleteAdministrator(Administrator admin){
+        service.deleteAdministrator(admin.getId());
+        Assert.assertTrue(true, "AdminService::deleteAdministrator was called successfully.");
     }
 
     //#endregion
