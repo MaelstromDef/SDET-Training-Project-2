@@ -13,7 +13,7 @@ export default function Landing(){
 
     return <>
         <h1>Warehouse Manager</h1>
-        
+        <h3>Property of Aaron Huggins</h3>
         <button onClick={btnLogin_Handler}>Login</button>
         <button onClick={btnSignup_Handler}>Sign up</button>
     </>
