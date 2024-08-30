@@ -1,5 +1,12 @@
 package com.ahuggins.warehousedemo.componentTests.Services;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 import org.mockito.InjectMocks;
@@ -11,6 +18,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import com.ahuggins.warehousedemo.dtos.WarehouseDto;
 import com.ahuggins.warehousedemo.mappers.WarehouseMapper;
 import com.ahuggins.warehousedemo.models.Administrator;
 import com.ahuggins.warehousedemo.models.Warehouse;
@@ -18,7 +26,9 @@ import com.ahuggins.warehousedemo.repositories.WarehouseRepository;
 import com.ahuggins.warehousedemo.services.WarehouseService;
 
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class WarehouseServiceTests {
     @Mock
@@ -68,6 +78,7 @@ public class WarehouseServiceTests {
     public Object[][] provideWarehouseLists(){
         Administrator admin = new Administrator(1, "Company 1");
         Warehouse warehouse1 = new Warehouse(1, "Warehouse 1", "Location 1", 1);
+        Warehouse warehouse1_2 = new Warehouse(1, "Warehouse 1_2", "Location 1", 1);
         Warehouse warehouse2 = new Warehouse(2, "Warehouse 2", "Location 2", 2);
         Warehouse warehouse3 = new Warehouse(3, "Warehouse 3", "Location 3", 3);
         Warehouse warehouse4 = new Warehouse(4, "Warehouse 4", "Location 4",4);
@@ -79,7 +90,8 @@ public class WarehouseServiceTests {
 
         return new Object[][]{
             {warehouse1, warehouse2},
-            {warehouse3, warehouse4}
+            {warehouse3, warehouse4},
+            {warehouse1, warehouse1_2, warehouse2}
         };
     }
 
@@ -87,46 +99,157 @@ public class WarehouseServiceTests {
 
     //#region Tests
 
+    /**
+     * Tests the getAllWarehouses method when used with a correct and an incorrect admin id.
+     */
     @Test(dataProvider = "dp_WarehouseLists")
     public void testGetAllWarehouses(Warehouse[] warehouses){
         Administrator admin = new Administrator(warehouses[0].getAdministrator().getId());
         List<Warehouse> list = Arrays.asList(warehouses);
 
         // Set up mocks
+        when(repo.findByAdministrator(any(Administrator.class))).thenReturn(Arrays.asList());
         when(repo.findByAdministrator(admin)).thenReturn(list);
 
         // Test
         Assert.assertEquals(service.getAllWarehouses(admin.getId()), list);
+        Assert.assertNotEquals(service.getAllWarehouses(admin.getId() + 1), list);
     }
 
-    @Test
-    public void testGetWarehouseById(){
+    /**
+     * Tests the getWarehouseById method when used with a correct and incorrect
+     * admin ID, and a correct and incorrect warehouse ID.
+     */
+    @Test(dataProvider = "dp_Warehouses")
+    public void testGetWarehouseById(Warehouse warehouse){
+        int adminId = warehouse.getAdministrator().getId();
+        int warehouseId = warehouse.getId();
+        Administrator lookupAdmin = new Administrator(adminId);
+
+        // Typically return empty
+        when(repo.findByIdAndAdministrator(anyInt(), any(Administrator.class)))
+            .thenReturn(Optional.empty());
+        // Return warehouse on specific
+        when(repo.findByIdAndAdministrator(warehouseId, lookupAdmin))
+            .thenReturn(Optional.of(warehouse));
+
+        // Tests
+
+        Assert.assertEquals(service.getWarehouseById(adminId, warehouseId).get(), warehouse);
+        Assert.assertTrue(service.getWarehouseById(adminId, warehouseId + 1).isEmpty());
+        Assert.assertTrue(service.getWarehouseById((adminId + 1), warehouseId).isEmpty());
+        Assert.assertTrue(service.getWarehouseById((adminId + 1), (warehouseId + 1)).isEmpty());
+    }
+
+    /**
+     * Tests the getWarehouseByName method when used with a correct and incorrect
+     * admin ID, and a correct and incorrect warehouse name.
+     */
+    @Test(dataProvider = "dp_Warehouses")
+    public void testGetWarehouseByName(Warehouse warehouse){
+        Administrator lookupAdmin = new Administrator(warehouse.getAdministrator().getId());
+        when(repo.findByNameAndAdministrator(anyString(), any(Administrator.class))).thenReturn(Optional.empty());
+        when(repo.findByNameAndAdministrator(warehouse.getName(), lookupAdmin))
+            .thenReturn(Optional.of(warehouse));
+
+        Assert.assertEquals(service.getWarehouseByName(lookupAdmin.getId(), warehouse.getName()).get(), warehouse);
+        Assert.assertTrue(service.getWarehouseByName(lookupAdmin.getId(), warehouse.getName() + "bad").isEmpty());
+        Assert.assertTrue(service.getWarehouseByName(lookupAdmin.getId() + 1, warehouse.getName()).isEmpty());
+        Assert.assertTrue(service.getWarehouseByName(lookupAdmin.getId() + 1, warehouse.getName() + "bad").isEmpty());
+    }
+
+    /**
+     * Tests the getWarehouseByLocation method when used with a correct and incorrect
+     * admin ID, and a correct and incorrect location.
+     */
+    @Test(dataProvider = "dp_WarehouseLists")
+    public void testGetWarehouseByLocation(Warehouse[] warehouses){
+        Administrator admin = new Administrator(warehouses[0].getAdministrator().getId());
+        ArrayList<Warehouse> ofLocation = new ArrayList<Warehouse>();
+        String location = warehouses[0].getLocation();
         
+        for(int i = 0; i < warehouses.length; i++){
+            if(warehouses[i].getLocation().equals(location))
+                ofLocation.add(warehouses[i]);
+        }
+
+        // Set up mocks
+        when(repo.findByLocationAndAdministrator(anyString(), any(Administrator.class))).thenReturn(Arrays.asList());
+        when(repo.findByLocationAndAdministrator(location, admin)).thenReturn(ofLocation);
+
+        // Test
+        Assert.assertEquals(service.getWarehouseByLocation(admin.getId(), location), ofLocation);
+        Assert.assertTrue(service.getWarehouseByLocation(admin.getId(), location + "bad").isEmpty());
+        Assert.assertTrue(service.getWarehouseByLocation(admin.getId() + 1, location).isEmpty());
+        Assert.assertTrue(service.getWarehouseByLocation(admin.getId() + 1, location + "bad").isEmpty());
     }
 
-    @Test
-    public void testGetWarehouseByName(){
+    /**
+     * Tests the createWarehouse method when a non-existing and an existing
+     * warehouse are used.
+     */
+    @Test(dataProvider = "dp_Warehouses")
+    public void testCreateWarehouse(Warehouse warehouse){
+        Administrator lookupAdmin = new Administrator(warehouse.getAdministrator().getId());
+        WarehouseDto expectedDto = new WarehouseDto(warehouse.getId(), warehouse.getName(), warehouse.getLocation(), warehouse.getSize());
+        when(repo.save(warehouse)).thenReturn(warehouse);
+        when(mapper.toDto(warehouse)).thenReturn(expectedDto);
 
+        // Doesn't exist
+        when(repo.findByIdOrNameAndAdministrator(warehouse.getId(), warehouse.getName(), lookupAdmin))
+            .thenReturn(Optional.empty());
+
+        Assert.assertEquals(service.createWarehouse(lookupAdmin.getId(), warehouse).get(), expectedDto);
+
+        // Exists
+        when(repo.findByIdOrNameAndAdministrator(warehouse.getId(), warehouse.getName(), lookupAdmin))
+            .thenReturn(Optional.of(warehouse));
+
+        Assert.assertTrue(service.createWarehouse(lookupAdmin.getId(), warehouse).isEmpty());
     }
 
-    @Test
-    public void testGetWarehouseByLocation(){
+    /**
+     * Tests the updateWarehouse method when a non-existing and an existing
+     * warehouse are used.
+     */
+    @Test(dataProvider = "dp_Warehouses")
+    public void testUpdateWarehouse(Warehouse warehouse){
+        Administrator lookupAdmin = new Administrator(warehouse.getAdministrator().getId());
+        WarehouseDto expectedDto = new WarehouseDto(warehouse.getId(), warehouse.getName(), warehouse.getLocation(), warehouse.getSize());
+        warehouse.setAdministrator(lookupAdmin);
+        when(repo.save(warehouse)).thenReturn(warehouse);
+        when(mapper.toDto(warehouse)).thenReturn(expectedDto);
 
+        // Doesn't exist
+        when(repo.findByIdAndAdministrator(warehouse.getId(), lookupAdmin)).thenReturn(Optional.empty());
+        Assert.assertTrue(service.updateWarehouse(lookupAdmin.getId(), warehouse.getId(), warehouse).isEmpty());
+
+        // Exists
+        when(repo.findByIdAndAdministrator(warehouse.getId(), lookupAdmin)).thenReturn(Optional.of(warehouse));
+        Assert.assertEquals(service.updateWarehouse(lookupAdmin.getId(), warehouse.getId(), warehouse).get(), expectedDto);
     }
 
-    @Test
-    public void testCreateWarehouse(){
+    /**
+     * Tests the deleteWarehouse method when the warehouse does and does not
+     * exist under an administrator.
+     */
+    @Test(dataProvider = "dp_Warehouses")
+    public void testDeleteWarehouse(Warehouse warehouse){
+        Administrator lookupAdmin = new Administrator(warehouse.getAdministrator().getId());
+        doThrow(new RuntimeException("Calling repo.deleteById()")).when(repo).deleteById(warehouse.getId());
 
-    }
+        // Doesn't exist
+        when(repo.findByIdAndAdministrator(warehouse.getId(), lookupAdmin)).thenReturn(Optional.empty());
 
-    @Test
-    public void testUpdateWarehouse(){
+        try{
+            service.deleteWarehouse(lookupAdmin.getId(), warehouse.getId());
+        }catch(Exception e){
+            fail("repo.deleteById was called when the warehouse did not exist under given administrator.");
+        }
 
-    }
-
-    @Test
-    public void testDeleteWarehouse(){
-
+        // Exists (deleteById should now throw)
+        when(repo.findByIdAndAdministrator(warehouse.getId(), lookupAdmin)).thenReturn(Optional.of(warehouse));
+        assertThrows(Exception.class, () -> service.deleteWarehouse(lookupAdmin.getId(), warehouse.getId()));
     }
 
     //#endregion
