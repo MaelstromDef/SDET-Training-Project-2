@@ -15,6 +15,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import com.ahuggins.warehousedemo.componentTests.TestResources.AdminData;
 import com.ahuggins.warehousedemo.dtos.AdministratorDto;
 import com.ahuggins.warehousedemo.mappers.AdminMapper;
 import com.ahuggins.warehousedemo.models.Administrator;
@@ -49,14 +50,6 @@ public class SecurityServiceTests {
 
 //#region Data
 
-    @DataProvider(name = "dp_AdministratorDtos")
-    public Object[][] provideAdministratorDtos(){
-        return new Object[][]{
-            {new AdministratorDto(1, "Company 1")},
-            {new AdministratorDto(2, "Company 2")}
-        };
-    }
-
     /**
      * Provides a list of strings that are valid for use in the hashString function.
      */
@@ -88,7 +81,7 @@ public class SecurityServiceTests {
      * Ensures that valid administrators can receive a jwt.
      * @param dto Administrator representation.
      */
-    @Test(dataProvider = "dp_AdministratorDtos")
+    @Test(dataProvider = "dp_AdministratorDtos", dataProviderClass = AdminData.class)
     public void testValidGetJwt(AdministratorDto dto){
         try{
             Assert.assertNotNull(SecurityService.getJwt(dto));
@@ -141,7 +134,7 @@ public class SecurityServiceTests {
      * @throws Exception When the getJwt method can not make a valid JWT.
      */
     @Test(dependsOnMethods = {"testValidGetJwt"},
-        dataProvider = "dp_AdministratorDtos")
+        dataProvider = "dp_AdministratorDtos", dataProviderClass = AdminData.class)
     public void testValidateAdmin(AdministratorDto dto) throws Exception{
         // Get necessary information
         String jwt = null;

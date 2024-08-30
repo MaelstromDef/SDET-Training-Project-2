@@ -22,6 +22,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import com.ahuggins.warehousedemo.componentTests.TestResources.AdminData;
 import com.ahuggins.warehousedemo.dtos.AdministratorDto;
 import com.ahuggins.warehousedemo.mappers.AdminMapper;
 import com.ahuggins.warehousedemo.models.Administrator;
@@ -52,38 +53,12 @@ public class AdminServiceTests {
         closeable.close();
     }
 
-    //#region Data
-
-    /**
-     * Provides Administrator lists for testing.
-     */
-    @DataProvider(name="dp_AdministratorLists")
-    public Object[][] provideAdministratorLists(){
-        return new Object[][]{
-            {new Administrator(1, "Company 1"), new Administrator(2, "Company 2")},
-            {new Administrator(3, "Company 3"), new Administrator(4, "Company 4")}
-        };
-    }
-
-    /**
-     * Provides Administrator objects for testing.
-     */
-    @DataProvider(name="dp_Administrators")
-    public Object[][] provideAdministrators(){
-        return new Object[][]{
-            {new Administrator(1, "Company 1")},
-            {new Administrator(2, "Company 2")}
-        };
-    }
-
-    //#endregion
-
     //#region Tests
 
     /**
      * Tests the getAllAdministrator method.
      */
-    @Test(dataProvider = "dp_AdministratorLists")
+    @Test(dataProvider = "dp_AdministratorLists", dataProviderClass = AdminData.class)
     public void testGetAllAdministrators(Administrator[] admins){
         List<Administrator> expected = Arrays.asList(admins);
 
@@ -101,7 +76,7 @@ public class AdminServiceTests {
     /**
      * Tests the getAdministratorById method.
      */
-    @Test(dataProvider = "dp_AdministratorLists")
+    @Test(dataProvider = "dp_AdministratorLists", dataProviderClass = AdminData.class)
     public void testGetAdministratorById(Administrator[] admins){
         Optional<Administrator> optional = Optional.of(admins[0]);
 
@@ -117,7 +92,7 @@ public class AdminServiceTests {
      * 
      * @throws Exception SecurityService.hashString failed.
      */
-    @Test(dataProvider = "dp_Administrators")
+    @Test(dataProvider = "dp_Administrators", dataProviderClass = AdminData.class)
     public void testLogin(Administrator admin) throws Exception{
         String jwt = null;
         admin.setPassword("password");
@@ -135,7 +110,7 @@ public class AdminServiceTests {
      *      - Empty password
      *      - Existing company.
      */
-    @Test(dataProvider = "dp_Administrators")
+    @Test(dataProvider = "dp_Administrators", dataProviderClass = AdminData.class)
     public void testCreateAdministrator(Administrator admin){
         // INVALID CREATIONS
 
@@ -175,7 +150,7 @@ public class AdminServiceTests {
      * using a valid and invalid update via ID, and an invalid password.
      * @param admin Administrator to update, which is updated by adding "Updated " to the beginning of the company name.
      */
-    @Test(dataProvider = "dp_Administrators")
+    @Test(dataProvider = "dp_Administrators", dataProviderClass = AdminData.class)
     public void testUpdateAdministrator(Administrator admin){
         int id = admin.getId();
         admin.setPassword("password");
@@ -217,7 +192,7 @@ public class AdminServiceTests {
     /**
      * Tests the deleteAdministrator method.
      */
-    @Test(dataProvider = "dp_Administrators")
+    @Test(dataProvider = "dp_Administrators", dataProviderClass = AdminData.class)
     public void testDeleteAdministrator(Administrator admin){
         service.deleteAdministrator(admin.getId());
         Assert.assertTrue(true, "AdminService::deleteAdministrator was called successfully.");

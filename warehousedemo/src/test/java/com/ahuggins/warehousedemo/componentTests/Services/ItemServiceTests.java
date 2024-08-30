@@ -18,6 +18,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import com.ahuggins.warehousedemo.componentTests.TestResources.ItemData;
 import com.ahuggins.warehousedemo.models.Administrator;
 import com.ahuggins.warehousedemo.models.Item;
 import com.ahuggins.warehousedemo.models.StoredItem;
@@ -52,86 +53,13 @@ public class ItemServiceTests {
         closeable.close();
     }
 
-    //#region Data
-
-    /**
-     * Provides StoredItem objects for testing.
-     */
-    @DataProvider(name="dp_StoredItems")
-    public Object[][] provideStoredItems(){
-        StoredItem item1 = new StoredItem();
-        StoredItem item2 = new StoredItem();
-        Item someItem = new Item(1);
-        someItem.setName("Item");
-
-        item1.setId(new StoredItemKey(1, 1));
-        item1.setQuantity(1);
-        item1.setItem(someItem);
-
-        item2.setId(new StoredItemKey(2, 2));
-        item2.setQuantity(2);
-        item2.setItem(someItem);
-
-        return new Object[][]{
-            {item1},
-            {item2}
-        };
-    }
-
-    /**
-     * Provides StoredItem Lists for testing.
-     */
-    @DataProvider(name="dp_StoredItemLists")
-    public Object[][] provideStoredItemLists(){
-        StoredItem item1 = new StoredItem();
-        StoredItem item2 = new StoredItem();
-        StoredItem item3 = new StoredItem();
-        StoredItem item4 = new StoredItem();
-
-        item1.setId(new StoredItemKey(1, 1));
-        item1.setQuantity(1);
-
-        item2.setId(new StoredItemKey(2, 2));
-        item2.setQuantity(2);
-
-        item3.setId(new StoredItemKey(3, 3));
-        item3.setQuantity(3);
-
-        item4.setId(new StoredItemKey(4, 4));
-        item4.setQuantity(4);
-
-        return new Object[][]{
-            {item1, item2},
-            {item3, item4}
-        };
-    }
-
-    /**
-     * Provides Item objects for testing.
-     */
-    @DataProvider(name="dp_Items")
-    public Object[][] provideItems(){
-        Item item1 = new Item(1);
-        Item item2 = new Item(2);
-
-        item1.setName("Item 1");
-        item2.setName("Item 2");
-
-        return new Object[][]{
-            {item1},
-            {item2}
-        };
-    }
-
-    //#endregion
-
     //#region Tests
 
     /**
      * Tests the getWarehouseItems method.
      * @param items StoredItem list to test with.
      */
-    @Test(dataProvider = "dp_StoredItemLists")
+    @Test(dataProvider = "dp_StoredItemLists", dataProviderClass = ItemData.class)
     public void testGetWarehouseItems(StoredItem[] items){
         // Set up mocks
         Warehouse warehouse = new Warehouse();
@@ -148,7 +76,7 @@ public class ItemServiceTests {
     /**
      * Tests the getItemById method.
      */
-    @Test(dataProvider = "dp_Items")
+    @Test(dataProvider = "dp_Items", dataProviderClass = ItemData.class)
     public void testGetItemById(Item item){
         // Set up mocks.
         StoredItem storedItem = new StoredItem();
@@ -164,7 +92,7 @@ public class ItemServiceTests {
     /**
      * Tests the getItemByName method.
      */
-    @Test(dataProvider = "dp_Items")
+    @Test(dataProvider = "dp_Items", dataProviderClass = ItemData.class)
     public void testGetItemByName(Item item){
         // Set up mocks
         Item mockItem = new Item();
@@ -189,7 +117,7 @@ public class ItemServiceTests {
      *  - Item does/does not already exist.
      *  - Warehouse does/does not contain this item.
      */
-    @Test(dataProvider = "dp_StoredItems")
+    @Test(dataProvider = "dp_StoredItems", dataProviderClass = ItemData.class)
     public void testAddItemToWarehouse(StoredItem storedItem){
         // SETUP
 
@@ -238,7 +166,7 @@ public class ItemServiceTests {
      *  - Item does/does not exist.
      *  - Warehouse does/does not contain the item.
      */
-    @Test(dataProvider = "dp_StoredItems")
+    @Test(dataProvider = "dp_StoredItems", dataProviderClass = ItemData.class)
     public void testUpdateWarehouseItem(StoredItem storedItem){
         // SETUP
 
@@ -285,7 +213,7 @@ public class ItemServiceTests {
      * Tests the removeItemFromWarehouse method.
      * @param storedItem
      */
-    @Test(dataProvider = "dp_StoredItems")
+    @Test(dataProvider = "dp_StoredItems", dataProviderClass = ItemData.class)
     public void testRemoveItemFromWarehouse(StoredItem storedItem){
         // Create data models
         int adminId = 1;

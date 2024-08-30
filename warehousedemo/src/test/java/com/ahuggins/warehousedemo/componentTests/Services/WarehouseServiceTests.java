@@ -18,6 +18,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import com.ahuggins.warehousedemo.componentTests.TestResources.WarehouseData;
 import com.ahuggins.warehousedemo.dtos.WarehouseDto;
 import com.ahuggins.warehousedemo.mappers.WarehouseMapper;
 import com.ahuggins.warehousedemo.models.Administrator;
@@ -51,58 +52,12 @@ public class WarehouseServiceTests {
         closeable.close();
     }
 
-    //#region Data
-
-    /**
-     * Provides Warehouse objects for use in testing.
-     */
-    @DataProvider(name="dp_Warehouses")
-    public Object[][] provideWarehouses(){
-        Administrator admin = new Administrator(1, "Company 1");
-        Warehouse warehouse1 = new Warehouse(1, "Warehouse 1", "Location 1", 1);
-        Warehouse warehouse2 = new Warehouse(2, "Warehouse 2", "Location 2", 2);
-
-        warehouse1.setAdministrator(admin);
-        warehouse2.setAdministrator(admin);
-
-        return new Object[][]{
-            {warehouse1},
-            {warehouse2}
-        };
-    }
-
-    /**
-     * Provides Warehouse lists for use in testing.
-     */
-    @DataProvider(name="dp_WarehouseLists")
-    public Object[][] provideWarehouseLists(){
-        Administrator admin = new Administrator(1, "Company 1");
-        Warehouse warehouse1 = new Warehouse(1, "Warehouse 1", "Location 1", 1);
-        Warehouse warehouse1_2 = new Warehouse(1, "Warehouse 1_2", "Location 1", 1);
-        Warehouse warehouse2 = new Warehouse(2, "Warehouse 2", "Location 2", 2);
-        Warehouse warehouse3 = new Warehouse(3, "Warehouse 3", "Location 3", 3);
-        Warehouse warehouse4 = new Warehouse(4, "Warehouse 4", "Location 4",4);
-
-        warehouse1.setAdministrator(admin);
-        warehouse2.setAdministrator(admin);
-        warehouse3.setAdministrator(admin);
-        warehouse4.setAdministrator(admin);
-
-        return new Object[][]{
-            {warehouse1, warehouse2},
-            {warehouse3, warehouse4},
-            {warehouse1, warehouse1_2, warehouse2}
-        };
-    }
-
-    //#endregion
-
     //#region Tests
 
     /**
      * Tests the getAllWarehouses method when used with a correct and an incorrect admin id.
      */
-    @Test(dataProvider = "dp_WarehouseLists")
+    @Test(dataProvider = "dp_WarehouseLists", dataProviderClass = WarehouseData.class)
     public void testGetAllWarehouses(Warehouse[] warehouses){
         Administrator admin = new Administrator(warehouses[0].getAdministrator().getId());
         List<Warehouse> list = Arrays.asList(warehouses);
@@ -120,7 +75,7 @@ public class WarehouseServiceTests {
      * Tests the getWarehouseById method when used with a correct and incorrect
      * admin ID, and a correct and incorrect warehouse ID.
      */
-    @Test(dataProvider = "dp_Warehouses")
+    @Test(dataProvider = "dp_Warehouses", dataProviderClass = WarehouseData.class)
     public void testGetWarehouseById(Warehouse warehouse){
         int adminId = warehouse.getAdministrator().getId();
         int warehouseId = warehouse.getId();
@@ -145,7 +100,7 @@ public class WarehouseServiceTests {
      * Tests the getWarehouseByName method when used with a correct and incorrect
      * admin ID, and a correct and incorrect warehouse name.
      */
-    @Test(dataProvider = "dp_Warehouses")
+    @Test(dataProvider = "dp_Warehouses", dataProviderClass = WarehouseData.class)
     public void testGetWarehouseByName(Warehouse warehouse){
         Administrator lookupAdmin = new Administrator(warehouse.getAdministrator().getId());
         when(repo.findByNameAndAdministrator(anyString(), any(Administrator.class))).thenReturn(Optional.empty());
@@ -162,7 +117,7 @@ public class WarehouseServiceTests {
      * Tests the getWarehouseByLocation method when used with a correct and incorrect
      * admin ID, and a correct and incorrect location.
      */
-    @Test(dataProvider = "dp_WarehouseLists")
+    @Test(dataProvider = "dp_WarehouseLists", dataProviderClass = WarehouseData.class)
     public void testGetWarehouseByLocation(Warehouse[] warehouses){
         Administrator admin = new Administrator(warehouses[0].getAdministrator().getId());
         ArrayList<Warehouse> ofLocation = new ArrayList<Warehouse>();
@@ -188,7 +143,7 @@ public class WarehouseServiceTests {
      * Tests the createWarehouse method when a non-existing and an existing
      * warehouse are used.
      */
-    @Test(dataProvider = "dp_Warehouses")
+    @Test(dataProvider = "dp_Warehouses", dataProviderClass = WarehouseData.class)
     public void testCreateWarehouse(Warehouse warehouse){
         Administrator lookupAdmin = new Administrator(warehouse.getAdministrator().getId());
         WarehouseDto expectedDto = new WarehouseDto(warehouse.getId(), warehouse.getName(), warehouse.getLocation(), warehouse.getSize());
@@ -212,7 +167,7 @@ public class WarehouseServiceTests {
      * Tests the updateWarehouse method when a non-existing and an existing
      * warehouse are used.
      */
-    @Test(dataProvider = "dp_Warehouses")
+    @Test(dataProvider = "dp_Warehouses", dataProviderClass = WarehouseData.class)
     public void testUpdateWarehouse(Warehouse warehouse){
         Administrator lookupAdmin = new Administrator(warehouse.getAdministrator().getId());
         WarehouseDto expectedDto = new WarehouseDto(warehouse.getId(), warehouse.getName(), warehouse.getLocation(), warehouse.getSize());
@@ -233,7 +188,7 @@ public class WarehouseServiceTests {
      * Tests the deleteWarehouse method when the warehouse does and does not
      * exist under an administrator.
      */
-    @Test(dataProvider = "dp_Warehouses")
+    @Test(dataProvider = "dp_Warehouses", dataProviderClass = WarehouseData.class)
     public void testDeleteWarehouse(Warehouse warehouse){
         Administrator lookupAdmin = new Administrator(warehouse.getAdministrator().getId());
         doThrow(new RuntimeException("Calling repo.deleteById()")).when(repo).deleteById(warehouse.getId());
