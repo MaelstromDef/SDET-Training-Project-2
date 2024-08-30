@@ -32,7 +32,7 @@ public class ItemData {
     @DataProvider(name="dp_StoredItemLists")
     public Object[][] provideStoredItemLists(){
         List<StoredItem> storedItems = createStoreItems(4);
-
+        System.out.println(storedItems);
         return new Object[][]{
             {storedItems.get(0), storedItems.get(1)},
             {storedItems.get(2), storedItems.get(3)}
@@ -73,6 +73,8 @@ public class ItemData {
             storedItem.setId(new StoredItemKey(i, i));
             storedItem.setItem(new Item(i));
             storedItem.setQuantity(i);
+
+            storedItems.add(storedItem);
         }
 
         return storedItems;
