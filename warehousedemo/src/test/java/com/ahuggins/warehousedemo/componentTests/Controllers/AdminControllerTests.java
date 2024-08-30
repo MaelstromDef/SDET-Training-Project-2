@@ -14,6 +14,7 @@ import java.util.Optional;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.autoconfigure.pulsar.PulsarProperties.Admin;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 import org.testng.annotations.AfterClass;
@@ -21,6 +22,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import com.ahuggins.warehousedemo.componentTests.TestResources.AdminData;
 import com.ahuggins.warehousedemo.controllers.AdminController;
 import com.ahuggins.warehousedemo.dtos.AdministratorDto;
 import com.ahuggins.warehousedemo.models.Administrator;
@@ -49,24 +51,8 @@ public class AdminControllerTests {
 
     //#region Data
 
-    @DataProvider(name="AdministratorList")
-    public Object[][] provideAdministratorList(){
-        return new Object[][] {
-            { new Administrator(1, "Company 1"),
-            new Administrator(2, "Company 2") }
-        };
-    }
-
-    @DataProvider(name="AdministratorDtoList")
-    public Object[][] provideAdministratorDtoList(){
-        return new Object[][] {
-            { new AdministratorDto(3, "Company 3"),
-            new AdministratorDto(4, "Company 4") }
-        };
-    }
-
     
-    @Test(dataProvider = "AdministratorDtoList")
+    @Test(dataProvider = "dp_AdministratorDtoLists", dataProviderClass = AdminData.class)
     public void getAdministratorsTest(AdministratorDto[] adminDtos){
         //Setup Mock Information and Methods
         List<AdministratorDto> expectedAdminDtos = Arrays.asList(adminDtos);
@@ -77,11 +63,12 @@ public class AdminControllerTests {
         assertEquals(expectedAdminDtos, actualAdminDtos);
     }
 
-    @Test(dataProvider = "AdministratorList")
+    @Test(dataProvider = "dp_AdministratorLists", dataProviderClass = AdminData.class)
     public void loginTest(Administrator[] admins) {
         //Setup Mock Information and Methods
-        Administrator admin1 = admins[0];
-        Administrator admin2 = admins[1];
+        List<Administrator> inputAdmins = Arrays.asList(admins);
+        Administrator admin1 = inputAdmins.get(0);
+        Administrator admin2 = inputAdmins.get(1);
         String expectedJwt = "Valid JWT String";
         try {
             when(adminService.login(admin1)).thenReturn(expectedJwt);
@@ -93,11 +80,12 @@ public class AdminControllerTests {
         assertThrows(ResponseStatusException.class, () ->{ adminController.login(admin2); });
     }
 
-    @Test(dataProvider = "AdministratorList")
+    @Test(dataProvider = "dp_AdministratorLists", dataProviderClass = AdminData.class)
     public void signupTest(Administrator[] admins) {
         //Setup Mock Information and Methods
-        Administrator admin1 = admins[0];
-        Administrator admin2 = admins[1];
+        List<Administrator> inputAdmins = Arrays.asList(admins);
+        Administrator admin1 = inputAdmins.get(0);
+        Administrator admin2 = inputAdmins.get(1);
         Optional<AdministratorDto> expectedAdminDto1 = Optional.of(new AdministratorDto(1, "Company 1"));
         Optional<AdministratorDto> expectedAdminDto2 = Optional.empty();
         when(adminService.createAdministrator(admin1) ).thenReturn(expectedAdminDto1);
@@ -109,12 +97,13 @@ public class AdminControllerTests {
         assertThrows(ResponseStatusException.class, () ->{ adminController.signup(admin2); }); 
     }
 
-    @Test(dataProvider = "AdministratorList")
+    @Test(dataProvider = "dp_AdministratorLists", dataProviderClass = AdminData.class)
     public void updateAccountTest(Administrator[] admins) {
          //Setup Mock Information and Methods
          int id1 = 1, id2 = 2;
-         Administrator admin1 = admins[0];
-         Administrator admin2 = admins[1];
+         List<Administrator> inputAdmins = Arrays.asList(admins);
+         Administrator admin1 = inputAdmins.get(0);
+         Administrator admin2 = inputAdmins.get(1);
          Optional<AdministratorDto> expectedAdminDto1 = Optional.of(new AdministratorDto(1, "Company 1"));
          Optional<AdministratorDto> expectedAdminDto2 = Optional.empty();
          try {

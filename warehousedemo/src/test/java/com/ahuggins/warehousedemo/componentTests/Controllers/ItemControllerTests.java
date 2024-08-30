@@ -16,6 +16,9 @@ import org.testng.annotations.Test;
 
 import com.ahuggins.warehousedemo.controllers.ItemController;
 import com.ahuggins.warehousedemo.models.Item;
+import com.ahuggins.warehousedemo.models.StoredItem;
+import com.ahuggins.warehousedemo.models.StoredItemKey;
+import com.ahuggins.warehousedemo.models.Warehouse;
 import com.ahuggins.warehousedemo.services.ItemService;
 
 
@@ -40,10 +43,27 @@ public class ItemControllerTests {
 
     //#region Data
 
-    @DataProvider(name="ItemList")
-    public Object[][] provideItemList(){
-        return new Object[][] {
-            { new Item(1), new Item(2), new Item(3) }
+    /**
+     * Provides StoredItem objects for testing.
+     */
+    @DataProvider(name="dp_StoredItems")
+    public Object[][] provideStoredItems(){
+        StoredItem item1 = new StoredItem();
+        StoredItem item2 = new StoredItem();
+        Item someItem = new Item(1);
+        someItem.setName("Item");
+
+        item1.setId(new StoredItemKey(1, 1));
+        item1.setQuantity(1);
+        item1.setItem(someItem);
+
+        item2.setId(new StoredItemKey(2, 2));
+        item2.setQuantity(2);
+        item2.setItem(someItem);
+
+        return new Object[][]{
+            {item1},
+            {item2}
         };
     }
 
