@@ -41,33 +41,6 @@ public class ItemControllerTests {
         closeable.close();
     }
 
-    //#region Data
-
-    /**
-     * Provides StoredItem objects for testing.
-     */
-    @DataProvider(name="dp_StoredItems")
-    public Object[][] provideStoredItems(){
-        StoredItem item1 = new StoredItem();
-        StoredItem item2 = new StoredItem();
-        Item someItem = new Item(1);
-        someItem.setName("Item");
-
-        item1.setId(new StoredItemKey(1, 1));
-        item1.setQuantity(1);
-        item1.setItem(someItem);
-
-        item2.setId(new StoredItemKey(2, 2));
-        item2.setQuantity(2);
-        item2.setItem(someItem);
-
-        return new Object[][]{
-            {item1},
-            {item2}
-        };
-    }
-
-
     
     @Test(dataProvider = "ItemDtoList")
     public void getWarehouseItemsTest(Item[] items){
