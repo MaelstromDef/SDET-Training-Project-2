@@ -19,11 +19,21 @@
         <classes>
             <class name="com.ahuggins.warehousedemo.componentTests.Services.AdminServiceTests" />
             <class name="com.ahuggins.warehousedemo.componentTests.Services.SecurityServiceTests" /> 
+            <class name="com.ahuggins.warehousedemo.componentTests.Services.ItemServiceTests" /> 
+            <class name="com.ahuggins.warehousedemo.componentTests.Services.WarehouseServiceTests" /> 
+            
         </classes>
     </test>
     <test verbose="2" name="Model Tests" preserve-order="false">
         <classes>
             <class name="com.ahuggins.warehousedemo.componentTests.ModelTests" />
+        </classes>
+    </test>
+    <test verbose="2" name="Aspect Tests" preserve-order="false">
+        <classes>
+            <class name="com.ahuggins.warehousedemo.componentTests.Aspects.GlobalExceptionHandlerTests" />
+            <class name="com.ahuggins.warehousedemo.componentTests.Aspects.LoggingAspectTests" />
+            <class name="com.ahuggins.warehousedemo.componentTests.Aspects.SecurityFilterTests" />
         </classes>
     </test>
 </suite>
