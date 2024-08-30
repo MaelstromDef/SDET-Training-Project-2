@@ -281,6 +281,10 @@ public class ItemServiceTests {
         Assert.assertTrue(service.updateWarehouseItem(adminId, warehouseId, storedItem).isEmpty());
     }
 
+    /**
+     * Tests the removeItemFromWarehouse method.
+     * @param storedItem
+     */
     @Test(dataProvider = "dp_StoredItems")
     public void testRemoveItemFromWarehouse(StoredItem storedItem){
         // Create data models

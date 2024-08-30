@@ -54,6 +54,9 @@ public class AdminServiceTests {
 
     //#region Data
 
+    /**
+     * Provides Administrator lists for testing.
+     */
     @DataProvider(name="dp_AdministratorLists")
     public Object[][] provideAdministratorLists(){
         return new Object[][]{
@@ -62,6 +65,9 @@ public class AdminServiceTests {
         };
     }
 
+    /**
+     * Provides Administrator objects for testing.
+     */
     @DataProvider(name="dp_Administrators")
     public Object[][] provideAdministrators(){
         return new Object[][]{
@@ -74,6 +80,9 @@ public class AdminServiceTests {
 
     //#region Tests
 
+    /**
+     * Tests the getAllAdministrator method.
+     */
     @Test(dataProvider = "dp_AdministratorLists")
     public void testGetAllAdministrators(Administrator[] admins){
         List<Administrator> expected = Arrays.asList(admins);
@@ -89,6 +98,9 @@ public class AdminServiceTests {
         }
     }
 
+    /**
+     * Tests the getAdministratorById method.
+     */
     @Test(dataProvider = "dp_AdministratorLists")
     public void testGetAdministratorById(Administrator[] admins){
         Optional<Administrator> optional = Optional.of(admins[0]);
@@ -100,7 +112,11 @@ public class AdminServiceTests {
         Assert.assertEquals(optional.get().getCompanyName(), actual.get().getCompanyName());
     }
 
-    // WARNING: NEEDS ENV
+    /**
+     * Tests the login method.
+     * 
+     * @throws Exception SecurityService.hashString failed.
+     */
     @Test(dataProvider = "dp_Administrators")
     public void testLogin(Administrator admin) throws Exception{
         String jwt = null;
@@ -113,7 +129,12 @@ public class AdminServiceTests {
         Assert.assertNotNull(jwt);
     }
 
-    // WARNING: NEEDS ENV
+    /**
+     * Tests the createAdministrator method for valid creations and 
+     * creations that are invalid due to:
+     *      - Empty password
+     *      - Existing company.
+     */
     @Test(dataProvider = "dp_Administrators")
     public void testCreateAdministrator(Administrator admin){
         // INVALID CREATIONS
@@ -183,6 +204,9 @@ public class AdminServiceTests {
             Assert.assertEquals(id, dto.get().getId());
 
             // Empty password.
+            updatedAdmin.setPassword("");
+            Assert.assertThrows(IllegalAccessException.class, () -> service.updateAdministrator(id, updatedAdmin));
+
             updatedAdmin.setPassword(null);
             Assert.assertThrows(IllegalAccessException.class, () -> service.updateAdministrator(id, updatedAdmin));
         } catch (IllegalAccessException e) {
@@ -190,6 +214,9 @@ public class AdminServiceTests {
         }
     }
 
+    /**
+     * Tests the deleteAdministrator method.
+     */
     @Test(dataProvider = "dp_Administrators")
     public void testDeleteAdministrator(Administrator admin){
         service.deleteAdministrator(admin.getId());

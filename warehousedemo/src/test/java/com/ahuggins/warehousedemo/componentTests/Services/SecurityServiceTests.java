@@ -125,7 +125,6 @@ public class SecurityServiceTests {
 
     /**
      * Tests that invalid strings are appropriately handled by hashString.
-     * @param str
      */
     @Test(dataProvider = "dp_InvalidStrings")
     public void testInvalidHashString(String str){
@@ -135,16 +134,18 @@ public class SecurityServiceTests {
         }catch(Exception e){}   // Failure to run an invalid string passes.
     }
 
+    /**
+     * Tests the validateAdmin methods when a valid and invalid admin/dto are used.
+     * 
+     * @apiNote Depends on the getJwt method, ensure testValidGetJwt is robust.
+     * @throws Exception When the getJwt method can not make a valid JWT.
+     */
     @Test(dependsOnMethods = {"testValidGetJwt"},
         dataProvider = "dp_AdministratorDtos")
-    public void testValidateAdmin(AdministratorDto dto){
+    public void testValidateAdmin(AdministratorDto dto) throws Exception{
         // Get necessary information
         String jwt = null;
-        try {
-			jwt = SecurityService.getJwt(dto);
-		} catch (Exception e) {
-			Assert.fail("Failed to retrieve JWT.\n" + e.getMessage());
-		}
+        jwt = SecurityService.getJwt(dto);
 
         // Set up mocks
         Administrator admin = new Administrator(dto.getId(), dto.getCompanyName());
@@ -161,6 +162,12 @@ public class SecurityServiceTests {
         Assert.assertFalse(SecurityService.validateAdmin(jwt, admin));
     }
 
+    /**
+     * Tests the validate method when a valid JWT, invalid JWT, and random string are used.
+     * 
+     * @apiNote Depends on the getJwt method, ensure testValidGetJwt is robust.
+     * @throws Exception When the getJwt method can not make a valid JWT.
+     */
     @Test(dependsOnMethods = {"testValidGetJwt"})
     public void testValidate() throws Exception{
         // Get necessary information
@@ -184,6 +191,12 @@ public class SecurityServiceTests {
         Assert.assertFalse(SecurityService.validate(badJwt));
     }
 
+    /**
+     * Tests the getClaim method for valid claims and an invlaid claim.
+     * 
+     * @apiNote Depends on the getJwt method, ensure testValidGetJwt is robust.
+     * @throws Exception When the getJwt method can not make a valid JWT.
+     */
     @Test(dependsOnMethods = {"testValidGetJwt"})
     public void testGetClaim() throws Exception{
         // Get necessary information
