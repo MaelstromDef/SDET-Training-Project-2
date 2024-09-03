@@ -19,7 +19,8 @@ public class WarehouseData {
         return new Object[][]{
             { warehouses.get(0), warehouses.get(1) },
             { warehouses.get(2), warehouses.get(3) },
-            { warehouses.get(0), warehouses.get(4), warehouses.get(5)}
+            { warehouses.get(0), warehouses.get(4), warehouses.get(5)},
+            { warehouses.get(0), warehouses.get(2), warehouses.get(3), warehouses.get(4), warehouses.get(5) }
         };
     }
 
@@ -33,7 +34,7 @@ public class WarehouseData {
         };
     }
 
-    private List<Warehouse> createWarehouses(int numWarehouses) {
+    public List<Warehouse> createWarehouses(int numWarehouses) {
         Administrator admin = new Administrator(1, "Company 1");
         List<Warehouse> warehouses = new ArrayList<>();
         for (int i=1; i<=numWarehouses; i++) {

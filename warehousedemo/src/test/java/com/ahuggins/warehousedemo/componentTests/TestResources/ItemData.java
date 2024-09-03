@@ -52,7 +52,7 @@ public class ItemData {
         };
     }
 
-    private List<Item> createItems(int numItems) {
+    public List<Item> createItems(int numItems) {
         
         List<Item> items= new ArrayList<>();
         for (int i=1; i<=numItems; i++) {
@@ -64,7 +64,7 @@ public class ItemData {
         return items;
     }
 
-    private List<StoredItem> createStoreItems(int numStoredItems) {
+    public List<StoredItem> createStoreItems(int numStoredItems) {
         
         List<StoredItem> storedItems= new ArrayList<>();
         for (int i=1; i<=numStoredItems; i++) {
