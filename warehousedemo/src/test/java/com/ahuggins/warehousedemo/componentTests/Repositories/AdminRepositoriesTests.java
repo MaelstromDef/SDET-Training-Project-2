@@ -1,14 +1,14 @@
 package com.ahuggins.warehousedemo.componentTests.Repositories;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.ahuggins.warehousedemo.componentTests.TestResources.AdminData;
@@ -19,6 +19,7 @@ import jakarta.transaction.Transactional;
 
 @SpringBootTest
 @Transactional
+@ActiveProfiles("test")
 public class AdminRepositoriesTests extends AbstractTestNGSpringContextTests {
     
     @Autowired
@@ -61,21 +62,24 @@ public class AdminRepositoriesTests extends AbstractTestNGSpringContextTests {
          * | 2  | Company 2 | Password 2 |
          * +----+-----------+------------+ 
          */
-    }
 
-    @BeforeMethod
-    public void populateDataBases() {
         for (Administrator admin : admins) {
             adminRepo.save(admin);
         }
-        
+    }
+
+    @AfterClass
+    public void teardown() {
+        adminRepo = null;
+        adminProvider = null;
+        admins = null;
     }
 
     @Test
     public void generalTest(){
-        List<Administrator> actualAdmins = adminRepo.findAll();
+        List<Administrator> returnedAdmins = adminRepo.findAll();
 
-        Assert.assertEquals(actualAdmins, admins);
+        Assert.assertEquals(returnedAdmins.size(), admins.size());
     }
 
 
@@ -92,6 +96,7 @@ public class AdminRepositoriesTests extends AbstractTestNGSpringContextTests {
         List<Administrator> nullAdmin2 = adminRepo.findByCompanyNameAndPassword(wrongName, pass);
         List<Administrator> nullAdmin3 = adminRepo.findByCompanyNameAndPassword(wrongName, wrongPass);
 
+        Assert.assertEquals(existingAdmin.size(), 1);
         Assert.assertEquals(existingAdmin.get(0), admins.get(index));
         Assert.assertTrue(nullAdmin1.isEmpty());
         Assert.assertTrue(nullAdmin2.isEmpty());

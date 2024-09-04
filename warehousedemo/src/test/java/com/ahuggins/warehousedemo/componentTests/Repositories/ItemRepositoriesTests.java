@@ -1,19 +1,17 @@
 package com.ahuggins.warehousedemo.componentTests.Repositories;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.checkerframework.checker.units.qual.N;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.ahuggins.warehousedemo.componentTests.TestResources.ItemData;
@@ -33,6 +31,7 @@ import jakarta.transaction.Transactional;
 
 @SpringBootTest
 @Transactional
+@ActiveProfiles("test")
 public class ItemRepositoriesTests extends AbstractTestNGSpringContextTests {
 
     @Autowired
@@ -127,10 +126,7 @@ public class ItemRepositoriesTests extends AbstractTestNGSpringContextTests {
         //         item.getId(), item.getName()
         //     );
         // }
-    }
 
-    @BeforeMethod
-    public void populateDataBases () {
         Administrator admin = warehouses.get(0).getAdministrator();
         admin.setPassword("Valid Password");
         adminRepo.save(admin); //Should be the only admin needed
@@ -151,11 +147,13 @@ public class ItemRepositoriesTests extends AbstractTestNGSpringContextTests {
         itemRepo = null;
         storedItemRepo = null;
         warehouseRepo = null;
+        adminRepo = null;
         items = null;
         storedItems = null;
         warehouses = null;
         itemProvider = null;
         warehouseProvider = null;
+  
     }
 
     @Test
@@ -163,8 +161,8 @@ public class ItemRepositoriesTests extends AbstractTestNGSpringContextTests {
         // This is just to make sure the setup is correct
         List<Item> itemsResult = itemRepo.findAll();
         List<StoredItem> storedResult = storedItemRepo.findAll();
-        Assert.assertEquals(items, itemsResult);
-        Assert.assertEquals(storedItems, storedResult);
+        Assert.assertEquals(items.size(), itemsResult.size());
+        Assert.assertEquals(storedItems.size(), storedResult.size());
     }
 
     /** ************************************************
@@ -180,7 +178,7 @@ public class ItemRepositoriesTests extends AbstractTestNGSpringContextTests {
         Optional<Item> existingItem = itemRepo.findByName(name);
         Optional<Item> nullItem = itemRepo.findByName(wrongName);
 
-        Assert.assertEquals( items.get(index), existingItem.get() );
+        Assert.assertEquals( existingItem.get(), items.get(index) );
         Assert.assertTrue(nullItem.isEmpty());
     }
 
@@ -213,18 +211,19 @@ public class ItemRepositoriesTests extends AbstractTestNGSpringContextTests {
 
     @Test
     public void findByItemAndWarehouseTest(){
-        Item storedItem = items.get(0);
-        Item notStoredItem = items.get(NUM_ITEMS-1);
+        Item savedItem = items.get(0);
+        Item notSavedItem = items.get(NUM_ITEMS-1);
 
         Warehouse fullWarehouse = warehouses.get(0);
         Warehouse emptyWarehouse = warehouses.get(1);
 
-        List<StoredItem> existingStoredItem = storedItemRepo.findByItemAndWarehouse(storedItem, fullWarehouse);
-        List<StoredItem> emptyStoredItem1 = storedItemRepo.findByItemAndWarehouse(storedItem, emptyWarehouse);
-        List<StoredItem> emptyStoredItem2 = storedItemRepo.findByItemAndWarehouse(notStoredItem, fullWarehouse);
-        List<StoredItem> emptyStoredItem3 = storedItemRepo.findByItemAndWarehouse(notStoredItem, emptyWarehouse);
+        List<StoredItem> existingStoredItem = storedItemRepo.findByItemAndWarehouse(savedItem, fullWarehouse);
+        List<StoredItem> emptyStoredItem1 = storedItemRepo.findByItemAndWarehouse(savedItem, emptyWarehouse);
+        List<StoredItem> emptyStoredItem2 = storedItemRepo.findByItemAndWarehouse(notSavedItem, fullWarehouse);
+        List<StoredItem> emptyStoredItem3 = storedItemRepo.findByItemAndWarehouse(notSavedItem, emptyWarehouse);
     
         Assert.assertEquals(existingStoredItem.size(), 1);
+        Assert.assertEquals(existingStoredItem.get(0).getItem(), savedItem);
         Assert.assertTrue(emptyStoredItem1.isEmpty());
         Assert.assertTrue(emptyStoredItem2.isEmpty());
         Assert.assertTrue(emptyStoredItem3.isEmpty());

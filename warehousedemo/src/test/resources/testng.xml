@@ -36,4 +36,11 @@
             <class name="com.ahuggins.warehousedemo.componentTests.Aspects.SecurityFilterTests" />
         </classes>
     </test>
+    <test verbose="2" name="Repository Tests" preserve-order="false">
+        <classes>
+            <class name="com.ahuggins.warehousedemo.componentTests.Repositories.AdminRepositoriesTests" />
+            <class name="com.ahuggins.warehousedemo.componentTests.Repositories.ItemRepositoriesTests" /> 
+            <class name="com.ahuggins.warehousedemo.componentTests.Repositories.WarehouseRepositoryTests" />
+        </classes>
+    </test>
 </suite>

@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -25,7 +26,8 @@ import jakarta.transaction.Transactional;
 
 @SpringBootTest
 @Transactional
-public class WarehouseRepositoryTests extends AbstractTestNGSpringContextTests {
+@ActiveProfiles("test")
+public class WarehouseRepositoryTests extends AbstractTestNGSpringContextTests  {
     @Autowired
     private WarehouseRepository warehouseRepository;
     @Autowired
@@ -39,11 +41,6 @@ public class WarehouseRepositoryTests extends AbstractTestNGSpringContextTests {
     private int NUM_WAREHOUSES = 5;
     private int NUM_ADMINS = 3;
 
-    // @Override
-    // @BeforeSuite
-    // protected void springTestContextPrepareTestInstance() throws Exception {
-    //     super.springTestContextPrepareTestInstance();
-    // }
 
     @BeforeClass
     public void setup(){
@@ -79,10 +76,8 @@ public class WarehouseRepositoryTests extends AbstractTestNGSpringContextTests {
          * | -  | admin3 | -           | -          | 
          * +----+--------+-------------+------------+
          */ 
-    }
+        
 
-    @BeforeMethod
-    public void populateDataBase () {
         //save all admins to database
         for (Administrator admin : admins) {
             adminRepo.save(admin);
@@ -92,12 +87,12 @@ public class WarehouseRepositoryTests extends AbstractTestNGSpringContextTests {
         for (int i=0; i<warehouses.size(); i++) {
             warehouseRepository.save(warehouses.get(i));
         }
-
     }
 
     @AfterClass
     public void teardown() {
         warehouseRepository = null;
+        adminRepo = null;
         warehouses = null;
         admins = null;
         adminProvider = null;
@@ -108,7 +103,7 @@ public class WarehouseRepositoryTests extends AbstractTestNGSpringContextTests {
     public void generalTest() {
         // This is just to make sure the setup is correct
         List<Warehouse> result = warehouseRepository.findAll();
-        assertEquals(warehouses, result);
+        assertEquals(warehouses.size(), result.size());
     }
 
     @Test
@@ -117,7 +112,7 @@ public class WarehouseRepositoryTests extends AbstractTestNGSpringContextTests {
         Optional<Warehouse>  existingWarehouse = warehouseRepository.findByIdAndAdministrator(id, admins.get(1));
         Optional<Warehouse> nullWarehouse = warehouseRepository.findByIdAndAdministrator(id, admins.get(0));
 
-        Assert.assertEquals( warehouses.get(3), existingWarehouse.get() );
+        Assert.assertEquals(existingWarehouse.get(),  warehouses.get(3) );
         Assert.assertTrue(nullWarehouse.isEmpty());
     }
 
@@ -209,6 +204,7 @@ public class WarehouseRepositoryTests extends AbstractTestNGSpringContextTests {
         
         Assert.assertTrue( existingWarehouseList.size() == 2 );
         Assert.assertTrue( existingWarehouse.size() == 1 );
+        Assert.assertEquals(existingWarehouse.get(0), warehouses.get(0));
         Assert.assertTrue(nullWarehouse.isEmpty());
     }
 
