@@ -109,7 +109,7 @@ pipeline {
 
                     dir('project1Frontend') {
                         frontendPid = sh(script: '''
-                            npm install && npm vite --mode test &
+                            npm install && npx vite --mode test &
                             echo $!
                         ''', returnStdout: true).trim()
                     }
