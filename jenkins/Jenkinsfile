@@ -38,7 +38,7 @@ pipeline {
                 script{
                     dir('warehousedemo') {
 
-                        sh 'cd backend && mvn clean install -DskipTests=true -Dspring.profiles.active=build'
+                        sh 'mvn clean install -DskipTests=true -Dspring.profiles.active=build'
 
                         withCredentials([
                             string(credentialsId: 'DB_USERNAME', variable: 'DB_USERNAME'),
