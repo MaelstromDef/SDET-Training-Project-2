@@ -107,11 +107,11 @@ public class LoginPage extends FormPage {
         //TODO: The submission verification was giving failure because there wasn't enough time for the form to redirect
         //to a new page before checking, so i put a pause in and that works for now but we need to find another fix.
         try {
-            Thread.sleep(1000);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             throw new RuntimeException(e.getMessage());
         }
-        if(!verifySubmissionSuccess()) throw new RuntimeException("FATAL: Could not log in.");   // Check success
+        if(!verifySubmissionSuccess()) throw new RuntimeException("FATAL: Could not log in. \nCurrent URL: " + driver.getCurrentUrl());   // Check success
     }
     
     /**

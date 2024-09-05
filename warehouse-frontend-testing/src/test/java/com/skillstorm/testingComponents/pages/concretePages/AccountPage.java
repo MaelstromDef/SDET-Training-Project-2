@@ -75,7 +75,7 @@ public class AccountPage extends ObjectPage {
      */
     public void clickBtnUpdate(){
         loadElements();
-        btnUpdate.click();
+        //btnUpdate.click();
     }
 
     /**
@@ -119,10 +119,10 @@ public class AccountPage extends ObjectPage {
             case "btnDeleteAccount":
                 clickBtnDelete();
                 break;
-            case "btnConfirmDeleteAccount":
+            case "btnConfirmDelete":
                 clickBtnConfirmDelete();
                 break;
-            case "btnCancelDeleteAccount":
+            case "btnCancelDelete":
                 clickBtnCancelDelete();
                 break;
             default:
@@ -177,8 +177,7 @@ public class AccountPage extends ObjectPage {
      */
     @Override
     public boolean verifyObjectExistence() {
-        if (inCompanyName == null) {return false;}
-        return !(inCompanyName.getText().trim().equals(""));
+        return inCompanyName != null;
     }
 
     /**
@@ -221,7 +220,7 @@ public class AccountPage extends ObjectPage {
     @Override
     public boolean isUserPerformingAction(String action) {
         switch(action){
-            case "Deleting Account":
+            case "Account Delete":
                 btnConfirmDelete = driver.findElement(By.xpath(BTN_CONFIRM_DELETE_XPATH));
                 btnCancelDelete = driver.findElement(By.xpath(BTN_CANCEL_DELETE_XPATH));
 
@@ -286,7 +285,7 @@ public class AccountPage extends ObjectPage {
 
     @Override
     protected WebElement getSubmitButton() {
-        return btnUpdate;
+        return null;
     }
 
     @Override

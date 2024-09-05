@@ -1,3 +1,4 @@
+@warehouse
 Feature: Warehouse Behaviors
 
     ### CREATE ###

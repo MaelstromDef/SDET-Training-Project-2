@@ -3,6 +3,7 @@ package com.skillstorm.testingComponents.pages.concretePages;
 import java.util.Arrays;
 import java.util.List;
 
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,12 +16,15 @@ public class WarehousesPage extends ObjectPage {
     // --- INTERACTABLES ---
 
     // Add warehouse form
-    @FindBy(xpath = "//*[@id=\"root\"]/div[2]/button")
+    private static final String BTN_OPEN_FORM_XPATH = "//*[@id=\"root\"]/div[2]/button";
+    @FindBy(xpath = BTN_OPEN_FORM_XPATH)
     private WebElement btnOpenForm;
 
     @FindBy(xpath = "//*[@id=\"root\"]/div[2]/form/input[1]")
     private WebElement inName;
-    @FindBy(xpath = "//*[@id=\"root\"]/div[2]/form/input[2]")
+
+    private static final String IN_LOCATION_XPATH = "//*[@id=\"root\"]/div[2]/form/input[2]";
+    @FindBy(xpath = IN_LOCATION_XPATH)
     private WebElement inLocation;
     @FindBy(xpath = "//*[@id=\"root\"]/div[2]/form/input[3]")
     private WebElement inSize;
@@ -89,19 +93,27 @@ public class WarehousesPage extends ObjectPage {
     @Override
     public boolean verifyObjectExistence() {
         if (elObjectRow == null) {return false;}
-        return elObjectRow.isDisplayed();
+        try {
+            return txtObjectName.isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 
     @Override
     public boolean verifyObjectUpdated() {
-        return !(driver.getCurrentUrl().equals(url));
+        try {
+            return elTableHeader.isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 
     @Override
     public void performAction(String action) {
         switch (action) {
             case "New Warehouse":
-                btnOpenForm.click();
+                clickBtnOpenForm();
                 break;
         
             default:
@@ -113,7 +125,11 @@ public class WarehousesPage extends ObjectPage {
     public boolean isUserPerformingAction(String action) {
         switch(action){
             case "New Warehouse":
-                return !driver.getCurrentUrl().equals(url);
+                try {
+                    return inName.isDisplayed();
+                } catch (NoSuchElementException e) {
+                    return false;
+                }
             default:
                 throw new IllegalArgumentException("Action '" + action + "' does not exist.");
         }
@@ -185,22 +201,34 @@ public class WarehousesPage extends ObjectPage {
     }
 
     public void clickBtnAddWarehouse(){
+        clickBtnOpenForm();
         btnAddWarehouse.click();
     }
 
     public void clickBtnOpenForm(){
-        btnOpenForm.click();
+        try{
+            inName.isDisplayed();
+        }catch(NoSuchElementException e){
+            btnOpenForm.click();
+        }
     }
 
     public void clickBtnCancel(){
         btnCloseForm.click();
     }
 
+    public void ensureWarehouseExists(){
+        createWarehouse();
+        loadElements();
+    }
+
     public void clickBtnManage(){
+        ensureWarehouseExists();
         btnManage.click();
     }
 
     public void clickBtnDelete(){
+        ensureWarehouseExists();
         btnDelete.click();
     }
 
@@ -223,5 +251,14 @@ public class WarehousesPage extends ObjectPage {
     @Override
     protected String getUrlExtension() {
         return urlExtension;
+    }
+
+    /**
+     * Ensures the warehouse is created.
+     */
+    public void createWarehouse(){
+        loadElements();
+        enterRightFormInformation();
+        submitForm();
     }
 }

@@ -1,9 +1,12 @@
 package com.skillstorm.testingComponents.pages.concretePages;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.Arrays;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -62,6 +65,7 @@ public class ItemsPage extends ObjectPage {
     private WebElement btnCancelUpdateItem;
 
     private static final String BTN_DELETE_XPATH = "//*[@id=\"root\"]/table/tbody/tr/td[3]/button[2]";
+    private static final String BTN_DELETE_XPATH_MANAGING = "//*[@id=\"root\"]/table/tbody/tr/td[3]/button[3]";
     @FindBy(xpath = BTN_DELETE_XPATH)
     private WebElement btnDelete;
 
@@ -104,6 +108,28 @@ public class ItemsPage extends ObjectPage {
     // --- METHODS --- 
 
     @Override
+    public void navigateToPage() {
+        WarehousesPage warehousesPage = new WarehousesPage(driver, StepDefinitions.initialURL);
+        warehousesPage.navigateToPage();
+        warehousesPage.clickBtnManage();
+
+        loadElements();
+    }
+
+    public void createItem(){
+        loadElements();
+        enterRightFormInformation();
+        submitForm();
+    }
+
+    public void ensureItemExists(){
+        createItem();
+        loadElements();
+    }
+
+    //#region OBJECT
+
+    @Override
     public void modifyObjectRight() {
         clickBtnManage();
 
@@ -133,30 +159,18 @@ public class ItemsPage extends ObjectPage {
         return txtObjectQuantity.getText().equals(Config.VALID_ITEM_QUANTITY);
     }
 
-    @Override
-    public void performAction(String action) {
-        switch (action) {
-            case "New Item":
-                clickBtnOpenForm();
-                break;
-            case "Item Update":
-                clickBtnManage();
-                break;
-            default:
-                throw new IllegalArgumentException("Action '" + action + "' does not exist.");
-        }
-    }
+    //#endregion
+
+    //#region FORM
 
     @Override
-    public boolean isUserPerformingAction(String action) {
-        switch(action){
-            case "New Item":
-                return inName.isDisplayed();
-            case "Item Update":
-                return inUpdateQuantity.isDisplayed();
-            default:
-                throw new IllegalArgumentException("Action '" + action + "' does not exist.");
-        }
+    public boolean verifySubmissionFailure() {
+        String feedback = txtFeedback.getText();
+
+        return feedback.equals(MSG_EMPTY_FIELDS) ||
+            feedback.equals(MSG_ERROR) ||
+            feedback.equals(MSG_INVALID_QUANTITY) ||
+            feedback.equals(MSG_ITEM_EXISTS);
     }
 
     @Override
@@ -178,37 +192,58 @@ public class ItemsPage extends ObjectPage {
     }
 
     @Override
-    public boolean verifySubmissionFailure() {
-        String feedback = txtFeedback.getText();
-
-        return feedback.equals(MSG_EMPTY_FIELDS) ||
-            feedback.equals(MSG_ERROR) ||
-            feedback.equals(MSG_INVALID_QUANTITY) ||
-            feedback.equals(MSG_ITEM_EXISTS);
-    }
-
-    @Override
     public boolean verifySubmissionSuccess() {
         return verifyObjectExistence();
     }
 
     @Override
-    public void navigateToPage() {
-        logIn();
-
-        WarehousesPage warehousesPage = new WarehousesPage(driver, StepDefinitions.initialURL);
-        warehousesPage.navigateToPage();
-
-        if(!driver.getCurrentUrl().equals(warehousesPage.getUrl())){
-            try{
-                Thread.sleep(1000);
-            }catch(Exception e){}
-        }
-
-        warehousesPage.clickBtnManage();
-
-        loadElements();
+    protected List<WebElement> getFormFields() {
+        clickBtnOpenForm();
+        return Arrays.asList(inName, inQuantity);
     }
+
+    //#endregion
+
+    //#region ACTIONS
+
+    @Override
+    public void performAction(String action) {
+        switch (action) {
+            case "New Item":
+                clickBtnOpenForm();
+                break;
+            case "Item Update":
+                clickBtnManage();
+                break;
+            default:
+                throw new IllegalArgumentException("Action '" + action + "' does not exist.");
+        }
+    }
+
+    @Override
+    public boolean isUserPerformingAction(String action) {
+        loadElements();
+        switch(action){
+            case "New Item":
+                try {
+                    return inName.isDisplayed();
+                } catch (NoSuchElementException e) {
+                    return false;
+                }
+            case "Item Update":
+                try {
+                    return inUpdateQuantity.isDisplayed();
+                } catch (NoSuchElementException e) {
+                    return false;
+                }
+            default:
+                throw new IllegalArgumentException("Action '" + action + "' does not exist.");
+        }
+    }
+
+    //#endregion
+
+    //#region BUTTONS
 
     @Override
     public void clickButton(String btnName) {
@@ -228,7 +263,7 @@ public class ItemsPage extends ObjectPage {
             case "btnUpdateItem":
                 clickBtnUpdateItem();
                 break;
-            case "btnCancelUpdateItem":
+            case "btnCancel":
                 clickBtnCancelUpdateItem();
                 break;
             case "btnDeleteItem":
@@ -241,7 +276,11 @@ public class ItemsPage extends ObjectPage {
     }
 
     public void clickBtnOpenForm(){
-        btnOpenForm.click();
+        try{
+            inName.isDisplayed();
+        }catch(NoSuchElementException e){
+            btnOpenForm.click();
+        }
     }
 
     public void clickBtnCloseForm(){
@@ -249,23 +288,38 @@ public class ItemsPage extends ObjectPage {
     }
 
     public void clickBtnAddItem(){
+        clickBtnOpenForm();
         btnAddItem.click();
     }
 
     public void clickBtnManage(){
+        ensureItemExists();
         btnManage.click();
     }
 
     public void clickBtnUpdateItem(){
+        ensureItemExists();
+        clickBtnManage();
         btnUpdateItem.click();
     }
 
     public void clickBtnCancelUpdateItem(){
+        ensureItemExists();
+        clickBtnManage();
         btnCancelUpdateItem.click();
     }
 
     public void clickBtnDelete(){
-        btnDelete.click();
+        ensureItemExists();
+        try{
+            btnDelete = driver.findElement(By.xpath(BTN_DELETE_XPATH));
+            if(!btnDelete.getText().equals("Delete")){
+                btnDelete = driver.findElement(By.xpath(BTN_DELETE_XPATH_MANAGING));
+            }
+        }catch(NoSuchElementException e){
+            e.addInfo("Description", "btnDelete could not be loaded.");
+            throw e;
+        }
     }
 
     @Override
@@ -274,15 +328,11 @@ public class ItemsPage extends ObjectPage {
     }
 
     @Override
-    protected List<WebElement> getFormFields() {
-        loadElements();
-        return Arrays.asList(inName, inQuantity);
-    }
-
-    @Override
     protected WebElement getSubmitButton() {
         return btnAddItem;
     }
+
+    //#endregion
 
     @Override
     protected String getUrlExtension() {

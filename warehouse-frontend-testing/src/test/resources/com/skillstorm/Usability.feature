@@ -1,3 +1,4 @@
+@usability
 Feature: Usability
 
     Scenario: U2 - Simple Navigation with Buttons
@@ -33,13 +34,14 @@ Feature: Usability
     | Item      | btnDeleteItem      | Item      |
 
 
-
+    @u3
     Scenario: U3 - Navigation with Buttons During Action
         Given I Am On "<page1>"
         And I Am Performing "<action>"
         When I Click "<button>"
         Then I Am Taken To "<page2>"
 
+    @u3Account
     Examples:
     | page1     | action            | button             | page2     |
     | Account   | Account Delete    | btnHome            | Home      |
@@ -47,10 +49,18 @@ Feature: Usability
     | Account   | Account Delete    | btnWarehouse       | Warehouses |
     | Account   | Account Delete    | btnCancelDelete    | Account   |
     | Account   | Account Delete    | btnConfirmDelete   | Landing   |
+
+    @u3Warehouses
+    Examples:
+    | page1     | action            | button             | page2     |
     | Warehouses | New Warehouse     | btnHome            | Home      |
     | Warehouses | New Warehouse     | btnAccount         | Account   |
     | Warehouses | New Warehouse     | btnWarehouse       | Warehouses |
     | Warehouses | New Warehouse     | btnManageWarehouse | Item      |
+
+    @u3Items
+    Examples:
+    | page1     | action            | button             | page2     |
     | Item      | New Item          | btnHome            | Home      |
     | Item      | New Item          | btnAccount         | Account   |
     | Item      | New Item          | btnWarehouse       | Warehouses |
@@ -72,7 +82,7 @@ Feature: Usability
     
     Examples:
     | page1     | button          | page2     | action         |
-    | Account   | btnDeletAccount | Account   | Account Delete |
+    | Account   | btnDeleteAccount | Account   | Account Delete |
     | Warehouses | btnAddWarehouse | Warehouses | New Warehouse  |
     | Item      | btnAddItem      | Item      | New Item       |
     | Item      | btnUpdateItem   | Item      | Item Update    |
