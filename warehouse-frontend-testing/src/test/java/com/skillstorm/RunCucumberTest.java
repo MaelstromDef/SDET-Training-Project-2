@@ -13,6 +13,6 @@ import io.cucumber.junit.CucumberOptions;
 @IncludeEngines("cucumber")
 @SelectClasspathResource("com/skillstorm")
 @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty")
-@ConfigurationParameter(key = FILTER_TAGS_PROPERTY_NAME, value = "not @ignore")
+@ConfigurationParameter(key = FILTER_TAGS_PROPERTY_NAME, value = "@a1 and not @ignore")
 public class RunCucumberTest {
 }
