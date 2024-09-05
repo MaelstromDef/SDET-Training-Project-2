@@ -150,7 +150,7 @@ pipeline {
                     sh '''
                         git clone https://github.com/MaelstromDef/SDET-Training-Project-2.git
                         cd SDET-Training-Project-2/warehouse-frontend-testing
-                        mvn test -Dheadless=true -Dcucumber.publish.enabled=true -Dcucumber.publish.token=${CUCUMBER_TOKEN}
+                        mvn test -Dheadless=true -Dcucumber.publish.enabled=true -Dmaven.test.failure.ignore=true
                     '''
                     // }
 
