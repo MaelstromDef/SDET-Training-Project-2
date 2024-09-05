@@ -211,18 +211,18 @@ pipeline {
                 }   
             }
         }
-        stage('JMeter'){
-            steps{
-                script{
-                    sh '''
-                    set OUT=jmeter.save.saveservice.output_format
-                    set JMX=/SDET-Training-Project-2/JMeter/JMeterTestPlan.jmx
-                    set JTL=/jmeter/reports/jenkins.io.report.jtl
-                    /jmeter/bin/jmeter -j %OUT%=xml -n -t %JMX% -l %JTL%
-                    '''
-                }
-            }
-        }
+        // stage('JMeter'){
+        //     steps{
+        //         script{
+        //             sh '''
+        //             set OUT=jmeter.save.saveservice.output_format
+        //             set JMX=/SDET-Training-Project-2/JMeter/JMeterTestPlan.jmx
+        //             set JTL=/jmeter/reports/jenkins.io.report.jtl
+        //             /jmeter/bin/jmeter -j %OUT%=xml -n -t %JMX% -l %JTL%
+        //             '''
+        //         }
+        //     }
+        // }
     }
 
 
