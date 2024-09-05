@@ -16,7 +16,17 @@ import Warehouses from './Pages/Warehouses'
 
 
 export const UserContext = createContext();
-export const baseUrl = "http://ahuggins-warehousemanager.us-east-1.elasticbeanstalk.com";
+// export const baseUrl = "http://ahuggins-warehousemanager.us-east-1.elasticbeanstalk.com";
+
+let myUrl = 'http://localhost:8081'
+
+let env = import.meta.env.MODE;
+if (env === 'production') {
+  myUrl = "http://ahuggins-warehousemanager.us-east-1.elasticbeanstalk.com";
+}
+
+export const baseUrl = myUrl;
+
 export const logout = () =>{
   setUser({
     // Admin information
