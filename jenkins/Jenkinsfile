@@ -155,7 +155,7 @@ pipeline {
                     // }
 
                     // clean up project-two-functional-tests repo
-                    sh 'rm -rf SDET-Training-Project-2'
+                    // sh 'rm -rf SDET-Training-Project-2'
 
                     // kill backend and frontend processes
                     sh "kill ${backendPid} || true"
