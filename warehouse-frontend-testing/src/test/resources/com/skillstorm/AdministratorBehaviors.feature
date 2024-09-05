@@ -31,7 +31,7 @@ Feature: Administrator Behaviors
 
     Scenario: A7 - Invalid admin read.
         Given I Am Logged "Out"
-        When I Attempt To Navigate To "Account"
+        When I Attempt To Directly Navigate To "Account"
         Then I "Can Not" See "Account" Information
 
     Scenario: A8 - Valid admin read.
