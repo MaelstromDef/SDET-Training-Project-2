@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "testng.org/testng-1.0.dtd">
+ 
+<suite verbose="0" name="Default suite">
+    <test verbose="2" name="Default test" preserve-order="false">
+        <classes>
+            <class name="com.ahuggins.warehousedemo.HelloWorldTests" />
+            <class name="com.ahuggins.warehousedemo.WarehousedemoApplicationTests"/>
+        </classes>
+    </test>
+    <test verbose="2" name="Controller Tests" preserve-order="false">
+        <classes>
+            <class name="com.ahuggins.warehousedemo.componentTests.Controllers.AdminControllerTests" />
+            <class name="com.ahuggins.warehousedemo.componentTests.Controllers.ItemControllerTests" /> 
+            <class name="com.ahuggins.warehousedemo.componentTests.Controllers.WarehouseControllerTests" />
+        </classes>
+    </test>
+    <test verbose="2" name="Service Tests" preserve-order="false">
+        <classes>
+            <class name="com.ahuggins.warehousedemo.componentTests.Services.AdminServiceTests" />
+            <class name="com.ahuggins.warehousedemo.componentTests.Services.SecurityServiceTests" /> 
+            <class name="com.ahuggins.warehousedemo.componentTests.Services.ItemServiceTests" /> 
+            <class name="com.ahuggins.warehousedemo.componentTests.Services.WarehouseServiceTests" /> 
+            
+        </classes>
+    </test>
+    <test verbose="2" name="Model Tests" preserve-order="false">
+        <classes>
+            <class name="com.ahuggins.warehousedemo.componentTests.ModelTests" />
+        </classes>
+    </test>
+    <test verbose="2" name="Aspect Tests" preserve-order="false">
+        <classes>
+            <class name="com.ahuggins.warehousedemo.componentTests.Aspects.GlobalExceptionHandlerTests" />
+            <class name="com.ahuggins.warehousedemo.componentTests.Aspects.LoggingAspectTests" />
+            <class name="com.ahuggins.warehousedemo.componentTests.Aspects.SecurityFilterTests" />
+        </classes>
+    </test>
+    <test verbose="2" name="Repository Tests" preserve-order="false">
+        <classes>
+            <class name="com.ahuggins.warehousedemo.componentTests.Repositories.AdminRepositoriesTests" />
+            <class name="com.ahuggins.warehousedemo.componentTests.Repositories.ItemRepositoriesTests" /> 
+            <class name="com.ahuggins.warehousedemo.componentTests.Repositories.WarehouseRepositoryTests" />
+        </classes>
+    </test>
+</suite>
