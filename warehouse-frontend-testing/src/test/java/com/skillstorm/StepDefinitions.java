@@ -20,6 +20,8 @@ import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterSuite;
 
 import com.skillstorm.testingComponents.pages.IFormPage;
@@ -37,20 +39,23 @@ public class StepDefinitions {
     
     private static WebDriver driver;
     private IPage pageObject;
+    private static Wait<WebDriver> wait;
     public static String initialURL = "http://ahuggins-warehousemanager-frontend.s3-website.us-east-2.amazonaws.com/";
 
     @BeforeAll
-    public static void setup() {
+    public static void setup() {           
         ChromeOptions options = new ChromeOptions();
         driver = new ChromeDriver(options);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         driver.get(initialURL);
+        waitForPageToLoad(initialURL, true);        
         assertEquals(driver.getCurrentUrl(), initialURL);
     }
 
     @Before
     public void loadStartPage(){
         driver.get(initialURL);
+        waitForPageToLoad(initialURL, true);
     }
 
     @After
@@ -64,6 +69,7 @@ public class StepDefinitions {
         try {
             AccountPage page = new AccountPage(driver, initialURL);
             page.navigateToPage();
+            waitForPageToLoad(initialURL+"account", true);
             page.deleteObject();
 
             if(page.verifyObjectExistence()) throw new RuntimeException("Account was not deleted.");
@@ -84,18 +90,17 @@ public class StepDefinitions {
 
     @Given("I Am On {string}") //page name
     public void iAmOn(String page) {
-        waitAMomentForWebDriver();
         loadPage(page);
         assertTrue(pageObject != null);
         
         pageObject.navigateToPage();
-        waitAMomentForWebDriver();
+        //wait for page to change from initial page unless pageObject is LandingPage
+        waitForPageToLoad(initialURL, pageObject.getClass()==LandingPage.class);
         assertEquals(pageObject.getUrl(), driver.getCurrentUrl()); 
     }
 
     @Given("I Am Logged {string}") //In or Out
     public void iAmLogged(String inOrOut) {
-        waitAMomentForWebDriver();
         
         if(pageObject == null){
             loadPage("Login");
@@ -115,13 +120,11 @@ public class StepDefinitions {
 
     @Given("I Am Performing {string}") //action
     public void iAmPerforming(String action) {
-        waitAMomentForWebDriver();
         ((IObjectPage)pageObject).performAction(action);
     }
 
     @Given("I Enter {string} Information") //correct or incorrect
     public void iEnterCorrectInformation(String correct) {
-        waitAMomentForWebDriver();
         
         IFormPage formPage = (IFormPage) pageObject;
         if (correct.equals("Correct")) {
@@ -136,7 +139,6 @@ public class StepDefinitions {
     @Given("I {string} Update {string}") 
     public void iUpdateItem(String correctly, String type) {
         assertTrue(type.equals("Warehouse") || type.equals("Item") || type.equals("Account"));
-        waitAMomentForWebDriver();
 
         IObjectPage objectPage = (IObjectPage) pageObject;
         if (correctly.equals("Correctly"))
@@ -160,27 +162,24 @@ public class StepDefinitions {
     @When("I Attempt To Directly Navigate To {string}") //page name
     public void iAttemptToDirectlyNavigateTo (String page) {
         loadPage(page);
-        waitAMomentForWebDriver();
         driver.get(initialURL + page.toLowerCase());
     }
 
     @When("I Attempt To Navigate To {string}") //page name
     public void iAttemptToNavigateTo (String page) {
         loadPage(page);
-        waitAMomentForWebDriver();
         pageObject.navigateToPage();
+        //wait for page to change from initial page unless pageObject is LandingPage
+        waitForPageToLoad(initialURL, pageObject.getClass()==LandingPage.class);
     }
 
     @When("I Click {string}")
     public void iClick(String btnName) {
-        waitAMomentForWebDriver();
         pageObject.clickButton(btnName);
     }
 
     @When("I Submit The Form")
     public void iSubmitTheForm() {
-        waitAMomentForWebDriver();
-
         IFormPage formPage = (IFormPage) pageObject;
         formPage.submitForm();
     }
@@ -194,13 +193,11 @@ public class StepDefinitions {
 
     @Then("I Will Be Performing {string}" ) // action
     public void iWillBePerforming(String action) {
-        waitAMomentForWebDriver();
         assertTrue(((IObjectPage)pageObject).isUserPerformingAction(action));
     }
 
     @Then("I Am Taken To {string}") //page name
     public void iAmTakenTo(String page) {
-        waitAMomentForWebDriver();
         if(page.toLowerCase().equals("landing")) assertEquals(initialURL, driver.getCurrentUrl());
         else if(page.toLowerCase().equals("item")) assertEquals(initialURL + "items", driver.getCurrentUrl());
         else assertEquals(initialURL + page.toLowerCase(), driver.getCurrentUrl());
@@ -214,16 +211,12 @@ public class StepDefinitions {
          * but since both are part of object page, string doesn't matter, so just do a quick check
          */
         assertTrue(type.equals("Warehouse") || type.equals("Item") || type.equals("Account"));
-        waitAMomentForWebDriver();
-
         IFormPage formPage = (IFormPage) pageObject;
         assertTrue(formPage.verifySubmissionSuccess());
     }
 
     @Then("I See An Error Message")
     public void iSeeAnErrorMessage() {
-        waitAMomentForWebDriver();
-
         IFormPage formPage = (IFormPage) pageObject;
         assertTrue(formPage.verifySubmissionFailure());
     }
@@ -237,7 +230,6 @@ public class StepDefinitions {
          */
         
         assertTrue(type.equals("Warehouse") || type.equals("Item") || type.equals("Account"));
-        waitAMomentForWebDriver();
 
         IObjectPage objectPage = (IObjectPage) pageObject;
         objectPage.loadElements();
@@ -262,7 +254,6 @@ public class StepDefinitions {
          */
         
         assertTrue(type.equals("Warehouse") || type.equals("Item") || type.equals("Account"));
-        waitAMomentForWebDriver();
 
         IObjectPage objectPage = (IObjectPage) pageObject;
         if (been.equals("Been") ) {
@@ -283,7 +274,6 @@ public class StepDefinitions {
          */
 
         assertTrue(type.equals("Warehouse") || type.equals("Item") || type.equals("Account"));
-        waitAMomentForWebDriver();
 
         IObjectPage objectPage = (IObjectPage) pageObject;
         assertFalse(objectPage.verifyObjectExistence());
@@ -307,7 +297,16 @@ public class StepDefinitions {
     //////////////////////////////////////////////////
     void waitAMomentForWebDriver() {
         try {
-            Thread.sleep(500);
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void waitForPageToLoad(String url, boolean equals) {
+        wait.until(d -> {return driver.getCurrentUrl().equals(url) == equals;});
+        try {
+            wait.wait(10);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
