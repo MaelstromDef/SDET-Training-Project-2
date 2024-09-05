@@ -83,9 +83,9 @@ pipeline {
             steps {
                 // clean up project-two-functional-tests repo if leftover from previous build/failure
                 sh '''
-                    if [ -d "warehousemanagement_functional_tests" ]; then
+                    if [ -d "SDET-Training-Project-2" ]; then
                         echo "Functional Test Directory exists, deleting..."
-                        rm -rf warehousemanagement_functional_tests
+                        rm -rf SDET-Training-Project-2
                     else
                         echo "Functional Test Directory does not exist, skipping deletion."
                     fi
@@ -147,14 +147,14 @@ pipeline {
 
                     // withCredentials([string(credentialsId: 'CUCUMBER_PUBLISH_TOKEN', variable: 'CUCUMBER_TOKEN')]) {
                     //     sh '''
-                    //         git clone https://github.com/daniel413x/project-two-functional-tests.git
-                    //         cd project-two-functional-tests
+                    //         git clone https://github.com/MaelstromDef/SDET-Training-Project-2.git
+                    //         cd SDET-Training-Project-2/warehouse-frontend-testing
                     //         mvn test -Dheadless=true -Dcucumber.publish.token=${CUCUMBER_TOKEN}
                     //     '''
                     // }
 
                     // clean up project-two-functional-tests repo
-                    sh 'rm -rf warehousemanagement_functional_tests'
+                    sh 'rm -rf SDET-Training-Project-2'
 
                     // kill backend and frontend processes
                     sh "kill ${backendPid} || true"
