@@ -3,6 +3,7 @@ Feature: Administrator Behaviors
 
     ### CREATE ###
 
+    @a1
     Scenario: A1 - Valid account creation.
         Given I Am On "Signup"
         And I Enter "Correct" Information

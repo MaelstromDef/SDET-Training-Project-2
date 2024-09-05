@@ -32,6 +32,7 @@ import com.skillstorm.testingComponents.pages.concretePages.LandingPage;
 import com.skillstorm.testingComponents.pages.concretePages.LoginPage;
 import com.skillstorm.testingComponents.pages.concretePages.SignupPage;
 import com.skillstorm.testingComponents.pages.concretePages.WarehousesPage;
+import com.skillstorm.testingComponents.tools.DriverFactory;
 
 public class StepDefinitions {
     
@@ -41,9 +42,7 @@ public class StepDefinitions {
 
     @BeforeAll
     public static void setup() {
-        ChromeOptions options = new ChromeOptions();
-        driver = new ChromeDriver(options);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver = DriverFactory.getDriver();
         driver.get(initialURL);
         assertEquals(driver.getCurrentUrl(), initialURL);
     }
