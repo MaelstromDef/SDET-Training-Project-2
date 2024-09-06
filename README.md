@@ -50,7 +50,7 @@ In order to isolate classes for unit testing, Mockito was used to simulate real 
 ## Resources ##
 There are various reources and notes that detail the process and progress of Project 2. 
 
-Before implementations began, a [Test Plan](./Resources/Test%20Plan.pdf) was created with the supporting [Test Coverage](./Resources/Test%20Coverage.pdf) and [User Stories](./Resources/User%20Stories.pdf) documents.
+Before implementations began, a [Test Plan](./Resources/Test%20Plan.pdf) was created with the supporting [Test Coverage](./Resources/Test%20Coverage.pdf) and [User Stories](./Resources/User%20Stories.pdf) documents. Additionally, a [Trello Board](https://trello.com/invite/b/66bbb979749bec5abef8af6d/ATTIb0f85c5633f92afc34920b2d5d4279c92AC48E2E/inventory-management-testing) was maintained to keep the project organized throughout its lifespan.
 
 After completion of each test suite, a report was made with documentation on what tests were implemented, how they were implemented, and what improvements need to be made. They are as follows:
 - [Backend Test Report](./Resources/Back%20End%20Testing%20Report.pdf)
