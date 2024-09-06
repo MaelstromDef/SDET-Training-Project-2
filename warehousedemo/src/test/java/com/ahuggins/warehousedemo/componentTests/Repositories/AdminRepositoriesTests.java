@@ -75,6 +75,9 @@ public class AdminRepositoriesTests extends AbstractTestNGSpringContextTests {
         admins = null;
     }
 
+    /**
+     * Test to assure that admins properly got added to database for testing
+     */
     @Test
     public void generalTest(){
         List<Administrator> returnedAdmins = adminRepo.findAll();
@@ -83,6 +86,9 @@ public class AdminRepositoriesTests extends AbstractTestNGSpringContextTests {
     }
 
 
+    /**
+     * Test that handles Finding admins by Name and Password 
+     */
     @Test
     public void findByCompanyNameAndPasswordTest(){
         int index = 0;
@@ -91,6 +97,17 @@ public class AdminRepositoriesTests extends AbstractTestNGSpringContextTests {
         String pass = admins.get(index).getPassword();
         String wrongPass = "Invalid Password";
 
+        /*
+         * There are four options here using A AND B decision tables
+         *      +-------+-------+--------+
+         *      | name  | pass  | result | 
+         *      +-------+-------+--------+
+         *      | right | right | exists |
+         *      | right | wrong | empty  | 
+         *      | wrong | right | empty  |
+         *      | wrong | wrong | empty  |
+         *      +-------+-------+--------+
+         */
         List<Administrator> existingAdmin = adminRepo.findByCompanyNameAndPassword(name, pass);
         List<Administrator> nullAdmin1 = adminRepo.findByCompanyNameAndPassword(name, wrongPass);
         List<Administrator> nullAdmin2 = adminRepo.findByCompanyNameAndPassword(wrongName, pass);
@@ -103,6 +120,9 @@ public class AdminRepositoriesTests extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(nullAdmin3.isEmpty());
     }
 
+    /**
+     * Test that handles Finding admins by Name
+     */
     @Test
     public void findByCompanyNameTest(){
         // company with two admins
@@ -111,6 +131,13 @@ public class AdminRepositoriesTests extends AbstractTestNGSpringContextTests {
         String singleCompany = admins.get(0).getCompanyName();
         String wrongName = "Wrong Company";
 
+
+        /*
+         * There are three options here
+         *      1. Name of Company that multiple companies have
+         *      2. Name of Company that is unique
+         *      3. Name of Company that doesn't exist
+         */
         List<Administrator> adminList = adminRepo.findByCompanyName(fullCompany);
         List<Administrator> singleAdmin = adminRepo.findByCompanyName(singleCompany);
         List<Administrator> nullAdmin = adminRepo.findByCompanyName(wrongName);

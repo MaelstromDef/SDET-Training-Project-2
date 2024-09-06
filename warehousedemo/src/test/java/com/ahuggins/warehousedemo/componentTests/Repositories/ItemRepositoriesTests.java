@@ -112,25 +112,13 @@ public class ItemRepositoriesTests extends AbstractTestNGSpringContextTests {
          * | -       | 2            | -      |
          * +---------+--------------+--------+
          */ 
-        // System.out.println("-------------Printing Items/StoredItems-----------------");
-        // for (StoredItem item: storedItems) {
-        //     System.out.printf(
-        //         "SItem ID: %s | SItem Warehouse: %s | SItem Quantity: %s\n",
-        //         item.getId().getItemId(), item.getId().getWarehouseId(), item.getQuantity()
-        //     );
-        // }
 
-        // for (Item item: items) {
-        //     System.out.printf(
-        //         "Item ID: %s | Item Name: %s\n",
-        //         item.getId(), item.getName()
-        //     );
-        // }
 
         Administrator admin = warehouses.get(0).getAdministrator();
         admin.setPassword("Valid Password");
         adminRepo.save(admin); //Should be the only admin needed
         
+        //save all the data in database
         for (Warehouse wh : warehouses) {
             warehouseRepo.save(wh);
         }
@@ -156,6 +144,9 @@ public class ItemRepositoriesTests extends AbstractTestNGSpringContextTests {
   
     }
 
+    /**
+     * Test to assure that data properly got added to database for testing
+     */
     @Test
     public void generalTest() {
         // This is just to make sure the setup is correct
@@ -168,6 +159,10 @@ public class ItemRepositoriesTests extends AbstractTestNGSpringContextTests {
     /** ************************************************
      *    ITEM repository tests
      *  ************************************************
+     */
+
+    /**
+     * Test that handles Finding ITEMS by Name 
      */
     @Test
     public void findByNameTest(){
@@ -186,6 +181,9 @@ public class ItemRepositoriesTests extends AbstractTestNGSpringContextTests {
      *    STOREDITEM repository tests
      *  ************************************************
      */
+    /**
+     * Test that handles Finding STOREDITEMS by warhouse 
+     */
     @Test
     public void findByWarehouseTest(){
         List<StoredItem> warehouseItems = storedItemRepo.findByWarehouse(warehouses.get(0)); 
@@ -194,7 +192,11 @@ public class ItemRepositoriesTests extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(warehouseItems.size() == 2);
         Assert.assertTrue(nullItemList.size() == 0);
     }
+    
 
+    /**
+     * Test that handles Finding STOREDITEMS by item object 
+     */
     @Test
     public void findByItemTest(){
         //Item that exists in a warehouse
@@ -209,6 +211,9 @@ public class ItemRepositoriesTests extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(nullItem.size() == 0);
     }
 
+    /**
+     * Test that handles Finding STOREDITEMS by item object AND warehouse object
+     */
     @Test
     public void findByItemAndWarehouseTest(){
         Item savedItem = items.get(0);
@@ -216,6 +221,18 @@ public class ItemRepositoriesTests extends AbstractTestNGSpringContextTests {
 
         Warehouse fullWarehouse = warehouses.get(0);
         Warehouse emptyWarehouse = warehouses.get(1);
+
+        /*
+         * There are four options here using A AND B decision tables
+         *      +----------------------------+------------------------------------+--------+
+         *      | Does Exist in a Warehouse? | Does Warehouse Contain that Item?  | result | 
+         *      +----------------------------+------------------------------------+--------+
+         *      | yes                        | yes                                | exists |
+         *      | yes                        | no                                 | empty  | 
+         *      | no                         | yes                                | empty  |
+         *      | no                         | no                                 | empty  |
+         *      +----------------------------+------------------------------------+--------+
+         */
 
         List<StoredItem> existingStoredItem = storedItemRepo.findByItemAndWarehouse(savedItem, fullWarehouse);
         List<StoredItem> emptyStoredItem1 = storedItemRepo.findByItemAndWarehouse(savedItem, emptyWarehouse);

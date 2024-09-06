@@ -50,7 +50,10 @@ public class ItemControllerTests {
         closeable.close();
     }
 
-    
+    /**
+     * Tests that will handle requests for lists of items
+     * @param items - Items that will be used for testing purposes retrieval
+     */    
     @Test(dataProvider = "dp_StoredItemLists", dataProviderClass = ItemData.class)
     public void getWarehouseItemsTest(StoredItem[] items){
         //Setup Mock Information and Methods
@@ -61,6 +64,11 @@ public class ItemControllerTests {
         assertEquals(expectedItems, itemController.getWarehouseItems(1, 2));
     }
 
+
+    /**
+     * Tests that will hand request for finding items by id
+     * @param item - Item that will need to be returned by mock objects
+     */
     @Test(dataProvider = "dp_Items", dataProviderClass = ItemData.class)
     public void getItemByIdTest(Item[] item){
         //Setup Mock Information and Methods
@@ -76,6 +84,11 @@ public class ItemControllerTests {
         });
     }
 
+
+    /**
+     * Test to hand finding Items by Name
+     * @param item - Item that will need to be returned by mock objects
+     */
     @Test(dataProvider = "dp_Items", dataProviderClass = ItemData.class)
     public void getItemByNameTest(Item[] item){
         //Setup Mock Information and Methods
@@ -91,14 +104,21 @@ public class ItemControllerTests {
         });
     }
 
+    /**
+     * Test that will handle storing items into new catagories for warehouses
+     * @param storedItems - StoredItem list
+     */
     @Test(dataProvider = "dp_StoredItemLists", dataProviderClass = ItemData.class)
     public void addItemToWarehouseTest(StoredItem[] storedItems){
         //Setup Mock Information and Methods
+        //This includes items that store properly and that don't
         List<StoredItem> itemList = Arrays.asList(storedItems);
         StoredItem dummyItem = itemList.get(0);
         StoredItem itemInOptional = itemList.get(1);
         Optional<StoredItem> expectedItem = Optional.of(itemInOptional);
         Optional<StoredItem> nullItem = Optional.empty();
+        
+        // Setup Methods
         when(itemService.addItemToWarehouse(1, 1, dummyItem) ).thenReturn(expectedItem);
         when(itemService.addItemToWarehouse(2, 2, dummyItem) ).thenReturn(nullItem);
         
@@ -109,6 +129,11 @@ public class ItemControllerTests {
         });
     }
 
+
+    /**
+     * Tests to handle the updating of Items in Warehouses
+     * @param storedItems - Stored Items to use for testing
+     */
     @Test(dataProvider = "dp_StoredItemLists", dataProviderClass = ItemData.class)
     public void updateWarehouseItemTest(StoredItem[] storedItems){
         //Setup Mock Information and Methods
@@ -117,6 +142,8 @@ public class ItemControllerTests {
         StoredItem itemInOptional = itemList.get(1);
         Optional<StoredItem> expectedItem = Optional.of(itemInOptional);
         Optional<StoredItem> nullItem = Optional.empty();
+        
+        // Setup Methods
         when(itemService.updateWarehouseItem(1, 1, dummyItem) ).thenReturn(expectedItem);
         when(itemService.updateWarehouseItem(2, 2, dummyItem) ).thenReturn(nullItem);
         
@@ -127,6 +154,9 @@ public class ItemControllerTests {
         });
     }
 
+    /**
+     * Test to handle deletion of StoredITems from warehouses
+     */
     @Test
     public void removeItemFromWarehouseTest(){
         try {

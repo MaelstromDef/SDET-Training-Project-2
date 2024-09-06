@@ -39,28 +39,35 @@ public class StepDefinitions {
     public static String initialURL = "http://ahuggins-warehousemanager-frontend.s3-website.us-east-2.amazonaws.com/";
 
     @BeforeAll
-    public static void setup() {           
+    public static void setup() {  
+        //Setup Chrome Driver
+        //Driver Factory will produce headless driver if command argument -Dheadless=true is given        
         driver = DriverFactory.getDriver();
+        //This will be used for allowing Thread to wait the least amount of time before next action is taken
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        //Navigate to Landing URL
         driver.get(initialURL);
+
         waitForPageToLoad(initialURL, true);        
         assertEquals(driver.getCurrentUrl(), initialURL);
     }
 
     @Before
     public void loadStartPage(){
+        //Before each Scenerio we should reset all navigation that has happened to make tracing problems easier
         driver.get(initialURL);
         waitForPageToLoad(initialURL, true);
     }
 
     @After
     public void cleanUp(){
+        //After each Scenerio we should clean up the page object to make tracing problems easier
         pageObject = null;
     }
 
     @AfterAll
     public static void tearDown() {
-        // Remove account
+        // Remove Testing account before stopping all processes
         try {
             AccountPage page = new AccountPage(driver, initialURL);
             page.navigateToPage();
@@ -72,6 +79,7 @@ public class StepDefinitions {
             throw e;
         }
         
+
         System.out.println("Closing All Web Browsers");
         driver.quit();
     }
@@ -82,7 +90,10 @@ public class StepDefinitions {
      * *********************************************************************
      */
 
-
+    /**
+     * Test to navigate to a certain page
+     * @param page
+     */
     @Given("I Am On {string}") //page name
     public void iAmOn(String page) {
         loadPage(page);
@@ -94,6 +105,10 @@ public class StepDefinitions {
         assertEquals(pageObject.getUrl(), driver.getCurrentUrl()); 
     }
 
+    /**
+     * Test to check if Logged in or Out
+     * @param inOrOut
+     */
     @Given("I Am Logged {string}") //In or Out
     public void iAmLogged(String inOrOut) {
         
@@ -113,11 +128,19 @@ public class StepDefinitions {
         }
     }
 
+    /**
+     * Test to make sure "User" is performing a given action
+     * @param action - String repsresenting what action should be happening
+     */
     @Given("I Am Performing {string}") //action
     public void iAmPerforming(String action) {
         ((IObjectPage)pageObject).performAction(action);
     }
 
+    /**
+     * Test to perform action of filling out a form depending on the page
+     * @param correct - denotes wether we are filling out a form the right or wrong way
+     */
     @Given("I Enter {string} Information") //correct or incorrect
     public void iEnterCorrectInformation(String correct) {
         
@@ -131,6 +154,13 @@ public class StepDefinitions {
         }   
     }
 
+    /**
+     * Test to setup up taking the correct/incorrect actions to update and object
+     * @param correctly - String
+     * @param type - String representing object that should be updated
+     *      options:
+     *          Warehoue, Item, or Account
+     */
     @Given("I {string} Update {string}") 
     public void iUpdateItem(String correctly, String type) {
         assertTrue(type.equals("Warehouse") || type.equals("Item") || type.equals("Account"));
@@ -154,12 +184,18 @@ public class StepDefinitions {
      * *********************************************************************
      */
 
+    /**
+     * This is using the url to try and navigate to different places
+    */
     @When("I Attempt To Directly Navigate To {string}") //page name
     public void iAttemptToDirectlyNavigateTo (String page) {
         loadPage(page);
         driver.get(initialURL + page.toLowerCase());
     }
 
+    /*
+     * This is using the page objects such as buttons to navigate to other pages
+     */
     @When("I Attempt To Navigate To {string}") //page name
     public void iAttemptToNavigateTo (String page) {
         loadPage(page);
@@ -168,11 +204,17 @@ public class StepDefinitions {
         waitForPageToLoad(initialURL, pageObject.getClass()==LandingPage.class);
     }
 
+    /*
+     * Action for clicking a button
+     */
     @When("I Click {string}")
     public void iClick(String btnName) {
         pageObject.clickButton(btnName);
     }
 
+    /*
+     * Action for submitting a form after correctly/incorrectly filling it out
+     */
     @When("I Submit The Form")
     public void iSubmitTheForm() {
         IFormPage formPage = (IFormPage) pageObject;
@@ -186,11 +228,19 @@ public class StepDefinitions {
      * *********************************************************************
      */
 
+    /**
+     * This test that after certain actions are taken by the user, the POM is in a given state
+     * @param action - String representing state of POM that represents user taking and action
+     */
     @Then("I Will Be Performing {string}" ) // action
     public void iWillBePerforming(String action) {
         assertTrue(((IObjectPage)pageObject).isUserPerformingAction(action));
     }
 
+    /**
+     * Tes that assures user is taken to a specific page
+     * @param page - String representing name of page
+     */
     @Then("I Am Taken To {string}") //page name
     public void iAmTakenTo(String page) {
         if(page.toLowerCase().equals("landing")) assertEquals(initialURL, driver.getCurrentUrl());
@@ -198,31 +248,40 @@ public class StepDefinitions {
         else assertEquals(initialURL + page.toLowerCase(), driver.getCurrentUrl());
     } 
 
+
+    /**
+     * Test to see if a new object was created on the POM
+     * @param type - String representing object that should have been created
+     *      options:
+     *          Warehoue, Item, or Account
+     */
     @Then("A New {string} Is Created")
     public void aNewIsCreated(String type) {
-        /**
-         * @param type: can be either "Warehouse" or "Items" or "Account" 
-         * 
-         * but since both are part of object page, string doesn't matter, so just do a quick check
-         */
+
         assertTrue(type.equals("Warehouse") || type.equals("Item") || type.equals("Account"));
         IFormPage formPage = (IFormPage) pageObject;
         assertTrue(formPage.verifySubmissionSuccess());
     }
 
+    /**
+     * Test to make sure that a form gives and error message after user doesn't fill out form correctly
+     */
     @Then("I See An Error Message")
     public void iSeeAnErrorMessage() {
         IFormPage formPage = (IFormPage) pageObject;
         assertTrue(formPage.verifySubmissionFailure());
     }
 
+    
+    /**
+     * Test to assure that new information show up on the DOM
+     * @param canSee - String representing boolean of where data should appear on DOM or not
+     * @param type - String representing object that should be seen
+     *      options:
+     *          Warehoue, Item, or Account
+     */
     @Then("I {string} See {string} Information")   
     public void iSeeInformation(String canSee, String type) {
-        /**
-         * @param type: can be either "Warehouse" or "Items" or "Account" 
-         * 
-         * but since both are part of object page, string doesn't matter, so just do a quick check
-         */
         
         assertTrue(type.equals("Warehouse") || type.equals("Item") || type.equals("Account"));
 
@@ -240,6 +299,13 @@ public class StepDefinitions {
         
     }
 
+    /**
+     * Test to assure that the DOM had updated information
+     * @param been - String representing boolean of whether DOM should have changed or not
+     * @param type - String representing object that should be changed or not
+     *      options:
+     *          Warehoue, Item, or Account
+     */
     @Then("{string} Fields Have {string} Changed")
     public void fieldsHaveChanged (String type, String been) {
         /**
@@ -260,13 +326,14 @@ public class StepDefinitions {
         }
     }
 
+    /**
+     * Test to make sure object has been deleted from database (represented in DOM)
+     * @param type - String representing object that should be changed or not
+     *      options:
+     *          Warehoue, Item, or Account
+     */
     @Then("{string} No Longer Exists")
     public void noLongerExists(String type) {
-        /**
-         * @param type: can be either "Warehouse" or "Items" or "Account" 
-         * 
-         * but since both are part of object page, string doesn't matter, so just do a quick check
-         */
 
         assertTrue(type.equals("Warehouse") || type.equals("Item") || type.equals("Account"));
 
@@ -274,6 +341,10 @@ public class StepDefinitions {
         assertFalse(objectPage.verifyObjectExistence());
     }
 
+    /**
+     * Test to make sure a login was sucessful or not
+     * @param am - String representing boolean of whether logged in or not
+     */
     @Then("I {string} Logged In")
     public void iLoggedIn(String am) {
         

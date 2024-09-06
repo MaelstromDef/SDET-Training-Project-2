@@ -99,6 +99,10 @@ public class WarehouseRepositoryTests extends AbstractTestNGSpringContextTests  
         warehouseProvider = null;
     }
 
+
+    /**
+     * Test to assure that data properly got added to database for testing
+     */
     @Test
     public void generalTest() {
         // This is just to make sure the setup is correct
@@ -106,9 +110,14 @@ public class WarehouseRepositoryTests extends AbstractTestNGSpringContextTests  
         assertEquals(warehouses.size(), result.size());
     }
 
+    /**
+     * Test to handle finding Warehouses by Id or Administrator object
+     */
     @Test
     public void findByIdAndAdministratorTest(){
         int id = warehouses.get(3).getId();
+
+        //Test comprised of warehouse that exists and admin who is/isn't related to that warehouse
         Optional<Warehouse>  existingWarehouse = warehouseRepository.findByIdAndAdministrator(id, admins.get(1));
         Optional<Warehouse> nullWarehouse = warehouseRepository.findByIdAndAdministrator(id, admins.get(0));
 
@@ -116,6 +125,9 @@ public class WarehouseRepositoryTests extends AbstractTestNGSpringContextTests  
         Assert.assertTrue(nullWarehouse.isEmpty());
     }
 
+    /*
+     * Test to handl finding warehouses by (Id) OR by (Name AND administrator object)
+     */
     @Test
     public void findByIdOrNameAndAdministratorTest(){
         /** 
@@ -147,11 +159,16 @@ public class WarehouseRepositoryTests extends AbstractTestNGSpringContextTests  
         Assert.assertTrue(nullWarehouse.isEmpty());
     }
 
+
+    /**
+     * Tests to handle finding warehouses by Administrator Object
+     */
     @Test
     public void findByAdministratorTest(){
         Administrator admin = admins.get(0);
         Administrator emptyAdmin = admins.get(2);
 
+        //2 cases, admin with no warehouses and admin with
         List<Warehouse> existingWarehouses = warehouseRepository.findByAdministrator(admin);
         List<Warehouse> nullWarehouses = warehouseRepository.findByAdministrator(emptyAdmin);
 
@@ -160,12 +177,16 @@ public class WarehouseRepositoryTests extends AbstractTestNGSpringContextTests  
 
     }
 
+    /**
+     * Test to find warehouses by Name
+     */
     @Test
     public void findByNameTest(){
         int index = 3;
         String name =  warehouses.get(index).getName();
         String wrongName = "Wrong Name";
 
+        //Warehouse names are unique, so only two cases are needed
         Optional<Warehouse> existingWarehouse = warehouseRepository.findByName(name);
         Optional<Warehouse> nullWarehouse = warehouseRepository.findByName(wrongName);
 
@@ -173,6 +194,10 @@ public class WarehouseRepositoryTests extends AbstractTestNGSpringContextTests  
         Assert.assertTrue(nullWarehouse.isEmpty());
     }
 
+
+    /**
+     * Tests to handle finding warehouses by Name AND Admininstrator object
+     */
     @Test
     public void findByNameAndAdministratorTest(){
         int id =0;
@@ -180,6 +205,15 @@ public class WarehouseRepositoryTests extends AbstractTestNGSpringContextTests  
         String wrongName = "Wrong Name";
         Administrator admin = admins.get(id);
         Administrator wrongAdmin = admins.get(NUM_ADMINS-1);
+
+        /** 
+         * Test Cases:
+         *      | Name      | Admin          | result     |
+         *      | correct   | exists         | not empty  |
+         *      | correct   | incorrect      | empty      |
+         *      | incorrect | correct        | empty      |
+         *      | incorrect | incorrect      | Not needed |
+         */
 
         Optional<Warehouse> existingWarehouse = warehouseRepository.findByNameAndAdministrator(name, admin);
         Optional<Warehouse> nullWarehouse1 = warehouseRepository.findByNameAndAdministrator(wrongName, admin);
@@ -190,6 +224,9 @@ public class WarehouseRepositoryTests extends AbstractTestNGSpringContextTests  
         Assert.assertTrue(nullWarehouse2.isEmpty());
     }
 
+    /**
+     * Tests that handels finding warehouses by Location
+     */
     @Test
     public void findByLocationTest(){
         //location that is the same for two warehouses
@@ -197,6 +234,13 @@ public class WarehouseRepositoryTests extends AbstractTestNGSpringContextTests  
         //location that only hase one warehouse match
         String location2 = warehouses.get(0).getLocation();
         String wrongLocation = "Wrong Location";
+
+        /**
+         * Three test cases:
+         *      1. Location that multiple Warehouses have
+         *      2. Location that warehouse uniqu
+         *      3. Location that doesn't exist
+         */
 
         List<Warehouse> existingWarehouseList = warehouseRepository.findByLocation(location1);
         List<Warehouse> existingWarehouse = warehouseRepository.findByLocation(location2);
@@ -208,6 +252,9 @@ public class WarehouseRepositoryTests extends AbstractTestNGSpringContextTests  
         Assert.assertTrue(nullWarehouse.isEmpty());
     }
 
+    /**
+     * Test to hand finding warehouses by Location and Administrator
+     */
     @Test
     public void findByLocationAndAdministratorTest(){
         //This actually needs more testing on it to test for cases where two different admins have same location
@@ -218,6 +265,14 @@ public class WarehouseRepositoryTests extends AbstractTestNGSpringContextTests  
         Administrator adminList = admins.get(1);
         Administrator adminSingle = admins.get(0);
         Administrator wrongAdmin = admins.get(2);
+
+        /*
+         * Test Cases should cover:
+         *      1. Location AND Admin object that match multipl warehouses
+         *      2. Location AND ADmin object that match one warehouse
+         *      3. Location with multiple warehouses but admin that doesn't match any of them
+         *      4. Location that doesn't exist
+         */
 
         List<Warehouse> existingWarehouseList = warehouseRepository.findByLocationAndAdministrator(locationList, adminList);
         List<Warehouse> existingWarehouse = warehouseRepository.findByLocationAndAdministrator(locationSingle, adminSingle);

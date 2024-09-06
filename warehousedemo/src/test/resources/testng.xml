@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "testng.org/testng-1.0.dtd">
  
+
+ <!-- 
+    Testing Strategy for TestNG testing
+        This will run the following tests in order:
+            1. General Loading Tests
+            2. Controller Tests
+            3. Service Tests
+            4. Model Tests
+            5. Aspects Tests
+            6. Repository Tests        
+ -->
 <suite verbose="0" name="Default suite">
     <test verbose="2" name="Default test" preserve-order="false">
         <classes>

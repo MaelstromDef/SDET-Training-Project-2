@@ -51,7 +51,9 @@ public class AdminControllerTests {
 
     //#region Data
 
-    
+    /**
+     * Tests that handles Controller to return all admins
+     */
     @Test(dataProvider = "dp_AdministratorDtoLists", dataProviderClass = AdminData.class)
     public void getAdministratorsTest(AdministratorDto[] adminDtos){
         //Setup Mock Information and Methods
@@ -63,6 +65,11 @@ public class AdminControllerTests {
         assertEquals(expectedAdminDtos, actualAdminDtos);
     }
 
+
+    /**
+     * Test that handles login of a user
+     * @param admins = List of Administrators that will be used to login/ fail logins
+     */
     @Test(dataProvider = "dp_AdministratorLists", dataProviderClass = AdminData.class)
     public void loginTest(Administrator[] admins) {
         //Setup Mock Information and Methods
@@ -70,6 +77,7 @@ public class AdminControllerTests {
         Administrator admin1 = inputAdmins.get(0);
         Administrator admin2 = inputAdmins.get(1);
         String expectedJwt = "Valid JWT String";
+        // When logging in, Response should be either proper JWT or return UNAUTHORIZED
         try {
             when(adminService.login(admin1)).thenReturn(expectedJwt);
             when(adminService.login(admin2)).thenThrow(new ResponseStatusException(HttpStatus.UNAUTHORIZED));
@@ -80,14 +88,20 @@ public class AdminControllerTests {
         assertThrows(ResponseStatusException.class, () ->{ adminController.login(admin2); });
     }
 
+    /**
+     * Test that handles signin of a user
+     * @param admins = List of Administrators that will be used to signup/ fail signups
+     */
     @Test(dataProvider = "dp_AdministratorLists", dataProviderClass = AdminData.class)
     public void signupTest(Administrator[] admins) {
-        //Setup Mock Information and Methods
+        //Setup Mock Information
         List<Administrator> inputAdmins = Arrays.asList(admins);
         Administrator admin1 = inputAdmins.get(0);
         Administrator admin2 = inputAdmins.get(1);
         Optional<AdministratorDto> expectedAdminDto1 = Optional.of(new AdministratorDto(1, "Company 1"));
         Optional<AdministratorDto> expectedAdminDto2 = Optional.empty();
+        
+        // Setup Methods
         when(adminService.createAdministrator(admin1) ).thenReturn(expectedAdminDto1);
         when(adminService.createAdministrator(admin2) ).thenReturn(expectedAdminDto2);
     
@@ -97,6 +111,11 @@ public class AdminControllerTests {
         assertThrows(ResponseStatusException.class, () ->{ adminController.signup(admin2); }); 
     }
 
+
+    /**
+     * Test that handles Updating of an account
+     * @param admins = = List of Administrators that will be used to update accounts/fail updates
+     */
     @Test(dataProvider = "dp_AdministratorLists", dataProviderClass = AdminData.class)
     public void updateAccountTest(Administrator[] admins) {
          //Setup Mock Information and Methods
@@ -106,6 +125,8 @@ public class AdminControllerTests {
          Administrator admin2 = inputAdmins.get(1);
          Optional<AdministratorDto> expectedAdminDto1 = Optional.of(new AdministratorDto(1, "Company 1"));
          Optional<AdministratorDto> expectedAdminDto2 = Optional.empty();
+         
+         // Setup Methods
          try {
             when(adminService.updateAdministrator(id1, admin1) ).thenReturn(expectedAdminDto1);
             when(adminService.updateAdministrator(id2, admin2) ).thenReturn(expectedAdminDto2);
@@ -119,6 +140,10 @@ public class AdminControllerTests {
         } catch (Exception e) {e.printStackTrace();}
     }
 
+
+    /**
+     * Tests that will handle Deletion/ failed Deletion of Account
+     */
     @Test
     public void deleteAccountTest() {
         //Test All Branches of Method
