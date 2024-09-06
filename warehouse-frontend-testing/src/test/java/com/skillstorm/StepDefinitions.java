@@ -5,24 +5,19 @@ import io.cucumber.java.AfterAll;
 import io.cucumber.java.Before;
 import io.cucumber.java.BeforeAll;
 import io.cucumber.java.en.*;
-import net.bytebuddy.asm.Advice.Enter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Duration;
-import java.util.NoSuchElementException;
 
-import org.junit.jupiter.api.Assertions.*;
 import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterSuite;
 
 import com.skillstorm.testingComponents.pages.IFormPage;
 import com.skillstorm.testingComponents.pages.IObjectPage;
@@ -45,8 +40,7 @@ public class StepDefinitions {
 
     @BeforeAll
     public static void setup() {           
-        ChromeOptions options = new ChromeOptions();
-        driver = new ChromeDriver(options);
+        driver = DriverFactory.getDriver();
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         driver.get(initialURL);
         waitForPageToLoad(initialURL, true);        
