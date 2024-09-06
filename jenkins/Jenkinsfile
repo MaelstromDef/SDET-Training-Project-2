@@ -38,8 +38,6 @@ pipeline {
                 script{
                     dir('warehousedemo') {
 
-                        sh 'mvn clean install -DskipTests=true -Dspring.profiles.active=build'
-
                         withCredentials([
                             string(credentialsId: 'DB_USERNAME', variable: 'DB_USERNAME'),
                             string(credentialsId: 'DB_PASSWORD', variable: 'DB_PASSWORD'),
@@ -57,6 +55,8 @@ pipeline {
                                     -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
                                 '''
                             }
+
+                            sh 'mvn clean install -DskipTests=true -Dspring.profiles.active=build'
                         }
                     }
                 }
@@ -155,7 +155,7 @@ pipeline {
                     // }
 
                     // clean up project-two-functional-tests repo
-                    sh 'rm -rf SDET-Training-Project-2'
+                    // sh 'rm -rf SDET-Training-Project-2'
 
                     // kill backend and frontend processes
                     sh "kill ${backendPid} || true"
@@ -211,18 +211,18 @@ pipeline {
                 }   
             }
         }
-        stage('JMeter'){
-            steps{
-                script{
-                    sh '''
-                    set OUT=jmeter.save.saveservice.output_format
-                    set JMX=/SDET-Training-Project-2/JMeter/JMeterTestPlan.jmx
-                    set JTL=/jmeter/reports/jenkins.io.report.jtl
-                    /jmeter/bin/jmeter -j %OUT%=xml -n -t %JMX% -l %JTL%
-                    '''
-                }
-            }
-        }
+        // stage('JMeter'){
+        //     steps{
+        //         script{
+        //             sh '''
+        //             set OUT=jmeter.save.saveservice.output_format
+        //             set JMX=/SDET-Training-Project-2/JMeter/JMeterTestPlan.jmx
+        //             set JTL=/jmeter/reports/jenkins.io.report.jtl
+        //             /jmeter/bin/jmeter -j %OUT%=xml -n -t %JMX% -l %JTL%
+        //             '''
+        //         }
+        //     }
+        // }
     }
 
 
