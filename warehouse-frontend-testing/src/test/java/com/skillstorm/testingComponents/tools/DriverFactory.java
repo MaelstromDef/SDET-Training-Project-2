@@ -32,7 +32,7 @@ public class DriverFactory {
         
         // Create and return driver.
         driver = new ChromeDriver(options);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(100));
         return driver;
     }
 }
