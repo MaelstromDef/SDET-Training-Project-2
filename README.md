@@ -55,3 +55,8 @@ Before implementations began, a [Test Plan](./Resources/Test%20Plan.pdf) was cre
 After completion of each test suite, a report was made with documentation on what tests were implemented, how they were implemented, and what improvements need to be made. They are as follows:
 - [Backend Test Report](./Resources/Back%20End%20Testing%20Report.pdf)
 - [Frontend Test Report](./Resources/Back%20End%20Testing%20Report.pdf)
+
+### Deployments ###
+- [Warehouse Management Frontend](http://ahuggins-warehousemanager-frontend.s3-website.us-east-2.amazonaws.com/)
+- [Warehouse Management API Base Endpoint](http://ahuggins-warehousemanager.us-east-1.elasticbeanstalk.com)
+- [Jenkins](http://184.72.206.70:8080/)
