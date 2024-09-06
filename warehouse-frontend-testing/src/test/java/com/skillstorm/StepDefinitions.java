@@ -306,11 +306,6 @@ public class StepDefinitions {
 
     static void waitForPageToLoad(String url, boolean equals) {
         wait.until(d -> {return driver.getCurrentUrl().equals(url) == equals;});
-        try {
-            wait.wait(10);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     void loadPage(String page) {
