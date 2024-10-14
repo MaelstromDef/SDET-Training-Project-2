@@ -5,8 +5,6 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.ahuggins.warehousedemo.models.Administrator;

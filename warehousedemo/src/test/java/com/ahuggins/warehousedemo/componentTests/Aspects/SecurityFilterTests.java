@@ -1,6 +1,5 @@
 package com.ahuggins.warehousedemo.componentTests.Aspects;
 
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -11,7 +10,6 @@ import java.io.UnsupportedEncodingException;
 import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -20,7 +18,6 @@ import com.ahuggins.warehousedemo.aspects.SecurityFilter;
 import com.ahuggins.warehousedemo.dtos.AdministratorDto;
 import com.ahuggins.warehousedemo.services.SecurityService;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.InvalidKeyException;
 import io.jsonwebtoken.security.Keys;

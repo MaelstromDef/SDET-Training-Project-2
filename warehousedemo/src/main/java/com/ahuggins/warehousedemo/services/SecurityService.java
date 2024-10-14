@@ -2,7 +2,6 @@ package com.ahuggins.warehousedemo.services;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 import java.util.Base64;
 import java.util.Date;
@@ -125,7 +124,6 @@ public final class SecurityService {
                 .parse(jwt).getBody();
             return claims.get(claim, classType);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 

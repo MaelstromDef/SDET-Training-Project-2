@@ -1,8 +1,6 @@
 package com.ahuggins.warehousedemo.componentTests.Aspects;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.Signature;
-import org.aspectj.lang.reflect.SourceLocation;
 import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;

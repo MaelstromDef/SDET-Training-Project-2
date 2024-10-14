@@ -18,15 +18,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.ahuggins.warehousedemo.componentTests.TestResources.WarehouseData;
 import com.ahuggins.warehousedemo.controllers.WarehouseController;
 import com.ahuggins.warehousedemo.dtos.WarehouseDto;
 import com.ahuggins.warehousedemo.mappers.WarehouseMapper;
-import com.ahuggins.warehousedemo.models.Item;
-import com.ahuggins.warehousedemo.models.StoredItem;
 import com.ahuggins.warehousedemo.models.Warehouse;
 import com.ahuggins.warehousedemo.services.WarehouseService;
 

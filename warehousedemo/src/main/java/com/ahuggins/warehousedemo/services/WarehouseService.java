@@ -2,11 +2,8 @@ package com.ahuggins.warehousedemo.services;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
 import org.springframework.stereotype.Service;
 
-import com.ahuggins.warehousedemo.dtos.AdministratorDto;
 import com.ahuggins.warehousedemo.dtos.WarehouseDto;
 import com.ahuggins.warehousedemo.mappers.WarehouseMapper;
 import com.ahuggins.warehousedemo.models.Administrator;
