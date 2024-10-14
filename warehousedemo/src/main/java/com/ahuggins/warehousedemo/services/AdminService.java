@@ -53,6 +53,11 @@ public class AdminService {
     }
 
     public Optional<AdministratorDto> createAdministrator(Administrator admin) {
+        // Data validation
+        if(admin.getCompanyName().isEmpty() ||
+            admin.getPassword().isEmpty()) return Optional.empty();
+
+        // Store administrator
         if(repo.findByCompanyName(admin.getCompanyName()).isEmpty()){
             try {
                 String password=SecurityService.hashString(admin.getPassword());
@@ -75,8 +80,16 @@ public class AdminService {
             throw new IllegalAccessException("Password cannot be changed.");
         }
 
-        if(repo.findById(admin.getId()).isPresent()){
-            return Optional.of(mapper.toDto(repo.save(admin)));
+        Optional<Administrator> optStoredAdmin = repo.findById(admin.getId());
+
+        if(optStoredAdmin.isPresent()){
+            // Ensure data is never null/empty
+            Administrator storedAdmin = optStoredAdmin.get();
+            if(!admin.getCompanyName().isEmpty()) storedAdmin.setCompanyName(admin.getCompanyName());
+            if(!admin.getPassword().isEmpty()) storedAdmin.setPassword(admin.getPassword());
+
+            // Save and return
+            return Optional.of(mapper.toDto(repo.save(storedAdmin)));
         }
 
         return Optional.empty();
