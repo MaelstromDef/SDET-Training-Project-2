@@ -61,12 +61,12 @@ export default function ItemForm(){
 
     return <form className="VerticalForm" onSubmit={handleSubmit}>
         <label>Name</label>
-        <input type='text' name='name'/>
+        <input id='inItemName' type='text' name='name'/>
 
         <label>Quantity</label>
-        <input type='number' name='quantity'/>
+        <input id='inItemQuantity' type='number' name='quantity'/>
 
-        <input type='submit' value='Add item.'/>
+        <input id='btnAddItem' type='submit' value='Add item.'/>
         <label>{feedback}</label>
     </form>
 }

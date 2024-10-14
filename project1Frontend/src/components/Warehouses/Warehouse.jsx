@@ -62,12 +62,12 @@ export default function Warehouse(props){
     }
 
     return <tr key={props.index}>
-        <td>{warehouse.name}</td>
-        <td>{warehouse.location}</td>
-        <td>{warehouse.size}</td>
+        <td id={'warehouse_name_' + warehouse.name}>{warehouse.name}</td>
+        <td id={'warehouse_location_' + warehouse.name}>{warehouse.location}</td>
+        <td id={'warehouse_size_' + warehouse.name}>{warehouse.size}</td>
         <td>
-            <button onClick={btnSelect_Handler}>Manage</button>
-            <button onClick={btnDelete_Handler}>Delete</button>
+            <button id={'warehouse_manage_' + warehouse.name} onClick={btnSelect_Handler}>Manage</button>
+            <button id={'warehouse_delete_' + warehouse.name} onClick={btnDelete_Handler}>Delete</button>
         </td>
     </tr>
 }

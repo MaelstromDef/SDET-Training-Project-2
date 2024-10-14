@@ -74,6 +74,12 @@ export default function Account(){
         // Set up details
         const companyName = event.target.companyName.value.trim();
         const password = event.target.password.value.trim();
+
+        if(companyName === '' || password === ''){
+            setFeedback('Company name and password must be filled in.');
+            return;
+        }
+
         const newAdminInfo = {
             companyName: companyName,
             password: password
@@ -89,12 +95,15 @@ export default function Account(){
         <form className="VerticalForm" onSubmit={handleSubmit}>
             <label>Company Name</label>
             <div>
-                <input type="text" 
+                <input  id='inCompanyName'
+                    type="text" 
                     name="companyName" 
                     defaultValue={user.adminInfo.companyName} 
                     readOnly={!allowCompanyNameChange}/>
                 <div>
-                <input type="checkbox" 
+                <input 
+                    id='chkCompanyName'
+                    type="checkbox" 
                     name="chkChangeCompanyName" 
                     defaultValue={allowCompanyNameChange} 
                     onClick={chkChangeCompany_Handler} />
@@ -103,19 +112,19 @@ export default function Account(){
             </div>
 
             <label>Password</label>
-            <input type="password" name="password"/>
+            <input id='inPassword' type="password" name="password"/>
 
-            <input type='submit' value='Update Information'/>
+            <input id='btnUpdateAccount' type='submit' value='Update Information'/>
             {
                 showDel ?
                     <>
                         <p>This action will result in removing all data regarding this account. Are you sure you want to delete this account? (You will be logged out as soon as the account is deleted)</p>
                         <div>
-                            <input type='button' value='Yes' onClick={btnDelete_Handler} />
-                            <input type='button' value='No' onClick={() => {setShowDel(false)}} />
+                            <input id='btnDeleteAccount' type='button' value='Yes' onClick={btnDelete_Handler} />
+                            <input id='btnCancelDelete' type='button' value='No' onClick={() => {setShowDel(false)}} />
                         </div>
                     </> :
-                <input type='button' onClick={() => {setShowDel(true);}} value='Delete Account'/>
+                <input id='btnOpenDelete' type='button' onClick={() => {setShowDel(true);}} value='Delete Account'/>
             }
         </form>
         <p>{feedback}</p>

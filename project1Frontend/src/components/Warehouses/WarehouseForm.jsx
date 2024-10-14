@@ -56,15 +56,15 @@ export default function WarehouseForm(props){
 
     return <form className="VerticalForm" onSubmit={handleSubmit}>
         <label>Name</label>
-        <input type='text' name='name'/>
+        <input id='inWarehouseName' type='text' name='name'/>
 
         <label>Location</label>
-        <input type='text' name='location'/>
+        <input id='inWarehouseLocation' type='text' name='location'/>
 
         <label>Size (Decimals are rounded.)</label>
-        <input type='number' name='size'/>
+        <input id='inWarehouseSize' type='number' name='size'/>
 
-        <input type='submit' value='Add warehouse.'/>
+        <input id='btnAddWarehouse' type='submit' value='Add warehouse.'/>
         <label>{feedback}</label>
     </form>
 }

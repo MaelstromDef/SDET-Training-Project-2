@@ -71,14 +71,17 @@ export default function Login(){
         <h1>Login</h1>
         <form className="VerticalForm" onSubmit={handleSubmit}>
             <label>Company Name</label>
-            <input type="text"
+            <input id='inCompanyName'
+                type="text"
                 name="companyName"/>
 
             <label>Password</label>
-            <input type="password"
+            <input id='inPassword'
+                type="password"
                 name="password"/>
 
-            <input type="submit"
+            <input id='btnLogin'
+                type="submit"
                 value="Log in"/>
         </form>
         <p>{err}</p>

@@ -9,9 +9,9 @@ export default function ItemAdder(){
         {showForm ?
             <>
                 <ItemForm />
-                <button onClick={() =>{setShowForm(false)}}>Cancel.</button>
+                <button id='btnCancelAddItem' onClick={() =>{setShowForm(false)}}>Cancel.</button>
             </> :
-            <button onClick={() =>{setShowForm(true)}}>Add item.</button>
+            <button id='btnOpenAddItem' onClick={() =>{setShowForm(true)}}>Add item.</button>
             
         }
     </div>

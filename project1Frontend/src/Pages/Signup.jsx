@@ -61,18 +61,22 @@ export default function Signup(){
         <h1>Signup</h1>
         <form className="VerticalForm" onSubmit={handleSubmit}>
             <label>Company Name</label>
-            <input type="text"
+            <input id='inCompanyName'
+                type="text"
                 name="companyName"/>
 
             <label>Password</label>
-            <input type="password"
+            <input id='inPassword'
+                type="password"
                 name="password"/>
 
             <label>Confirm Password</label>
-            <input type="password"
+            <input id='inConfirmPassword'
+                type="password"
                 name="confirmPass"/>
 
-            <input type="submit"
+            <input id='btnSignUp'
+                type="submit"
                 value="Sign up"/>
         </form>
         <p>{err}</p>

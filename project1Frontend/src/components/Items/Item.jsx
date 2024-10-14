@@ -92,8 +92,8 @@ export default function Item(props){
     }
 
     return <tr key={props.index}>
-        <td>{storedItem.item.name}</td>
-        <td>
+        <td id={'item_name_' + storedItem.item.name}>{storedItem.item.name}</td>
+        <td id={'item_quantity_' + storedItem.item.name}>
             {
                 modify ? 
                 <div>
@@ -102,16 +102,16 @@ export default function Item(props){
                 <div>{storedItem.quantity}</div>
             }
         </td>
-        <td>
+        <td id={'item_actions_' + storedItem.item.name}>
             {
                 modify ?
                 <>
-                    <button onClick={btnUpdate_Handler}>Update</button> 
-                    <button onClick={() => {setModify(false);}}>Cancel</button>
+                    <button id={'item_btnUpdate_' + storedItem.item.name} onClick={btnUpdate_Handler}>Update</button> 
+                    <button id={'item_btnCancel_' + storedItem.item.name} onClick={() => {setModify(false);}}>Cancel</button>
                 </>:
-                <button onClick={() => {setModify(true);}}>Manage</button>
+                <button id={'item_btnManage_' + storedItem.item.name} onClick={() => {setModify(true);}}>Manage</button>
             }
-            <button onClick={btnDelete_Handler}>Delete</button>
+            <button id={'item_btnDelete_' + storedItem.item.name} onClick={btnDelete_Handler}>Delete</button>
         </td>
     </tr>
 }
