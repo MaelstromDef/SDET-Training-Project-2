@@ -1,62 +1,52 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  /* text-align: center; */
+body{
+  background-color: rgb(235, 235, 235);
+  color: rgba(0, 0, 0, 0.897);
+  border-color: rgba(0, 0, 0, 0.897);
+  
+  padding: 16px;
 }
 
-p{
-  margin-left: 16px;
-}
-
-/* Table contents */
-
-table{
-  width: 90%;
-  margin: 0 16px;
-
-  border: thin solid white;
-  border-collapse: collapse;
-}
-
-th, td{
-  text-align: left;
-  padding: 8px;
-
-  border-right: thin solid white;
-}
-
-tr{
-  border-bottom: thin solid white;
-}
-
-/* Interaction items */
-
-form{
-  margin: 0 16px;
-}
-
-label{
-  margin: 8px 0 0;
-}
-
-input{
-  border-radius: 8px;
-  border: 1px solid white;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-  margin: 8px 0;
-}
-
-input:hover{
-  border-color: #646cff;
+h1{
+  font-size: 48px;
+  font-weight: 600;
 }
 
 button{
-  margin: 8px 16px;
+  font-family: "Tenor Sans", sans-serif;
+
+  background-color: rgba(252, 252, 252, 1);
+  color: rgba(0, 0, 0, 0.897);
+  border-color: rgba(0, 0, 0, 0.897);
+
+  margin: 8px;
+  padding: 16px; 
+
+  border-radius: 12px;
+}
+
+button:hover{
+  background-color: rgba(235, 235, 235, 0.9);
+  color: rgba(0, 0, 0 .7);
+}
+
+input{
+  font-family: "Tenor Sans", sans-serif;
+
+  background-color: rgb(252, 252, 252);
+  color: rgba(0, 0, 0, 0.897);
+  border-color: rgba(0, 0, 0, 0.897);
+
+  margin: 8px;
+  padding: 16px; 
+
+  border-radius: 12px;
+}
+
+input:hover{
+  background-color: rgba(235, 235, 235, 0.9);
+  color: rgba(0, 0, 0 .7);
+}
+
+label{
+  margin: 8px;
 }

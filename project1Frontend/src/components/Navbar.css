@@ -1,14 +1,26 @@
 .Navbar{
-    padding: 0 0 16px;
+    background-color: rgb(235, 235, 235);
+    color: rgba(0, 0, 0, 0.897);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.897);
+
+    margin: 0 0 16px;
+    padding: 0 0 8px;
 
     display: flex;
-    justify-content:left;
-
-    border-bottom: thin solid white;
+    justify-content: flex-end;
 }
 
 .NavLink{
-    color: white;
+    font-family: "Tenor Sans", sans-serif;
 
-    margin: 0 16px;
+    color: rgba(0, 0, 0, 0.897);
+    
+
+    margin: 8px;
+
+    border-radius: 12px;
+}
+
+.NavLink:hover{
+    color: rgba(41, 41, 41, 0.7);
 }

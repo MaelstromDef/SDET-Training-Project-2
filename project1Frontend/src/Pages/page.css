@@ -1,9 +1,16 @@
+.ImageCards {
+    display: flex;
+    justify-content:center;
+}
+
 .VerticalForm{
     display: flex;
     flex-direction: column;
     width: 50%;
 }
 
-.FormItem{
-    padding: 8px;
+.Submit{
+    width: 10vw;
+    min-width: 75px;
+    max-width: 100px;
 }

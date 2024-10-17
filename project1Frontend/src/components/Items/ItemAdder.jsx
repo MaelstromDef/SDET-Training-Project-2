@@ -1,6 +1,5 @@
 import { useState } from "react";
 import ItemForm from "./ItemForm";
-import '../components.css'
 
 export default function ItemAdder(){
     const [showForm, setShowForm] = useState(false);

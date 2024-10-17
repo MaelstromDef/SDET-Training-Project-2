@@ -1,0 +1,56 @@
+.article {
+    /* height: 100%; */
+    position: relative;
+    /* overflow:scroll; */
+}
+
+.image {
+    object-fit: fill;
+    width:100%;
+    height: auto;
+}
+
+.overlay{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    
+    margin: auto;
+    padding: 32px;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.textbox{
+    color: rgb(235, 235, 235);
+    filter: drop-shadow(0 0 0.75rem rgba(0, 0, 0, 0.897));
+
+    justify-content: center;
+
+    flex: 4;
+}
+
+.header{
+    font-size: 4vw;
+}
+
+.text{
+    font-size: 2vw;
+}
+
+.buttonbox{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-end;
+
+    flex: 1;
+}
+
+.button{
+    width: 70%;
+}

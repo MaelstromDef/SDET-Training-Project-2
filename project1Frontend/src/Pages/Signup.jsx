@@ -75,7 +75,8 @@ export default function Signup(){
                 type="password"
                 name="confirmPass"/>
 
-            <input id='btnSignUp'
+            <input className="Submit"
+                id='btnSignUp'
                 type="submit"
                 value="Sign up"/>
         </form>
