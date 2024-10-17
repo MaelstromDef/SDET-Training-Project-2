@@ -11,6 +11,10 @@ h1{
   font-weight: 600;
 }
 
+h2{
+  margin: 16px;
+}
+
 p{
   margin: 16px
 }
@@ -25,7 +29,7 @@ button{
   width: fit-content;
   min-width: min-content;
 
-  margin: 8px;
+  margin: 16px;
   padding: 16px; 
 
   border-radius: 12px;
@@ -62,7 +66,6 @@ table{
   border-collapse: collapse;
 
   margin: 0 16px;
-  width: 100%;
 }
 
 th{

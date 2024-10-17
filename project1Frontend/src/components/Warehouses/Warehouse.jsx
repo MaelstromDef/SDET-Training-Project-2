@@ -70,9 +70,12 @@ export default function Warehouse(props){
         <td id={'warehouse_location_' + warehouse.name}>{warehouse.location}</td>
         <td id={'warehouse_size_' + warehouse.name}>{warehouse.size}</td>
         <td>
-            <button id={'warehouse_manage_' + warehouse.name} onClick={btnSelect_Handler}>Manage Items</button>
+            <button id={'warehouse_manage_' + warehouse.name} className='TableButton' onClick={btnSelect_Handler}>Manage Items</button>
             {
-                !props.readOnly && <button id={'warehouse_delete_' + warehouse.name} onClick={btnDelete_Handler}>Delete</button>
+                !props.readOnly && 
+                    <button id={'warehouse_delete_' + warehouse.name} 
+                    className='TableButton'
+                    onClick={btnDelete_Handler}>Delete</button>
             }
         </td>
     </tr>

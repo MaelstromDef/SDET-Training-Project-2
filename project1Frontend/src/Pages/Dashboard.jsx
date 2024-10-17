@@ -23,14 +23,14 @@ export default function Home(){
         <div className="HorizontalFlexBox">
             {/* Actions */}
             <div className="ActionsBox">
-                <p>Navigation</p>
+                <h2>Navigation</h2>
                 <button id='btnWarehouse' className='Button' onClick={btnWarehouse_Handler}>Manage Warehouses</button>
                 <button id='btnAccount' className='Button' onClick={btnAccount_Handler}>Modify Account</button>
             </div>
 
             {/* Warehouses */}
             <div className="WarehousesBox">
-                <p>Warehouses Overview</p>
+                <h2>Warehouses Overview</h2>
                 <WarehouseTable />
             </div>
         </div>

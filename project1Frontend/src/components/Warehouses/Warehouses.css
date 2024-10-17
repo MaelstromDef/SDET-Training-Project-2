@@ -1,5 +1,4 @@
-button{
-    width: 100%;
-
-    margin-right: 16px;
+.TableButton{
+    width:100%;
+    margin: 16px 0;
 }

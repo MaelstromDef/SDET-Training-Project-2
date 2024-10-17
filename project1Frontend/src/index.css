@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 html{
     font-family: "Tenor Sans", sans-serif;
 }
