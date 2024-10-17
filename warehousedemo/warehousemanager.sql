@@ -1,6 +1,6 @@
 -- ADMINISTRATORS
 
-DROP TABLE administrators;
+DROP TABLE administrators IF EXISTS;
 
 CREATE TABLE administrators(
 	id BIGSERIAL PRIMARY KEY,
@@ -16,7 +16,7 @@ SELECT * FROM administrators;
 
 -- ITEM_LOCATIONS
 
-DROP TABLE item_locations;
+DROP TABLE item_locations IF EXISTS;
 
 CREATE TABLE item_locations(
 	item_id integer,
@@ -27,7 +27,7 @@ CREATE TABLE item_locations(
 
 -- ITEMS
 
-DROP TABLE items;
+DROP TABLE items IF EXISTS;
 
 CREATE TABLE items(
 	id BIGSERIAL PRIMARY KEY,
@@ -42,7 +42,7 @@ ALTER TABLE items
 
 -- WAREHOUSES
 
-DROP TABLE warehouses;
+DROP TABLE warehouses IF EXISTS;
 
 CREATE TABLE warehouses(
 	id BIGSERIAL PRIMARY KEY,
