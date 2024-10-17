@@ -1,4 +1,4 @@
 .TableButton{
-    width:100%;
-    margin: 16px 0;
+    width:calc(100% - 16px);
+    width: -webkit-fill-available;
 }

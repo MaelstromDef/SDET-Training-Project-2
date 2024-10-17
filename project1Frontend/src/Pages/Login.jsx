@@ -80,7 +80,7 @@ export default function Login(){
                 type="password"
                 name="password"/>
 
-            <input className='Submit'
+            <input className='Button'
                 id='btnLogin'
                 type="submit"
                 value="Log in"/>

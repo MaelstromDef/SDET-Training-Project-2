@@ -9,6 +9,8 @@ body{
 h1{
   font-size: 48px;
   font-weight: 600;
+
+  margin-bottom: 16px;
 }
 
 h2{
@@ -19,17 +21,17 @@ p{
   margin: 16px
 }
 
-button{
+button, input{
   font-family: "Tenor Sans", sans-serif;
 
   background-color: rgba(252, 252, 252, 1);
   color: rgba(0, 0, 0, 0.897);
-  border-color: rgba(0, 0, 0, 0.897);
+  border: 1px solid rgba(0, 0, 0, 0.897);
 
-  width: fit-content;
+  width: 100%;
   min-width: min-content;
 
-  margin: 16px;
+  margin: 16px 0;
   padding: 16px; 
 
   border-radius: 12px;
@@ -40,36 +42,28 @@ button:hover{
   color: rgba(0, 0, 0 .7);
 }
 
-input{
-  font-family: "Tenor Sans", sans-serif;
-
-  background-color: rgb(252, 252, 252);
-  color: rgba(0, 0, 0, 0.897);
-  border-color: rgba(0, 0, 0, 0.897);
-
-  margin: 8px;
-  padding: 16px; 
-
-  border-radius: 12px;
-}
-
 input:hover{
   background-color: rgba(235, 235, 235, 0.9);
   color: rgba(0, 0, 0 .7);
 }
 
-label{
-  margin: 8px;
-}
-
 table{
   border-collapse: collapse;
+
+  width: calc(100% - 16px);
+  width: -webkit-fill-available;
 
   margin: 0 16px;
 }
 
 th{
   text-align: left;
+
+  padding: 16px;
+}
+
+td{
+  padding: 0 16px;
 }
 
 tr{
