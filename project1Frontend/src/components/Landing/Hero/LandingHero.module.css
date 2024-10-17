@@ -23,13 +23,15 @@
 
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .textbox{
     color: rgb(235, 235, 235);
-    filter: drop-shadow(0 0 0.75rem rgba(0, 0, 0, 0.897));
+    filter: drop-shadow(3px 3px 3px #000);
 
     justify-content: center;
+    height: 100%;
 
     flex: 4;
 }
@@ -45,12 +47,22 @@
 .buttonbox{
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-    align-items: flex-end;
+    justify-content: center;
+    align-items: center;
 
     flex: 1;
+
+    background-color: rgba(235, 235, 235, 0.4);
+
+    margin: 0px 32px;
+    padding: 32px 0px;
+    border-radius: 12px;
 }
 
 .button{
     width: 70%;
+
+    background-color: rgba(252, 252, 252, 1);
+    color: rgba(0, 0, 0, 0.897);
+    border-color: rgba(0, 0, 0, 0.897);
 }

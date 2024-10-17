@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom"
 import LandingHero from "../components/Landing/Hero/LandingHero";
 import LandingImageCard from "../components/Landing/LandingImageCard";
 
-import warehouseAdmin from '/src/assets/WarehouseAdminSmall.jpg';
+import warehouseAdmin from '/src/assets/WarehouseAdmin.jpg';
 import warehouseBoxes from '/src/assets/WarehouseBoxes.jpg';
-import warehouseWorker from '/src/assets/WarehouseWorkerSmall.jpg';
+import warehouseWorker from '/src/assets/WarehouseWorker.jpg';
 
 export default function Landing(){
     return <>

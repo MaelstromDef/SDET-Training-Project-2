@@ -11,12 +11,19 @@ h1{
   font-weight: 600;
 }
 
+p{
+  margin: 16px
+}
+
 button{
   font-family: "Tenor Sans", sans-serif;
 
   background-color: rgba(252, 252, 252, 1);
   color: rgba(0, 0, 0, 0.897);
   border-color: rgba(0, 0, 0, 0.897);
+
+  width: fit-content;
+  min-width: min-content;
 
   margin: 8px;
   padding: 16px; 
@@ -49,4 +56,19 @@ input:hover{
 
 label{
   margin: 8px;
+}
+
+table{
+  border-collapse: collapse;
+
+  margin: 0 16px;
+  width: 100%;
+}
+
+th{
+  text-align: left;
+}
+
+tr{
+  border-bottom: 1px solid rgba(0, 0, 0, 0.897);
 }

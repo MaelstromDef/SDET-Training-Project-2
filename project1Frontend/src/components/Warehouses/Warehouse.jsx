@@ -15,9 +15,10 @@ import { useNavigate } from "react-router-dom";
 import { WarehousesContext } from "../../Pages/Warehouses";
 import axios from "axios";
 
+import './Warehouses.css'
+
 export default function Warehouse(props){
     const {user, setUser} = useContext(UserContext);
-    const {warehouses, setWarehouses} = useContext(WarehousesContext);
 
     const navigate = useNavigate();
 
@@ -26,6 +27,7 @@ export default function Warehouse(props){
     // RESPONSE HANDLERS
 
     const handleResponseSuccess = (res) =>{
+        const {warehouses, setWarehouses} = useContext(WarehousesContext);
         const newWarehouses = warehouses.filter(w => w.id !== warehouse.id);
 
         if(newWarehouses.length !== 0) setWarehouses(newWarehouses);
@@ -55,19 +57,23 @@ export default function Warehouse(props){
 
     // Deletes the warehouse
     const btnDelete_Handler = (event) =>{
+        if(props.readOnly) return;
+
         const delUrl = baseUrl + '/' + user.adminInfo.id + '/' + warehouse.id;
         axios.delete(delUrl)
         .then(handleResponseSuccess)
         .catch(handleResponseError);
     }
 
-    return <tr key={props.index}>
+    return <tr key={warehouse.name}>
         <td id={'warehouse_name_' + warehouse.name}>{warehouse.name}</td>
         <td id={'warehouse_location_' + warehouse.name}>{warehouse.location}</td>
         <td id={'warehouse_size_' + warehouse.name}>{warehouse.size}</td>
         <td>
-            <button id={'warehouse_manage_' + warehouse.name} onClick={btnSelect_Handler}>Manage</button>
-            <button id={'warehouse_delete_' + warehouse.name} onClick={btnDelete_Handler}>Delete</button>
+            <button id={'warehouse_manage_' + warehouse.name} onClick={btnSelect_Handler}>Manage Items</button>
+            {
+                !props.readOnly && <button id={'warehouse_delete_' + warehouse.name} onClick={btnDelete_Handler}>Delete</button>
+            }
         </td>
     </tr>
 }

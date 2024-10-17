@@ -8,7 +8,7 @@ import { BrowserRouter, Link, Navigate, Route, Routes } from 'react-router-dom'
 
 import Landing from './Pages/Landing'
 import Account from './Pages/Account'
-import Home from './Pages/Home'
+import Home from './Pages/Dashboard'
 import Items from './Pages/Items'
 import Login from './Pages/Login'
 import Signup from './Pages/Signup'

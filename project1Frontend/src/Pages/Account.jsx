@@ -114,17 +114,17 @@ export default function Account(){
             <label>Password</label>
             <input id='inPassword' type="password" name="password"/>
 
-            <input id='btnUpdateAccount' type='submit' value='Update Information'/>
+            <input id='btnUpdateAccount' className='Submit' type='submit' value='Update Information'/>
             {
                 showDel ?
                     <>
                         <p>This action will result in removing all data regarding this account. Are you sure you want to delete this account? (You will be logged out as soon as the account is deleted)</p>
                         <div>
-                            <input id='btnDeleteAccount' type='button' value='Yes' onClick={btnDelete_Handler} />
-                            <input id='btnCancelDelete' type='button' value='No' onClick={() => {setShowDel(false)}} />
+                            <input id='btnDeleteAccount' className='Submit' type='button' value='Yes' onClick={btnDelete_Handler} />
+                            <input id='btnCancelDelete' className='Submit' type='button' value='No' onClick={() => {setShowDel(false)}} />
                         </div>
                     </> :
-                <input id='btnOpenDelete' type='button' onClick={() => {setShowDel(true);}} value='Delete Account'/>
+                <input id='btnOpenDelete' className='Submit' type='button' onClick={() => {setShowDel(true);}} value='Delete Account'/>
             }
         </form>
         <p>{feedback}</p>

@@ -6,10 +6,11 @@ const LandingImageCard = (props) => {
 
   return (
     <article className={styles.article}>
-      <picture className={styles.picture}>
+      {/* <picture className={styles.picture}>
         <source media="(min-width: 0px)" srcSet={props.background} />
-        <img src={props.background} alt="background" />
-      </picture>
+        
+      </picture> */}
+      <img className={styles.picture} src={props.background} alt="background" />
       <div className={styles.text} style={{textAlign: align}}>
         {props.children}
       </div>
