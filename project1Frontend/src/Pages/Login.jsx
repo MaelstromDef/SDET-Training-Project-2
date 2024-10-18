@@ -85,6 +85,6 @@ export default function Login(){
                 type="submit"
                 value="Log in"/>
         </form>
-        <p>{err}</p>
+        <p id='txtLoginError'>{err}</p>
     </>
 }
