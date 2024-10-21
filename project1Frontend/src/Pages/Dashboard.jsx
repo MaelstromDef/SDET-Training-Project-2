@@ -12,10 +12,12 @@ export default function Home(){
         if(user.authorization === null || user.authorization === "") navigate('/')
     }, [])
 
+    // Navigates to warehouses
     const btnWarehouse_Handler = () =>{
         navigate('/warehouses');
     }
 
+    // Navigates to account
     const btnAccount_Handler = () =>{
         navigate('/account');
     }
@@ -25,9 +27,9 @@ export default function Home(){
         <div className="HorizontalFlexBox">
             {/* Actions */}
             <div className="ActionsBox">
-                <h2>Navigation</h2>
-                <button id='btnWarehouse' className={styles.Button} onClick={btnWarehouse_Handler}>Manage Warehouses</button>
+                <h2>Quick Access</h2>
                 <button id='btnAccount' className={styles.Button} onClick={btnAccount_Handler}>Modify Account</button>
+                <button id='btnWarehouse' className={styles.Button} onClick={btnWarehouse_Handler}>Manage Warehouses</button>
             </div>
 
             {/* Warehouses */}
