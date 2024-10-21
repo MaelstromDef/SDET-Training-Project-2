@@ -7,6 +7,10 @@
   border: 0;
 }
 
+::-webkit-input-placeholder {
+  font-style: italic;
+}
+
 html{
     font-family: "Tenor Sans", sans-serif;
 }

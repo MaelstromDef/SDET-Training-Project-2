@@ -7,7 +7,7 @@ import Navbar from './components/Navbar'
 import { BrowserRouter, Link, Navigate, Route, Routes } from 'react-router-dom'
 
 import Landing from './Pages/Landing'
-import Account from './Pages/Account'
+import Account from './components/Account/Account'
 import Home from './Pages/Dashboard'
 import Items from './Pages/Items'
 import Login from './Pages/Login'

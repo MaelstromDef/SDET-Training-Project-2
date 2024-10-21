@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import './page.css'
+import styles from './Login.module.css'
 import axios from 'axios';
 import { baseUrl, UserContext } from '../App';
 import { useNavigate } from 'react-router-dom';
@@ -69,7 +69,7 @@ export default function Login(){
 
     return <>
         <h1>Login</h1>
-        <form className="VerticalForm" onSubmit={handleSubmit}>
+        <form className={styles.VerticalForm} onSubmit={handleSubmit}>
             <label>Company Name</label>
             <input id='inCompanyName'
                 type="text"
@@ -80,7 +80,7 @@ export default function Login(){
                 type="password"
                 name="password"/>
 
-            <input className='Button'
+            <input className={styles.Button}
                 id='btnLogin'
                 type="submit"
                 value="Log in"/>

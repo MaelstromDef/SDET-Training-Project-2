@@ -1,0 +1,15 @@
+.VerticalForm{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.Button{
+    min-width: min-content;
+    width: 25%;
+    height: 50px;
+
+    text-align: center;
+    text-justify: center;
+    padding: 8px;
+}

@@ -3,6 +3,8 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { UserContext } from "../App";
 import WarehouseTable from "../components/Warehouses/ReadOnlyWarehouseTable";
 
+import styles from './Dashboard.module.css'
+
 export default function Home(){
     const navigate = useNavigate();
     const {user} = useContext(UserContext)
@@ -24,8 +26,8 @@ export default function Home(){
             {/* Actions */}
             <div className="ActionsBox">
                 <h2>Navigation</h2>
-                <button id='btnWarehouse' className='Button' onClick={btnWarehouse_Handler}>Manage Warehouses</button>
-                <button id='btnAccount' className='Button' onClick={btnAccount_Handler}>Modify Account</button>
+                <button id='btnWarehouse' className={styles.Button} onClick={btnWarehouse_Handler}>Manage Warehouses</button>
+                <button id='btnAccount' className={styles.Button} onClick={btnAccount_Handler}>Modify Account</button>
             </div>
 
             {/* Warehouses */}

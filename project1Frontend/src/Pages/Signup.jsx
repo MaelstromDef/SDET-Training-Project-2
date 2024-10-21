@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { baseUrl } from "../App";
 
+import styles from './Signup.module.css'
+
 // Allows a user to enter company name and password in order to create an administrator acconut.
 export default function Signup(){
     const url = baseUrl + "/signup";
@@ -59,7 +61,7 @@ export default function Signup(){
 
     return <>
         <h1>Signup</h1>
-        <form className="VerticalForm" onSubmit={handleSubmit}>
+        <form className={styles.VerticalForm} onSubmit={handleSubmit}>
             <label>Company Name</label>
             <input id='inCompanyName'
                 type="text"
@@ -75,7 +77,7 @@ export default function Signup(){
                 type="password"
                 name="confirmPass"/>
 
-            <input className="Button"
+            <input className={styles.Button}
                 id='btnSignUp'
                 type="submit"
                 value="Sign up"/>

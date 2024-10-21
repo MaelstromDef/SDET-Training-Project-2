@@ -1,0 +1,12 @@
+.Button{
+    min-width: min-content;
+    width: calc(100% - 16px);
+    width: -webkit-fill-available;
+    height: 50px;
+
+    margin: 16px;
+
+    text-align: center;
+    text-justify: center;
+    padding: 4px;
+}

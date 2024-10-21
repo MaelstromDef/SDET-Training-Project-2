@@ -37,11 +37,7 @@ button, input{
   border-radius: 12px;
 }
 
-button:hover{
-  background-color: rgba(235, 235, 235, 0.9);
-  color: rgba(0, 0, 0 .7);
-}
-
+button:hover,
 input:hover{
   background-color: rgba(235, 235, 235, 0.9);
   color: rgba(0, 0, 0 .7);
