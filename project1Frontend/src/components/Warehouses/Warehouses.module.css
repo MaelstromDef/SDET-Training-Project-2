@@ -4,8 +4,11 @@
     width: 100%;
 }
 
-.FlexGap{
-    gap: 16px;
+.VerticalFlexBox{
+    display: flex;
+    flex-direction: column;
+
+    height: 100%;
 }
 
 .ActionsBox{
@@ -26,15 +29,17 @@
     flex-direction: column;
 }
 
-.Button{
-    min-width: min-content;
-    width: calc(100% - 16px);
+.TableData{
+    padding: 16px;
+}
+
+.FlexGap{
+    gap: 16px;
+}
+
+.TableButton{
+    width:calc(100% - 16px);
     width: -webkit-fill-available;
-    height: 50px;
 
-    margin: 16px 0;
-
-    text-align: center;
-    text-justify: center;
-    padding: 4px;
+    margin: 0;
 }

@@ -14,7 +14,7 @@ h1{
 }
 
 h2{
-  margin: 16px;
+  margin: 16px 0;
 }
 
 p{
@@ -46,10 +46,8 @@ input:hover{
 table{
   border-collapse: collapse;
 
-  width: calc(100% - 16px);
+  width: calc(100% );
   width: -webkit-fill-available;
-
-  margin: 0 16px;
 }
 
 th{

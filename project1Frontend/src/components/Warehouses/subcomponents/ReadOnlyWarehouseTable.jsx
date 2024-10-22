@@ -6,19 +6,22 @@
  */
 
 import { useEffect, useContext, useState } from "react";
-import { baseUrl } from "../../App";
-import { UserContext } from "../../App";
+import { baseUrl } from "../../../App";
+import { UserContext } from "../../../App";
 
-import Warehouse from "./Warehouse";
+import Warehouse from "./Warehouse/Warehouse";
 import axios from "axios";
-import { WarehousesContext } from "../../Pages/Warehouses";
 
 export default function WarehouseTable(){
-    const { user } = useContext(UserContext);
-    const {warehouses, setWarehouses} = useContext(WarehousesContext);
+    const { user, setUser } = useContext(UserContext);
+    const [warehouses, setWarehouses] = useState([]);
 
     // Loads the warehouse table with data
     const handleResponseSuccess = (res) =>{
+        let updatedUser = user;
+        updatedUser.warehouses = res.data;
+        setUser(updatedUser);
+
         setWarehouses(res.data)
     }
 
@@ -29,7 +32,7 @@ export default function WarehouseTable(){
             return;
         }
 
-        console.log("ERROR :(\n" + JSON.stringify(error));
+        console.log("ERROR\n" + JSON.stringify(error));
     }
 
     // Sends a request for a list of the warehouses.
@@ -54,11 +57,9 @@ export default function WarehouseTable(){
         </thead>
         <tbody>
             {
-
-
                 // Warehouses
                 warehouses !== undefined && warehouses.map((warehouse, index) =>{
-                    return <Warehouse index={index} warehouse={warehouse}/>
+                    return <Warehouse index={index} warehouse={warehouse} readOnly={true}/>
                 })
             }
         </tbody>

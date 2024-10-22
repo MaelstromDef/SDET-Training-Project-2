@@ -12,7 +12,7 @@ import Home from './Pages/Dashboard'
 import Items from './Pages/Items'
 import Login from './Pages/Login'
 import Signup from './Pages/Signup'
-import Warehouses from './Pages/Warehouses'
+import Warehouses from './components/Warehouses/Warehouses'
 
 
 export const UserContext = createContext();
@@ -36,7 +36,8 @@ export const logout = () =>{
     },
 
     authorization: null,
-    warehouse: {
+    warehouses: [],
+    currentWarehouse: {
       id: null,
       name: null,
       location: null,
@@ -54,7 +55,8 @@ function App() {
     },
 
     authorization: null,
-    warehouse: {
+    warehouses: [],
+    currentWarehouse: {
       id: null,
       name: null,
       location: null,

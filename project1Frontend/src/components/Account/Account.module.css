@@ -8,11 +8,11 @@
     gap: 16px;
 }
 
-input{
+.Input{
     width: 50%;
 }
 
-input:disabled{
+.Input:disabled{
     background-color: rgba(235, 235, 235, 0.9);
     color: rgba(0, 0, 0 .7);
 }

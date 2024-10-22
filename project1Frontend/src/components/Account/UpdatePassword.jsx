@@ -19,6 +19,7 @@ export default function UpdatePassword(){
         <div className={styles.HorizontalFlex}>
             {/* Company name input. */}
             <input  id='inPassword'
+                className={styles.Input}
                 type="text" 
                 name="password" 
                 placeholder='Password'

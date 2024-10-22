@@ -37,7 +37,7 @@ export default function Items(){
             return;
         }
 
-        const getUrl = baseUrl + '/' + user.adminInfo.id + '/' + user.warehouse.id + '/items';
+        const getUrl = baseUrl + '/' + user.adminInfo.id + '/' + user.currentWarehouse.id + '/items';
 
         axios.get(getUrl)
         .then(handleResponseSuccess)
@@ -45,7 +45,7 @@ export default function Items(){
     }, [])
 
     return <ItemsContext.Provider value={{storedItems, setStoredItems}}>
-        <h1>{user.warehouse.name}</h1>
+        <h1>{user.currentWarehouse.name}</h1>
         <ItemAdder />
         <table>
             <thead>

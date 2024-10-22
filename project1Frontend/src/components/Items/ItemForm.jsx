@@ -44,7 +44,7 @@ export default function ItemForm(){
         }
 
         // Request Construction
-        const postUrl = baseUrl + '/' + user.adminInfo.id + '/' + user.warehouse.id + '/items';
+        const postUrl = baseUrl + '/' + user.adminInfo.id + '/' + user.currentWarehouse.id + '/items';
         const storedItem = {
             item: {
                 name: itemName

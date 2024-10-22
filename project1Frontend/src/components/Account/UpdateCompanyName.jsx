@@ -24,6 +24,7 @@ export default function UpdateCompanyName(){
         <div className={styles.HorizontalFlex}>
             {/* Company name input. */}
             <input  id='inCompanyName'
+                className={styles.Input}
                 type="text" 
                 name="companyName" 
                 defaultValue={user.adminInfo.companyName} 

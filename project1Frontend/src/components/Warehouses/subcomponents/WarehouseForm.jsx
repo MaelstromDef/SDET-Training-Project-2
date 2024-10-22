@@ -1,7 +1,9 @@
 import { useContext, useState } from "react";
-import { baseUrl, UserContext } from "../../App";
+import { baseUrl, UserContext } from "../../../App";
 import axios from "axios";
-import { WarehousesContext } from "../../Pages/Warehouses";
+import { WarehousesContext } from "../Warehouses";
+
+import styles from '../Warehouses.module.css'
 
 // Form to add a new warehouse.
 export default function WarehouseForm(props){
@@ -11,6 +13,10 @@ export default function WarehouseForm(props){
     const [feedback, setFeedback] = useState("");
 
     const handleResponseSuccess = (res) =>{
+        let updatedUser = user;
+        updatedUser.warehouses = [...warehouses, res.data];
+        setUser(updatedUser);
+
         setWarehouses([
             ...warehouses,
             res.data
@@ -54,17 +60,19 @@ export default function WarehouseForm(props){
         .catch(handleResponseError);
     }
 
-    return <form className="VerticalForm" onSubmit={handleSubmit}>
-        <label>Name</label>
-        <input id='inWarehouseName' type='text' name='name'/>
+    return <div>
+        <h2>Add Warehouse</h2>
+        <form className={styles.VerticalForm} onSubmit={handleSubmit}>
+            {/* Input fields */}
+            <input id='inWarehouseName' type='text' name='name' placeholder='Name' />
+            <input id='inWarehouseLocation' type='text' name='location' placeholder='Location' />
+            <input id='inWarehouseSize' type='number' name='size' placeholder='Size' />
 
-        <label>Location</label>
-        <input id='inWarehouseLocation' type='text' name='location'/>
-
-        <label>Size (Decimals are rounded.)</label>
-        <input id='inWarehouseSize' type='number' name='size'/>
-
-        <input id='btnAddWarehouse' type='submit' value='Add warehouse.'/>
-        <label>{feedback}</label>
-    </form>
+            <div className={styles.HorizontalFlexBox + ' ' + styles.FlexGap}>
+                <input id='btnCancelAddWarehouse' type='button' onClick={() => props.setShowForm(false)} value='Cancel' />
+                <input id='btnAddWarehouse' type='submit' value='Create'/>
+            </div>
+            <label>{feedback}</label>
+        </form>
+    </div>
 }

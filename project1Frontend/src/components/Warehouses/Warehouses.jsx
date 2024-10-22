@@ -1,9 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react"
-import { UserContext } from "../App"
-import WarehouseAdder from "../components/Warehouses/WarehouseAdder";
-import WarehouseTable from "../components/Warehouses/InteractiveWarehouseTable";
+import { UserContext } from "../../App"
+import WarehouseAdder from "./subcomponents/WarehouseAdder";
+import WarehouseTable from "./subcomponents/InteractiveWarehouseTable";
 
 import { useNavigate } from "react-router-dom";
+
+import styles from './Warehouses.module.css'
 
 export const WarehousesContext = createContext();
 
@@ -34,7 +36,17 @@ export default function Warehouses(){
 
     return <WarehousesContext.Provider value={{warehouses, setWarehouses}}>
         <h1>Warehouses</h1>
-        <WarehouseAdder />
-        <WarehouseTable/>
+
+        <div className={styles.HorizontalFlexBox + ' ' + styles.FlexGap}>
+            {/* Left side */}
+            <div className={styles.ActionsBox}>
+                <WarehouseAdder />
+            </div>
+
+            {/* Right side */}
+            <div className={styles.WarehousesBox}>
+                <WarehouseTable/>
+            </div>
+        </div>
     </WarehousesContext.Provider>
 }

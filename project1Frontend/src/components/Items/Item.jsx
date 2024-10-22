@@ -74,7 +74,7 @@ export default function Item(props){
 
     // Allows modification of item quantity
     const btnUpdate_Handler = (event) =>{
-        const putUrl = baseUrl + '/' + user.adminInfo.id + '/' + user.warehouse.id + '/items';
+        const putUrl = baseUrl + '/' + user.adminInfo.id + '/' + user.currentWarehouse.id + '/items';
         let newItem = storedItem;
         newItem.quantity = inQuantity.current.value;
 
@@ -85,7 +85,7 @@ export default function Item(props){
 
     // Deletes the item
     const btnDelete_Handler = (event) =>{
-        const delUrl = baseUrl + '/' + user.adminInfo.id + '/' + user.warehouse.id + '/items/' + storedItem.item.id;
+        const delUrl = baseUrl + '/' + user.adminInfo.id + '/' + user.currentWarehouse.id + '/items/' + storedItem.item.id;
         axios.delete(delUrl)
         .then(handleDeleteSuccess)
         .catch(handleDeleteError);

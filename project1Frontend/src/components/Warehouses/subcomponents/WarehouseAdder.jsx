@@ -8,10 +8,9 @@ export default function WarehouseAdder(){
     return <div className='Adder'>
         {showForm ? 
             <>
-                <WarehouseForm />
-                <button id='btnCancelAddWarehouse' onClick={() =>{setShowForm(false);}}>Cancel.</button>
+                <WarehouseForm setShowForm={setShowForm} />
             </> :
-            <button id='btnOpenAddWarehouse' onClick={() => {setShowForm(true);}}>Add warehouse.</button>
+            <button id='btnOpenAddWarehouse' onClick={() => {setShowForm(true);}}>Add Warehouse</button>
         }
     </div>
 }
