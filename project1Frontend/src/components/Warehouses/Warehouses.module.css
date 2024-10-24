@@ -11,6 +11,10 @@
     height: 100%;
 }
 
+.FlexEnd{
+    justify-content: flex-end;
+}
+
 .ActionsBox{
     display: flex;
     flex-direction: column;
@@ -37,9 +41,18 @@
     gap: 16px;
 }
 
+.MarginBottom{
+    margin-bottom: 8px;
+}
+
 .TableButton{
     width:calc(100% - 16px);
     width: -webkit-fill-available;
 
     margin: 0;
+    padding: 8px;
+}
+
+.FitContent{
+    max-width: fit-content;
 }

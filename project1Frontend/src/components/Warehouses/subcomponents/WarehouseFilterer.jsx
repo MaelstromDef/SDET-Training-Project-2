@@ -36,23 +36,23 @@ export default function WarehouseFilterer(){
     }
 
     return <>
-        <form className={styles.HorizontalFlexBox + ' ' + styles.FlexGap} onSubmit={filterWarehouses}>
-            <input style={{flex: 5}} 
+        <form className={styles.HorizontalFlexBox + ' ' + styles.FlexGap + ' ' + styles.MarginBottom} onSubmit={filterWarehouses}>
+            <input style={{flex: 5}} className={styles.TableButton}
                 id='inWarehouseName'
                 name='name'
                 type='text' 
                 placeholder='Name' />
-            <input style={{flex: 1}}
+            <input style={{flex: 1}} className={styles.TableButton}
                 id='inWarehouseLocation'
                 name='location'
                 type='text' 
                 placeholder='Location' />
-            <input style={{flex: 1}}
+            <input style={{flex: 1}} className={styles.TableButton}
                 id='idWarehouseSize'
                 name='size'
                 type='number' 
                 placeholder='Size' />
-            <input style={{flex: 1}}
+            <input style={{flex: 1}} className={styles.TableButton}
                 id='btnSubmitSearch'
                 type='submit' 
                 value='Search' />

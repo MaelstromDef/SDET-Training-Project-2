@@ -13,7 +13,7 @@ export default function WarehouseForm(props){
     const [feedback, setFeedback] = useState("");
 
     const handleResponseSuccess = (res) =>{
-        let updatedUser = user;
+        let updatedUser = {...user};
         updatedUser.warehouses = [...warehouses, res.data];
         setUser(updatedUser);
 

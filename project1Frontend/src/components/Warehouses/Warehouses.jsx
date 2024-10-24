@@ -6,6 +6,8 @@ import WarehouseTable from "./subcomponents/InteractiveWarehouseTable";
 import { useNavigate } from "react-router-dom";
 
 import styles from './Warehouses.module.css'
+import WarehouseSorter from "./subcomponents/WarehouseSorter";
+import WarehouseFilterer from "./subcomponents/WarehouseFilterer";
 
 export const WarehousesContext = createContext();
 
@@ -45,6 +47,8 @@ export default function Warehouses(){
 
             {/* Right side */}
             <div className={styles.WarehousesBox}>
+                <WarehouseFilterer />
+                <WarehouseSorter />
                 <WarehouseTable/>
             </div>
         </div>

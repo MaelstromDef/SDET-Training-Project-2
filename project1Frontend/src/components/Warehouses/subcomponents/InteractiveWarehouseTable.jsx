@@ -48,7 +48,6 @@ export default function WarehouseTable(){
     }, [])
 
     return <>
-        <WarehouseFilterer />
         <table>
             {/* Header */}
             <thead>
